@@ -8,6 +8,23 @@ const { useState, useEffect, useRef } = React;
 /* ---------- project data ---------- */
 const PROJECTS = [
   {
+    name: "CleanFeed",
+    tagline: "Your feeds, on your terms. A Chrome extension that removes what's designed to waste your time.",
+    tags: ["Chrome Ext.", "Manifest V3", "JavaScript"],
+    description:
+      "Every social platform is an attention trap. Shorts, algorithmic feeds, infinite recommendations — all engineered to keep you scrolling. CleanFeed strips it all out. Toggle individual features per platform or hard-block entire sites when you need to focus. No shorts. No For You. No sidebar noise. Just the content you actually chose to follow. When Instagram is blocked, you get a simple screen: \"Your attention is worth more than this.\" Because it is.",
+    status: "complete",
+    githubUrl: "https://github.com/mmesonero/cleanfeed",
+    accent: "cleanfeed",
+    slides: [
+      { src: "assets/cf-blocked.png", caption: "Your attention is worth more than this" },
+      { src: "assets/cf-dashboard.png", caption: "Full control. Every platform. Every feature." },
+      { src: "assets/cf-popup.png", caption: "One click to take back your feed" },
+      { src: "assets/cf-youtube.png", caption: "See only what you subscribed to" },
+      { src: "assets/cf-video.png", caption: "Running silently in the background" },
+    ],
+  },
+  {
     name: "Lattice",
     tagline: "A note-taking app for people who think in graphs, not lists.",
     tags: ["TypeScript", "React", "Postgres", "tRPC"],
@@ -112,10 +129,58 @@ const Glyph = ({ kind }) => {
           <rect x="68" y="48" width="14" height="14" fill="currentColor" opacity="0.6"/>
         </svg>
       );
+    case "cleanfeed":
+      return (
+        <svg className="thumb-glyph" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.9">
+          <path d="M30 35 L50 20 L70 35 L70 65 L50 80 L30 65 Z"/>
+          <line x1="30" y1="50" x2="70" y2="50" opacity="0.4"/>
+          <line x1="40" y1="35" x2="40" y2="65" opacity="0.3"/>
+          <line x1="60" y1="35" x2="60" y2="65" opacity="0.3"/>
+          <circle cx="50" cy="50" r="6" fill="currentColor" opacity="0.5"/>
+        </svg>
+      );
     default:
       return null;
   }
 };
+
+/* ---------- carousel ---------- */
+function Carousel({ slides }) {
+  const [idx, setIdx] = useState(0);
+  const len = slides.length;
+  const prev = () => setIdx((idx - 1 + len) % len);
+  const next = () => setIdx((idx + 1) % len);
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'ArrowLeft') prev();
+      if (e.key === 'ArrowRight') next();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [idx]);
+
+  return (
+    <div className="carousel">
+      <div className="carousel-track">
+        <img src={slides[idx].src} alt={slides[idx].caption} className="carousel-img" />
+        <div className="carousel-caption">{slides[idx].caption}</div>
+        <div className="carousel-counter">{idx + 1} / {len}</div>
+      </div>
+      <button className="carousel-btn carousel-prev" onClick={prev} aria-label="Previous slide">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><polyline points="15,4 7,12 15,20"/></svg>
+      </button>
+      <button className="carousel-btn carousel-next" onClick={next} aria-label="Next slide">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><polyline points="9,4 17,12 9,20"/></svg>
+      </button>
+      <div className="carousel-dots">
+        {slides.map((_, i) => (
+          <button key={i} className={`carousel-dot ${i === idx ? 'active' : ''}`} onClick={() => setIdx(i)} aria-label={`Go to slide ${i + 1}`} />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 /* ---------- icons ---------- */
 const Icon = ({ name, size = 16 }) => {
@@ -258,10 +323,16 @@ function Modal({ project, onClose }) {
         <button className="modal-close" onClick={onClose} aria-label="Close">
           <Icon name="close" size={16} />
         </button>
-        <div className="thumb">
-          <span className="corner">Case study &middot; {project.tags[0]}</span>
-          <div className="thumb-art"><Glyph kind={project.accent} /></div>
-        </div>
+        {project.slides ? (
+          <div className="modal-carousel-wrap">
+            <Carousel slides={project.slides} />
+          </div>
+        ) : (
+          <div className="thumb">
+            <span className="corner">Case study &middot; {project.tags[0]}</span>
+            <div className="thumb-art"><Glyph kind={project.accent} /></div>
+          </div>
+        )}
         <div className="modal-body">
           <h3 className="modal-title">{project.name}</h3>
           <p className="modal-tag">{project.tagline}</p>
