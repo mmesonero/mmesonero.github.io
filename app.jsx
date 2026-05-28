@@ -54,16 +54,6 @@ const PROJECTS = [
     githubUrl: null,
     accent: "folio",
   },
-  {
-    name: "Marginalia",
-    tagline: "Annotate the web. Share margins instead of links.",
-    tags: ["Browser Ext.", "React", "WASM", "Yjs"],
-    description:
-      "A browser extension that lets you highlight and annotate any webpage, then share the page with your margins attached, like passing someone a paperback you've already read. CRDT-backed so two people can mark up the same article and end up with a shared edition. I made it because I missed the way physical books accumulate other readers' thinking on top of the author's.",
-    status: "complete",
-    githubUrl: "https://github.com/mmesonero/marginalia",
-    accent: "marginalia",
-  },
 ];
 
 const IN_PROGRESS = [
