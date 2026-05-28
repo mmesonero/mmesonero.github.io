@@ -16,6 +16,7 @@ const PROJECTS = [
     status: "complete",
     githubUrl: "https://github.com/mmesonero/cleanfeed",
     accent: "cleanfeed",
+    thumb: "assets/cf-logo.png",
     slides: [
       { src: "assets/cf-blocked.png", caption: "Your attention is worth more than this" },
       { src: "assets/cf-dashboard.png", caption: "Full control. Every platform. Every feature." },
@@ -274,7 +275,9 @@ function ProjectCard({ p, idx, onOpen }) {
         <span className="reticle tr"></span>
         <span className="reticle bl"></span>
         <span className="reticle br"></span>
-        <div className="thumb-art"><Glyph kind={p.accent} /></div>
+        <div className="thumb-art">
+          {p.thumb ? <img src={p.thumb} alt={p.name} className="thumb-logo" /> : <Glyph kind={p.accent} />}
+        </div>
         <span className="cue">View Case <span className="arrow">&#8599;</span></span>
       </div>
       <div className="card-body">

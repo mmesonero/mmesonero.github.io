@@ -481,6 +481,13 @@ body::after {
   .thumb-glyph { mix-blend-mode: screen; opacity: 0.5; }
 }
 
+.thumb-logo {
+  width: 50%;
+  max-height: 60%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.15));
+}
+
 .card-body {
   padding: 18px 22px 22px;
   display: flex; flex-direction: column; gap: 10px;
