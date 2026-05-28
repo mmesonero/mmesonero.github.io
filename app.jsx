@@ -16,13 +16,12 @@ const PROJECTS = [
     status: "complete",
     githubUrl: "https://github.com/mmesonero/cleanfeed",
     accent: "cleanfeed",
-    thumb: "assets/cf-logo.png",
+    cardImage: "assets/cf-dashboard.png",
+    logo: "assets/cf-logo.png",
     slides: [
       { src: "assets/cf-blocked.png", caption: "Your attention is worth more than this" },
       { src: "assets/cf-dashboard.png", caption: "Full control. Every platform. Every feature." },
       { src: "assets/cf-popup.png", caption: "One click to take back your feed" },
-      { src: "assets/cf-youtube.png", caption: "See only what you subscribed to" },
-      { src: "assets/cf-video.png", caption: "Running silently in the background" },
     ],
   },
   {
@@ -269,14 +268,14 @@ function ProjectCard({ p, idx, onOpen }) {
       onClick={() => onOpen(p)}
       aria-label={`Open ${p.name} details`}
     >
-      <div className="thumb">
+      <div className={`thumb ${p.cardImage ? 'has-image' : ''}`}>
         <span className="corner">{String(idx + 1).padStart(2, '0')} &middot; {p.tags[0]}</span>
         <span className="reticle tl"></span>
         <span className="reticle tr"></span>
         <span className="reticle bl"></span>
         <span className="reticle br"></span>
         <div className="thumb-art">
-          {p.thumb ? <img src={p.thumb} alt={p.name} className="thumb-logo" /> : <Glyph kind={p.accent} />}
+          {p.cardImage ? <img src={p.cardImage} alt={p.name} className="thumb-cover" /> : <Glyph kind={p.accent} />}
         </div>
       </div>
       <div className="card-body">
@@ -326,7 +325,10 @@ function Modal({ project, onClose }) {
           </div>
         )}
         <div className="modal-body">
-          <h3 className="modal-title">{project.name}</h3>
+          <div className="modal-title-row">
+            {project.logo && <img src={project.logo} alt="" className="modal-logo" />}
+            <h3 className="modal-title">{project.name}</h3>
+          </div>
           <p className="modal-tag">{project.tagline}</p>
           <p className="modal-desc">{project.description}</p>
 
