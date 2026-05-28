@@ -278,7 +278,6 @@ function ProjectCard({ p, idx, onOpen }) {
         <div className="thumb-art">
           {p.thumb ? <img src={p.thumb} alt={p.name} className="thumb-logo" /> : <Glyph kind={p.accent} />}
         </div>
-        <span className="cue">View Case <span className="arrow">&#8599;</span></span>
       </div>
       <div className="card-body">
         <div className="card-title-row">

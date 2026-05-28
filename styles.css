@@ -430,39 +430,6 @@ body::after {
 .thumb .corner { transition: transform .4s cubic-bezier(.2,.7,.2,1); }
 
 /* view label — slides up from bottom on hover */
-.thumb .cue {
-  position: absolute;
-  left: 50%; bottom: 14px;
-  transform: translate(-50%, 14px);
-  display: inline-flex; align-items: center; gap: 10px;
-  padding: 7px 14px;
-  border-radius: 999px;
-  background: color-mix(in oklab, var(--bg-elev) 88%, transparent);
-  backdrop-filter: blur(8px);
-  border: 1px solid var(--accent);
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--accent-strong);
-  opacity: 0;
-  transition: opacity .45s cubic-bezier(.2,.7,.2,1) .15s,
-              transform .55s cubic-bezier(.2,.7,.2,1) .15s;
-  z-index: 3;
-  white-space: nowrap;
-}
-.thumb .cue .arrow {
-  display: inline-block;
-  transition: transform .35s ease;
-}
-.card:hover .thumb .cue {
-  opacity: 1;
-  transform: translate(-50%, 0);
-}
-.card:hover .thumb .cue .arrow {
-  transform: translateX(3px);
-}
-
 /* subtle vignette inside thumb on hover */
 .thumb-art {
   position: absolute; inset: 0;
