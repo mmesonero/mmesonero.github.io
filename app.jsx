@@ -20,7 +20,7 @@ const PROJECTS = [
     logo: "assets/cf-logo.png",
     slides: [
       { src: "assets/cf-hero.jpg", caption: "Your feed, on your terms" },
-      { src: "assets/cf-dashboard.png", caption: "Dashboard para controlar" },
+      { src: "assets/cf-dashboard.png", caption: "" },
       { src: "assets/cf-blocked.png", caption: "Your attention is worth more than this" },
       { src: "assets/cf-popup.png", caption: "One click to take back your feed" },
       { src: "assets/cf-speed.png", caption: "Watch at your own pace" },
@@ -157,7 +157,7 @@ function Carousel({ slides }) {
     <div className="carousel">
       <div className="carousel-track">
         <img src={slides[idx].src} alt={slides[idx].caption} className="carousel-img" />
-        <div className="carousel-caption">{slides[idx].caption}</div>
+        {slides[idx].caption && <div className="carousel-caption">{slides[idx].caption}</div>}
         <div className="carousel-counter">{idx + 1} / {len}</div>
       </div>
       <button className="carousel-btn carousel-prev" onClick={prev} aria-label="Previous slide">
