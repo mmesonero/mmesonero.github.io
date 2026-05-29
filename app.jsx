@@ -16,12 +16,12 @@ const PROJECTS = [
     status: "complete",
     githubUrl: "https://github.com/mmesonero/cleanfeed",
     accent: "cleanfeed",
-    cardImage: "assets/cf-dashboard.png",
+    cardImage: "assets/cf-dashboard.jpg",
     logo: "assets/cf-logo.png",
     slides: [
-      { src: "assets/cf-blocked.png", caption: "Your attention is worth more than this" },
-      { src: "assets/cf-dashboard.png", caption: "Full control. Every platform. Every feature." },
-      { src: "assets/cf-popup.png", caption: "One click to take back your feed" },
+      { src: "assets/cf-blocked.jpg", caption: "Your attention is worth more than this" },
+      { src: "assets/cf-dashboard.jpg", caption: "Full control. Every platform. Every feature." },
+      { src: "assets/cf-popup.jpg", caption: "One click to take back your feed" },
     ],
   },
   {
