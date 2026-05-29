@@ -23,7 +23,6 @@ const PROJECTS = [
       { src: "assets/cf-dashboard.png", caption: "Full control. Every platform. Every feature." },
       { src: "assets/cf-blocked.png", caption: "Your attention is worth more than this" },
       { src: "assets/cf-popup.png", caption: "One click to take back your feed" },
-      { src: "assets/cf-youtube.png", caption: "See only what you subscribed to" },
     ],
   },
   {
