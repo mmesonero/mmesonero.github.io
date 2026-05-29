@@ -401,32 +401,6 @@ body::after {
   z-index: 2;
 }
 
-/* focus reticle — 4 corner brackets, gold, fade-in on hover */
-.thumb .reticle {
-  position: absolute;
-  width: 26px; height: 26px;
-  border-color: var(--accent);
-  border-style: solid;
-  opacity: 0;
-  transition: opacity .4s cubic-bezier(.2,.7,.2,1) .05s,
-              transform .55s cubic-bezier(.2,.7,.2,1) .05s;
-  z-index: 2;
-  pointer-events: none;
-}
-.thumb .reticle.tl { top: 12px; left: 12px; border-width: 1px 0 0 1px; transform: translate(6px, 6px); }
-.thumb .reticle.tr { top: 12px; right: 12px; border-width: 1px 1px 0 0; transform: translate(-6px, 6px); }
-.thumb .reticle.bl { bottom: 12px; left: 12px; border-width: 0 0 1px 1px; transform: translate(6px, -6px); }
-.thumb .reticle.br { bottom: 12px; right: 12px; border-width: 0 1px 1px 0; transform: translate(-6px, -6px); }
-.card:hover .thumb .reticle {
-  opacity: 1;
-  transform: translate(0, 0);
-}
-
-/* corner pill nudge so reticle TL doesn't collide */
-.card:hover .thumb .corner {
-  transform: translate(8px, 8px);
-  transition: transform .4s cubic-bezier(.2,.7,.2,1);
-}
 .thumb .corner { transition: transform .4s cubic-bezier(.2,.7,.2,1); }
 
 /* view label — slides up from bottom on hover */

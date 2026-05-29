@@ -273,10 +273,6 @@ function ProjectCard({ p, idx, onOpen }) {
     >
       <div className={`thumb ${p.cardImage ? 'has-image' : ''}`}>
         <span className="corner">{String(idx + 1).padStart(2, '0')} &middot; {p.tags[0]}</span>
-        <span className="reticle tl"></span>
-        <span className="reticle tr"></span>
-        <span className="reticle bl"></span>
-        <span className="reticle br"></span>
         <div className="thumb-art">
           {p.cardImage ? <img src={p.cardImage} alt={p.name} className="thumb-cover" /> : <Glyph kind={p.accent} />}
         </div>
