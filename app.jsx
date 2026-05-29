@@ -24,6 +24,7 @@ const PROJECTS = [
       { src: "assets/cf-blocked.png", caption: "Your attention is worth more than this" },
       { src: "assets/cf-popup.png", caption: "One click to take back your feed" },
       { src: "assets/cf-speed.png", caption: "Watch at your own pace" },
+      { src: "assets/cf-skip.png", caption: "Jump forward or back" },
     ],
   },
   {
@@ -347,9 +348,6 @@ function Modal({ project, onClose }) {
                 <Icon name="github" size={15} /> View on GitHub
               </a>
             )}
-            <button className="btn primary" onClick={onClose}>
-              Close <Icon name="arrow" size={14} />
-            </button>
           </div>
         </div>
       </div>
