@@ -19,43 +19,28 @@ const PROJECTS = [
     cardImage: "assets/cf-hero.jpg",
     logo: "assets/cf-logo.png",
     slides: [
-      { src: "assets/cf-hero.jpg", caption: "Your feed, on your terms" },
+      { src: "assets/cf-hero.jpg", caption: "" },
       { src: "assets/cf-dashboard.png", caption: "" },
-      { src: "assets/cf-blocked.png", caption: "Your attention is worth more than this" },
-      { src: "assets/cf-popup.png", caption: "One click to take back your feed" },
-      { src: "assets/cf-speed.png", caption: "Watch at your own pace" },
-      { src: "assets/cf-skip.png", caption: "Jump forward or back" },
+      { src: "assets/cf-blocked.png", caption: "" },
+      { src: "assets/cf-popup.png", caption: "" },
+      { src: "assets/cf-speed.png", caption: "" },
+      { src: "assets/cf-skip.png", caption: "" },
     ],
   },
   {
-    name: "Lattice",
-    tagline: "A note-taking app for people who think in graphs, not lists.",
-    tags: ["TypeScript", "React", "Postgres", "tRPC"],
+    name: "Gmail Auto-Labeler",
+    tagline: "From chaos to clarity. An AI agent that reads my inbox and files every email where it belongs.",
+    tags: ["Python", "GPT-4o-mini", "GitHub Actions"],
     description:
-      "Lattice started because my notes were turning into a swamp. I wanted a tool that treated every note as a node, taggable, linkable, queryable, and let connections emerge over time instead of forcing them up-front. It does inline backlinks, transclusion, and a graph view that you can actually navigate without it turning into hairball spaghetti. Built solo over six months; currently used daily by a handful of researchers and writers.",
+      "My inbox was drowning. Newsletters, security alerts, invoices, recruiters, real-estate scrapes — all landing in the same flat pile. So I wired up a small classifier: a GitHub Action pulls the latest emails from Gmail over IMAP every hour, hands the subject and body to OpenAI's GPT-4o-mini, and applies one of eleven custom labels I defined in a config file. No server, no browser, no manual sorting. The prompt is hardened against injection so untrusted email content can't hijack the classifier. It runs entirely in the cloud and I never think about it.",
     status: "complete",
-    githubUrl: "https://github.com/mmesonero/lattice",
-    accent: "lattice",
-  },
-  {
-    name: "Pámpano",
-    tagline: "Tide & swell forecasts for surfers who want signal, not noise.",
-    tags: ["Swift", "SwiftUI", "Go", "NOAA API"],
-    description:
-      "An iOS app that strips the bloat from marine forecasts. No banner ads, no upsells, no carousels of branded swimwear. Just a single, beautifully composed reading for your spot, with the relevant inputs (period, direction, wind, tide phase) at the right altitude. I built it for myself after getting frustrated with the existing apps; my brother and his friends now use it more than I do, which I take as a win.",
-    status: "complete",
-    githubUrl: "https://github.com/mmesonero/pampano",
-    accent: "pampano",
-  },
-  {
-    name: "Folio",
-    tagline: "A quiet bookkeeping tool for one-person businesses.",
-    tags: ["Next.js", "Stripe", "SQLite", "Plaid"],
-    description:
-      "Folio is what I wish I'd had when I was freelancing. It connects to your bank, classifies transactions with a small local model, and quietly prepares a quarterly self-employment report you can hand to your accountant. No dashboards. No KPIs. No 'AI insights'. Just the boring, important bookkeeping a one-person business actually needs, done in the background so you can get back to the work.",
-    status: "complete",
-    githubUrl: null,
-    accent: "folio",
+    githubUrl: "https://github.com/mmesonero/mis-utomatizaciones",
+    accent: "labeler",
+    cardImage: "assets/gmail-hero.png",
+    slides: [
+      { src: "assets/gmail-hero.png", caption: "" },
+      { src: "assets/gmail-features.png", caption: "" },
+    ],
   },
 ];
 
@@ -122,6 +107,16 @@ const Glyph = ({ kind }) => {
           <rect x="68" y="48" width="14" height="14" fill="currentColor" opacity="0.6"/>
         </svg>
       );
+    case "labeler":
+      return (
+        <svg className="thumb-glyph" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.9">
+          <rect x="18" y="30" width="64" height="42" rx="2"/>
+          <polyline points="18,34 50,56 82,34"/>
+          <path d="M58 58 L82 58 L82 82 L66 82 L58 74 Z" fill="currentColor" opacity="0.18"/>
+          <path d="M58 58 L82 58 L82 82 L66 82 L58 74 Z"/>
+          <circle cx="64" cy="66" r="1.6" fill="currentColor"/>
+        </svg>
+      );
     case "cleanfeed":
       return (
         <svg className="thumb-glyph" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.9">
@@ -130,6 +125,20 @@ const Glyph = ({ kind }) => {
           <line x1="40" y1="35" x2="40" y2="65" opacity="0.3"/>
           <line x1="60" y1="35" x2="60" y2="65" opacity="0.3"/>
           <circle cx="50" cy="50" r="6" fill="currentColor" opacity="0.5"/>
+        </svg>
+      );
+    case "ctt":
+      return (
+        <svg className="thumb-glyph" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.9">
+          <path d="M20 62 A34 34 0 0 1 80 62" strokeWidth="1"/>
+          <path d="M25 66 A29 29 0 0 1 75 66" strokeWidth="4" strokeLinecap="round" opacity="0.18" stroke="currentColor"/>
+          <path d="M25 66 A29 29 0 0 1 58 38" strokeWidth="4" strokeLinecap="round" opacity="0.7" stroke="currentColor"/>
+          <circle cx="50" cy="65" r="2.5" fill="currentColor"/>
+          <line x1="50" y1="63" x2="50" y2="42" strokeWidth="0.8" opacity="0.5"/>
+          <line x1="26" y1="64" x2="22" y2="60" strokeWidth="0.7" opacity="0.4"/>
+          <line x1="74" y1="64" x2="78" y2="60" strokeWidth="0.7" opacity="0.4"/>
+          <line x1="50" y1="36" x2="50" y2="32" strokeWidth="0.7" opacity="0.4"/>
+          <text x="50" y="82" textAnchor="middle" fontSize="7" fill="currentColor" stroke="none" opacity="0.55" fontFamily="monospace">5h · 7d</text>
         </svg>
       );
     default:
@@ -155,22 +164,34 @@ function Carousel({ slides }) {
 
   return (
     <div className="carousel">
-      <div className="carousel-track">
-        <img src={slides[idx].src} alt={slides[idx].caption} className="carousel-img" />
-        {slides[idx].caption && <div className="carousel-caption">{slides[idx].caption}</div>}
-        <div className="carousel-counter">{idx + 1} / {len}</div>
-      </div>
+      {slides[idx].scrollable ? (
+        <div className="carousel-track carousel-composed">
+          <div className="composed-left">
+            <div className="composed-label">{slides[idx].label}</div>
+            {slides[idx].title.map((line, i) => <div key={i} className="composed-title">{line}</div>)}
+            <div className="composed-title composed-gold">{slides[idx].titleGold}</div>
+            <div className="composed-subs">
+              {slides[idx].subtitle.map((line, i) => <div key={i}>{line}</div>)}
+            </div>
+            <div className="composed-scroll-cue">↓ scroll to explore</div>
+          </div>
+          <div className="composed-right">
+            <img src={slides[idx].src} alt="" className="composed-scroll-img" />
+          </div>
+          <div className="carousel-counter">{idx + 1} / {len}</div>
+        </div>
+      ) : (
+        <div className="carousel-track">
+          <img src={slides[idx].src} alt="" className="carousel-img" />
+          <div className="carousel-counter">{idx + 1} / {len}</div>
+        </div>
+      )}
       <button className="carousel-btn carousel-prev" onClick={prev} aria-label="Previous slide">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><polyline points="15,4 7,12 15,20"/></svg>
       </button>
       <button className="carousel-btn carousel-next" onClick={next} aria-label="Next slide">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><polyline points="9,4 17,12 9,20"/></svg>
       </button>
-      <div className="carousel-dots">
-        {slides.map((_, i) => (
-          <button key={i} className={`carousel-dot ${i === idx ? 'active' : ''}`} onClick={() => setIdx(i)} aria-label={`Go to slide ${i + 1}`} />
-        ))}
-      </div>
     </div>
   );
 }
@@ -280,7 +301,6 @@ function ProjectCard({ p, idx, onOpen }) {
       <div className="card-body">
         <div className="card-title-row">
           <div className="card-title">{p.name}</div>
-          <div className="card-num">{String(idx + 1).padStart(2, '0')} / {String(PROJECTS.length).padStart(2, '0')}</div>
         </div>
         <div className="card-tag">{p.tagline}</div>
         <div className="pills">
