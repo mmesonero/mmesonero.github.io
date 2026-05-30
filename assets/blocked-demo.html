@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CleanFeed — Site blocked</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; background: #0B0B0B; }
+    body {
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+      overflow: hidden;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .icon-ring {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      border: 2px solid #C9A96E;
+      background: #161616;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 28px #C9A96E22;
+    }
+    .icon-ring img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #C9A96E;
+      letter-spacing: 0.2px;
+    }
+
+    .subtitle {
+      font-size: 15px;
+      color: #888;
+      line-height: 1.6;
+      font-weight: 300;
+    }
+    .subtitle em {
+      color: #C9A96E;
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 99px;
+      border: 1px solid #2a2a2a;
+      background: #161616;
+      font-size: 13px;
+      color: #555;
+      letter-spacing: 0.5px;
+      font-weight: 400;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      width: 100%;
+      margin-top: 6px;
+    }
+    .stat-card {
+      border: 1px solid #222;
+      background: #131313;
+      padding: 14px 12px;
+      border-radius: 12px;
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 22px;
+      font-weight: 700;
+      color: #C9A96E;
+      letter-spacing: -0.5px;
+    }
+    .stat-label {
+      font-size: 9.5px;
+      color: #555;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+    .stat-label small {
+      display: block;
+      font-size: 8.5px;
+      color: #444;
+      margin-top: 1px;
+    }
+
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+      margin-top: 6px;
+    }
+    .btn {
+      width: 100%;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s, border-color .2s, color .2s;
+      font-family: inherit;
+    }
+    .btn-primary {
+      background: transparent;
+      border: 1px solid #C9A96E;
+      color: #C9A96E;
+    }
+    .btn-primary:hover { background: rgba(201,169,110,0.08); }
+    .btn-muted {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      color: #666;
+    }
+    .btn-muted:hover { color: #888; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon-ring">
+      <img src="cleanfeed-logo.png" alt="CleanFeed" />
+    </div>
+    <h1>Site blocked</h1>
+    <div class="subtitle">
+      You decided not to go here.<br />
+      <em>Your attention is worth more than this.</em>
+    </div>
+    <span class="pill">instagram.com</span>
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-value">5</div>
+        <div class="stat-label">Blocks<small>(Last 7d)</small></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">0</div>
+        <div class="stat-label">Bypasses<small>(Last 7d)</small></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">4m</div>
+        <div class="stat-label">Time spent<small>(Total)</small></div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn btn-primary">&larr; Go back</button>
+      <button class="btn btn-muted">Continue anyway</button>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('button').forEach(el => {
+      el.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); });
+      el.tabIndex = -1;
+    });
+  </script>
+</body>
+</html>

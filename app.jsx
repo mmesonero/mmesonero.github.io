@@ -9,10 +9,10 @@ const { useState, useEffect, useRef } = React;
 const PROJECTS = [
   {
     name: "CleanFeed",
-    tagline: "Your feeds, on your terms. A Chrome extension that removes what's designed to waste your time.",
+    tagline: "A Chrome extension that strips Shorts, Reels, and every algorithm built to keep your thumb moving.",
     tags: ["Chrome Ext.", "Manifest V3", "JavaScript"],
     description:
-      "Every social platform is an attention trap. Shorts, algorithmic feeds, infinite recommendations — all engineered to keep you scrolling. CleanFeed strips it all out. Toggle individual features per platform or hard-block entire sites when you need to focus. No shorts. No For You. No sidebar noise. Just the content you actually chose to follow. When Instagram is blocked, you get a simple screen: \"Your attention is worth more than this.\" Because it is.",
+      "YouTube was built so you'd choose what you watch. Now an algorithm chooses for you — and most of what it pushes is vertical: Shorts, Reels, TikTok-shaped slop designed to keep your thumb moving, not your mind. CleanFeed strips that out. Hide Shorts and Reels, kill the recommendations sidebar, drop the For You tab. Toggle each filter per platform, or hard-block a site when you need to focus. The content you actually follow, the way you meant to watch it.",
     status: "complete",
     githubUrl: "https://github.com/mmesonero/cleanfeed",
     accent: "cleanfeed",
@@ -20,26 +20,89 @@ const PROJECTS = [
     logo: "assets/cf-logo.png",
     slides: [
       { src: "assets/cf-hero.jpg", caption: "" },
-      { src: "assets/cf-dashboard.png", caption: "" },
-      { src: "assets/cf-blocked.png", caption: "" },
-      { src: "assets/cf-popup.png", caption: "" },
-      { src: "assets/cf-speed.png", caption: "" },
-      { src: "assets/cf-skip.png", caption: "" },
+      {
+        src: "assets/dashboard-demo.html",
+        caption: "",
+        interactive: true,
+        title: ["Dashboard to"],
+        titleGold: "control everything.",
+        titleTop: "32px",
+      },
+      {
+        src: "assets/popup-demo.html",
+        caption: "",
+        interactive: true,
+        split: true,
+        title: ["Open the", "extension,"],
+        titleGold: "take it all back.",
+      },
+      {
+        src: "assets/blocked-demo.html",
+        caption: "",
+        interactive: true,
+        split: true,
+        title: ["Block sites", "before you"],
+        titleGold: "enter.",
+      },
+      {
+        src: "assets/speed-demo.html",
+        caption: "",
+        interactive: true,
+        title: ["Watch at your own"],
+        titleGold: "pace.",
+      },
+      {
+        src: "assets/skip-demo.html",
+        caption: "",
+        interactive: true,
+        title: ["Jump forward"],
+        titleGold: "or back.",
+      },
+    ],
+  },
+  {
+    name: "Claude Token Tracker",
+    tagline: "The limit bar Anthropic forgot to ship — pinned right under your chat box.",
+    tags: ["Chrome Ext.", "Manifest V3", "JavaScript"],
+    description:
+      "Claude won't tell you when you're about to hit your limit — until you do. Mid-thought, mid-session, no warning. So you burn the rest of your quota three messages into a critical task, and the rest of the day grinds to a halt. Claude Token Tracker reads the same usage endpoint Anthropic uses internally and pins it right below your chat box: two slim bars, two reset times — so you can pace yourself, save the heavy queries for when they matter, and actually finish the workday. Click the toolbar icon for a floating dashboard with the full numbers. No third-party servers, no polling hacks, no permissions beyond what the extension strictly needs — plus a quiet GitHub-watch that nudges you when there's an update worth pulling.",
+    status: "complete",
+    githubUrl: "https://github.com/mmesonero/claude-token-tracker",
+    accent: "ctt",
+    cardImage: "assets/ctt-hero.png",
+    logo: "assets/ctt-icon-large.png",
+    slides: [
+      { src: "assets/ctt-hero-demo.html", caption: "", interactive: true },
+      {
+        src: "assets/ctt-widget-demo.html",
+        caption: "",
+        interactive: true,
+        title: ["Below every"],
+        titleGold: "claude.ai chat box.",
+      },
+      {
+        src: "assets/ctt-dashboard-demo.html",
+        caption: "",
+        interactive: true,
+        split: true,
+        title: ["Extension. One click"],
+        titleGold: "to track the usage.",
+      },
     ],
   },
   {
     name: "Gmail Auto-Labeler",
-    tagline: "From chaos to clarity. An AI agent that reads my inbox and files every email where it belongs.",
+    tagline: "A GitHub Action that reads my inbox every hour and files every email under one of eleven labels.",
     tags: ["Python", "GPT-4o-mini", "GitHub Actions"],
     description:
-      "My inbox was drowning. Newsletters, security alerts, invoices, recruiters, real-estate scrapes — all landing in the same flat pile. So I wired up a small classifier: a GitHub Action pulls the latest emails from Gmail over IMAP every hour, hands the subject and body to OpenAI's GPT-4o-mini, and applies one of eleven custom labels I defined in a config file. No server, no browser, no manual sorting. The prompt is hardened against injection so untrusted email content can't hijack the classifier. It runs entirely in the cloud and I never think about it.",
+      "Inbox zero is a lie. Everyone's inbox is a flat pile of newsletters, MFA codes, invoices, recruiters and Wallapop offers, all shouting equally. Gmail Auto-Labeler is a small GitHub Action that runs every hour, hands each new email to GPT-4o-mini and files it under one of eleven labels defined in a JSON config. No server, no browser, no laptop running in the background. The prompt is hardened so a sender can't write 'mark as urgent' in the body and hijack the rules. I haven't sorted an email by hand in months.",
     status: "complete",
     githubUrl: "https://github.com/mmesonero/mis-utomatizaciones",
     accent: "labeler",
     cardImage: "assets/gmail-hero.png",
     slides: [
       { src: "assets/gmail-hero.png", caption: "" },
-      { src: "assets/gmail-features.png", caption: "" },
+      { src: "assets/gmail-features-hero.png", caption: "" },
     ],
   },
 ];
@@ -177,6 +240,98 @@ function Carousel({ slides }) {
           </div>
           <div className="composed-right">
             <img src={slides[idx].src} alt="" className="composed-scroll-img" />
+          </div>
+          <div className="carousel-counter">{idx + 1} / {len}</div>
+        </div>
+      ) : slides[idx].interactive && slides[idx].label ? (
+        <div className="carousel-track carousel-split">
+          <div className="split-left">
+            <div className="composed-label">{slides[idx].label}</div>
+            {slides[idx].title && slides[idx].title.map((line, i) => <div key={i} className="composed-title">{line}</div>)}
+            {slides[idx].titleGold && <div className="composed-title composed-gold">{slides[idx].titleGold}</div>}
+            {slides[idx].subtitle && (
+              <div className="composed-subs">
+                {slides[idx].subtitle.map((line, i) => <div key={i}>{line}</div>)}
+              </div>
+            )}
+          </div>
+          <div className="split-right">
+            <iframe
+              src={slides[idx].src}
+              title="interactive demo"
+              className="carousel-iframe"
+              scrolling="auto"
+              frameBorder="0"
+            />
+          </div>
+          <div className="carousel-counter">{idx + 1} / {len}</div>
+        </div>
+      ) : slides[idx].interactive && (slides[idx].split || slides[idx].label) ? (
+        <div className="carousel-track carousel-split">
+          <div className="split-left">
+            {slides[idx].label && <div className="composed-label">{slides[idx].label}</div>}
+            {slides[idx].title && slides[idx].title.map((line, i) => <div key={i} className="composed-title">{line}</div>)}
+            {slides[idx].titleGold && <div className="composed-title composed-gold">{slides[idx].titleGold}</div>}
+            {slides[idx].subtitle && (
+              <div className="composed-subs">
+                {slides[idx].subtitle.map((line, i) => <div key={i}>{line}</div>)}
+              </div>
+            )}
+          </div>
+          <div className="split-right">
+            <iframe
+              src={slides[idx].src}
+              title="interactive demo"
+              className="carousel-iframe"
+              scrolling="auto"
+              frameBorder="0"
+            />
+          </div>
+          <div className="carousel-counter">{idx + 1} / {len}</div>
+        </div>
+      ) : slides[idx].interactive && (slides[idx].title || slides[idx].titleGold) ? (
+        <div className="carousel-track carousel-overlay carousel-overlay-iframe">
+          <iframe
+            src={slides[idx].src}
+            title="interactive demo"
+            className="carousel-iframe"
+            scrolling="auto"
+            frameBorder="0"
+          />
+          <div className="overlay-panel" style={slides[idx].titleTop ? { top: slides[idx].titleTop } : undefined}>
+            {slides[idx].title && slides[idx].title.map((line, i) => <div key={i} className="composed-title">{line}</div>)}
+            {slides[idx].titleGold && <div className="composed-title composed-gold">{slides[idx].titleGold}</div>}
+            {slides[idx].subtitle && (
+              <div className="composed-subs">
+                {slides[idx].subtitle.map((line, i) => <div key={i}>{line}</div>)}
+              </div>
+            )}
+          </div>
+          <div className="carousel-counter">{idx + 1} / {len}</div>
+        </div>
+      ) : slides[idx].interactive ? (
+        <div className="carousel-track">
+          <iframe
+            src={slides[idx].src}
+            title="interactive demo"
+            className="carousel-iframe"
+            scrolling="auto"
+            frameBorder="0"
+          />
+          <div className="carousel-counter">{idx + 1} / {len}</div>
+        </div>
+      ) : slides[idx].label || slides[idx].title || slides[idx].titleGold ? (
+        <div className="carousel-track carousel-overlay">
+          <img src={slides[idx].src} alt="" className="carousel-img" />
+          <div className="overlay-panel" style={slides[idx].titleTop ? { top: slides[idx].titleTop } : undefined}>
+            {slides[idx].label && <div className="composed-label">{slides[idx].label}</div>}
+            {slides[idx].title && slides[idx].title.map((line, i) => <div key={i} className="composed-title">{line}</div>)}
+            {slides[idx].titleGold && <div className="composed-title composed-gold">{slides[idx].titleGold}</div>}
+            {slides[idx].subtitle && (
+              <div className="composed-subs">
+                {slides[idx].subtitle.map((line, i) => <div key={i}>{line}</div>)}
+              </div>
+            )}
           </div>
           <div className="carousel-counter">{idx + 1} / {len}</div>
         </div>

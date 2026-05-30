@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Claude Token Tracker — Inline Widget</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      background: #0B0B0B;
+      color: #f5f4f1;
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-weight: 300;
+      overflow: hidden;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 32px;
+      gap: 18px;
+    }
+
+    /* Greeting */
+    .greeting {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 400;
+      font-size: 44px;
+      letter-spacing: -0.5px;
+      color: #f5f4f1;
+      text-align: center;
+    }
+    .claude-logo {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+    }
+
+    /* Chat box */
+    .chat {
+      width: 100%;
+      max-width: 720px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .chat-box {
+      background: #2a2826;
+      border: 1px solid #3a3835;
+      border-radius: 18px;
+      padding: 18px 18px 12px;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.5);
+    }
+    .chat-input {
+      color: rgba(255,255,255,0.45);
+      font-size: 15px;
+      font-weight: 300;
+      padding: 4px 4px 24px;
+    }
+    .chat-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .toolbar-left .plus {
+      width: 26px;
+      height: 26px;
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.5);
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: rgba(255,255,255,0.55);
+      font-size: 12.5px;
+    }
+    .model-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .model-pill .high {
+      color: #d4a84b;
+    }
+    .icon-mic, .icon-voice {
+      width: 16px;
+      height: 16px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* CTT widget bar (REAL CSS from content.js) */
+    #ctt-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 5px 16px;
+      margin: 4px 8px 0;
+      font-family: inherit;
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+      -webkit-font-smoothing: antialiased;
+      letter-spacing: 0.01em;
+    }
+    .ctt-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .ctt-lbl {
+      font-size: 10.5px;
+      white-space: nowrap;
+      opacity: 0.8;
+    }
+    .ctt-track {
+      width: 96px;
+      height: 3px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 100px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .ctt-fill {
+      height: 100%;
+      border-radius: 100px;
+      transition: width 0.5s ease;
+    }
+    .ctt-fill.orange { background: #D97706; }
+    .ctt-fill.blue   { background: #3B82F6; }
+    .ctt-val {
+      font-size: 10.5px;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .ctt-sep {
+      width: 1px;
+      height: 11px;
+      background: rgba(255,255,255,0.12);
+      flex-shrink: 0;
+      margin: 0 1px;
+    }
+
+    /* Action buttons */
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 999px;
+      padding: 7px 14px;
+      font-size: 12.5px;
+      color: rgba(255,255,255,0.7);
+      cursor: pointer;
+      transition: background .2s, border-color .2s, color .2s;
+    }
+    .action:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(255,255,255,0.2);
+      color: #f5f4f1;
+    }
+    .action svg {
+      width: 13px;
+      height: 13px;
+      opacity: 0.7;
+    }
+
+    /* Annotation arrow */
+    .arrow-note {
+      position: absolute;
+      bottom: 96px;
+      left: 50%;
+      transform: translateX(-50%) translateY(0);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-size: 14px;
+      color: #d4a84b;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      animation: arrowBob 2.4s ease-in-out infinite;
+      opacity: 0.92;
+    }
+    .arrow-note svg {
+      width: 24px;
+      height: 24px;
+      color: #d4a84b;
+    }
+    @keyframes arrowBob {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(-5px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="greeting">
+    <img class="claude-logo" src="claude-logo.svg" alt="Claude" />
+    <span>Hola, Manuel</span>
+  </div>
+
+  <div class="chat">
+    <div class="chat-box">
+      <div class="chat-input">¿Cómo puedo ayudarle hoy?</div>
+      <div class="chat-toolbar">
+        <div class="toolbar-left">
+          <span class="plus">+</span>
+        </div>
+        <div class="toolbar-right">
+          <span class="model-pill">Opus 4.8 <span class="high">High</span> &#x25BE;</span>
+          <svg class="icon-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+          <svg class="icon-voice" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="6" y1="9" x2="6" y2="15"/><line x1="10" y1="5" x2="10" y2="19"/><line x1="14" y1="9" x2="14" y2="15"/><line x1="18" y1="11" x2="18" y2="13"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- The CTT widget injected exactly as content.js does -->
+    <div id="ctt-bar">
+      <div class="ctt-group">
+        <span class="ctt-lbl">5h limit</span>
+        <div class="ctt-track"><div class="ctt-fill orange" style="width:32%"></div></div>
+        <span class="ctt-val">32% &middot; Sat 13:10</span>
+      </div>
+      <div class="ctt-sep"></div>
+      <div class="ctt-group">
+        <span class="ctt-lbl">Weekly</span>
+        <div class="ctt-track"><div class="ctt-fill blue" style="width:44%"></div></div>
+        <span class="ctt-val">44% &middot; Mon 15:00</span>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

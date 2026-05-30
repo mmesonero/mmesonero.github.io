@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <linearGradient id="bar-red" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#EF4444"/>
+      <stop offset="100%" stop-color="#F87171"/>
+    </linearGradient>
+    <linearGradient id="bar-blue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#60A5FA"/>
+    </linearGradient>
+    <filter id="window-shadow">
+      <feDropShadow dx="0" dy="20" stdDeviation="55" flood-color="#000" flood-opacity="0.85"/>
+    </filter>
+  </defs>
+
+  <!-- Pure black background -->
+  <rect width="1600" height="900" fill="#080807"/>
+
+  <!-- ── LEFT TEXT — vertically centered to popup (y=90 to y=810, center=450) ── -->
+
+  <!-- Orange accent line -->
+  <rect x="100" y="268" width="48" height="3" rx="2" fill="#D4670F" opacity="0.85"/>
+
+  <!-- Label -->
+  <text x="100" y="293" font-family="Georgia, 'Times New Roman', serif" font-size="13" font-weight="400" letter-spacing="2" fill="rgba(255,253,247,0.30)">DASHBOARD</text>
+
+  <!-- Heading — serif italic like the portfolio -->
+  <text x="100" y="372" font-family="Georgia, 'Times New Roman', serif" font-size="68" font-weight="400" font-style="italic" letter-spacing="-1.5" fill="rgba(255,253,247,0.92)">Click the icon.</text>
+  <text x="100" y="452" font-family="Georgia, 'Times New Roman', serif" font-size="68" font-weight="400" font-style="italic" letter-spacing="-1.5" fill="rgba(255,253,247,0.92)">See your limits.</text>
+
+  <!-- Description -->
+  <text x="100" y="516" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="18" font-weight="300" fill="rgba(255,253,247,0.32)" letter-spacing="-0.2">Floating window · opens on any tab</text>
+  <text x="100" y="544" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="18" font-weight="300" fill="rgba(255,253,247,0.32)" letter-spacing="-0.2">5-hour and weekly quotas at a glance</text>
+
+  <!-- ── DASHBOARD POPUP — larger, right side ── -->
+  <!-- x=830, y=90, width=660, height=720 → center y=450 -->
+  <rect x="830" y="60" width="660" height="720" rx="18" fill="#0F0E0D" stroke="rgba(255,253,247,0.09)" stroke-width="1" filter="url(#window-shadow)"/>
+
+  <!-- Header -->
+  <g transform="translate(878, 108)">
+    <rect x="0"  y="14" width="11" height="13" rx="2" fill="#FFFDF7" opacity="0.9"/>
+    <rect x="16" y="8"  width="11" height="19" rx="2" fill="#FFFDF7" opacity="0.9"/>
+    <rect x="32" y="2"  width="11" height="25" rx="2" fill="#D4670F" opacity="0.95"/>
+    <text x="58" y="18" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="20" font-weight="600" fill="#FFFDF7" letter-spacing="-0.4">Usage</text>
+    <text x="58" y="36" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="13" fill="rgba(255,253,247,0.35)">claude.ai</text>
+  </g>
+
+  <!-- Card 1: 5-HOUR -->
+  <rect x="864" y="180" width="592" height="200" rx="14" fill="rgba(255,253,247,0.04)" stroke="rgba(255,253,247,0.07)" stroke-width="1"/>
+  <text x="892" y="218" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="13" font-weight="700" letter-spacing="1.4" fill="rgba(255,253,247,0.75)">5-HOUR LIMIT</text>
+  <text x="1428" y="218" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="12" fill="rgba(255,253,247,0.25)">resets Fri 17:50</text>
+  <!-- Bar — full red at 100% -->
+  <rect x="892" y="248" width="370" height="6" rx="3" fill="rgba(255,253,247,0.08)"/>
+  <rect x="892" y="248" width="370" height="6" rx="3" fill="url(#bar-red)"/>
+  <!-- Percentage -->
+  <text x="1424" y="264" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="44" font-weight="700" letter-spacing="-1.5" fill="#EF4444">100%</text>
+  <text x="892" y="356" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="12" fill="rgba(255,253,247,0.22)">of 5-hour session limit used</text>
+
+  <!-- Card 2: WEEKLY -->
+  <rect x="864" y="400" width="592" height="200" rx="14" fill="rgba(255,253,247,0.04)" stroke="rgba(255,253,247,0.07)" stroke-width="1"/>
+  <text x="892" y="438" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="13" font-weight="700" letter-spacing="1.4" fill="rgba(255,253,247,0.75)">WEEKLY</text>
+  <text x="1428" y="438" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="12" fill="rgba(255,253,247,0.25)">resets Mon 15:00</text>
+  <!-- Bar -->
+  <rect x="892" y="468" width="370" height="6" rx="3" fill="rgba(255,253,247,0.08)"/>
+  <rect x="892" y="468" width="96" height="6" rx="3" fill="url(#bar-blue)"/>
+  <!-- Percentage -->
+  <text x="1424" y="484" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="44" font-weight="700" letter-spacing="-1.5" fill="#60A5FA">26%</text>
+  <text x="892" y="576" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="12" fill="rgba(255,253,247,0.22)">of weekly limit · all models</text>
+
+  <!-- Footer -->
+  <rect x="1100" y="636" width="120" height="30" rx="15" fill="rgba(255,253,247,0.03)" stroke="rgba(74,222,128,0.35)" stroke-width="1"/>
+  <circle cx="1124" cy="651" r="4.5" fill="#4ADE80"/>
+  <text x="1160" y="656" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="700" letter-spacing="0.8" fill="#4ADE80">LIVE</text>
+  <text x="950" y="655" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="12" fill="rgba(255,253,247,0.2)">GitHub</text>
+  <text x="1375" y="655" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="12" fill="rgba(255,253,247,0.2)">LinkedIn</text>
+  <text x="1160" y="688" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="11" fill="rgba(255,253,247,0.16)">Updated at 16:46:38</text>
+</svg>

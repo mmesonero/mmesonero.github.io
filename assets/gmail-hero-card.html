@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gmail Auto-Labeler — Card</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      background: #0B0B0B;
+      color: #f5f4f1;
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-weight: 300;
+      overflow: hidden;
+    }
+
+    .layout {
+      display: flex;
+      height: 100%;
+      position: relative;
+    }
+
+    /* Faded Gmail-style sidebar — pushed down to avoid badge overlap */
+    .sidebar {
+      flex: 0 0 240px;
+      background: rgba(255,255,255,0.02);
+      border-right: 1px solid rgba(255,255,255,0.04);
+      padding: 140px 18px 56px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      opacity: 0.35;
+      filter: blur(0.3px);
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+    }
+    .nav-item.active {
+      background: rgba(217,119,6,0.13);
+      color: #f5f4f1;
+    }
+    .nav-item .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .nav-item .count {
+      margin-left: auto;
+      font-size: 11px;
+      color: rgba(255,255,255,0.35);
+      font-variant-numeric: tabular-nums;
+    }
+    .nav-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.05);
+      margin: 10px 4px;
+    }
+    .nav-header {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      color: rgba(255,255,255,0.35);
+      text-transform: uppercase;
+      padding: 6px 14px;
+    }
+
+    /* Main */
+    .main {
+      flex: 1;
+      position: relative;
+      padding: 40px 50px;
+      min-width: 0;
+    }
+
+    /* Ghost email subjects — scattered on left of main, staggered */
+    .email-col {
+      position: absolute;
+      width: 360px;
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .email-col.left  { left: 30px; top: 80px; }
+    .email-col.right { right: 30px; top: 130px; }
+
+    .email {
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      font-size: 12.5px;
+      color: rgba(255,255,255,0.55);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0.5;
+    }
+    .email .from {
+      flex-shrink: 0;
+      font-weight: 600;
+      color: rgba(255,255,255,0.6);
+      max-width: 110px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .email .subject {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: rgba(255,255,255,0.45);
+    }
+    .email .lbl-chip {
+      flex-shrink: 0;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .lbl-urgente   { background: rgba(239,68,68,0.18); color: #fca5a5; border: 1px solid rgba(239,68,68,0.3); }
+    .lbl-facturas  { background: rgba(52,211,153,0.15); color: #6ee7b7; border: 1px solid rgba(52,211,153,0.3); }
+    .lbl-newsletter { background: rgba(96,165,250,0.15); color: #93c5fd; border: 1px solid rgba(96,165,250,0.3); }
+    .lbl-pkmn      { background: rgba(250,204,21,0.15); color: #fde047; border: 1px solid rgba(250,204,21,0.3); }
+    .lbl-job       { background: rgba(34,211,238,0.15); color: #67e8f9; border: 1px solid rgba(34,211,238,0.3); }
+    .lbl-basura    { background: rgba(125,121,117,0.15); color: rgba(255,255,255,0.45); border: 1px solid rgba(125,121,117,0.3); }
+
+    /* Hero centered on ENTIRE canvas (not just main) */
+    .hero-block {
+      position: absolute;
+      top: 46%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+      text-align: center;
+    }
+    .hero-icon {
+      width: 140px;
+      height: 140px;
+      filter: drop-shadow(0 18px 56px rgba(217,119,6,0.45));
+    }
+    .hero-title {
+      font-size: 78px;
+      font-weight: 700;
+      letter-spacing: -2px;
+      line-height: 1.0;
+      color: #f5f4f1;
+      white-space: nowrap;
+    }
+
+    /* Bottom stats */
+    .stats {
+      position: absolute;
+      bottom: 140px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+      font-family: ui-monospace, 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      z-index: 5;
+    }
+    .stats .gold { color: #d4a84b; font-weight: 600; }
+    .stats .sep {
+      width: 1px;
+      height: 12px;
+      background: rgba(255,255,255,0.15);
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="nav-item active">
+        <span class="dot" style="background:#d4a84b"></span>
+        Inbox
+        <span class="count">12</span>
+      </div>
+      <div class="nav-item">
+        <span class="dot" style="background:#6b6b6b"></span>
+        Sent
+      </div>
+      <div class="nav-item">
+        <span class="dot" style="background:#6b6b6b"></span>
+        Drafts
+      </div>
+      <div class="nav-divider"></div>
+      <div class="nav-header">Custom labels</div>
+      <div class="nav-item">
+        <span class="dot" style="background:#ef4444"></span>
+        ¡Urgente!
+        <span class="count">2</span>
+      </div>
+      <div class="nav-item">
+        <span class="dot" style="background:#d4a84b"></span>
+        ¡Contestar!
+        <span class="count">3</span>
+      </div>
+      <div class="nav-item">
+        <span class="dot" style="background:#60a5fa"></span>
+        Newsletter
+        <span class="count">47</span>
+      </div>
+      <div class="nav-item">
+        <span class="dot" style="background:#34d399"></span>
+        Facturas
+        <span class="count">8</span>
+      </div>
+      <div class="nav-item">
+        <span class="dot" style="background:#facc15"></span>
+        Pkmn
+      </div>
+    </aside>
+
+    <div class="main">
+      <!-- Left column: incoming emails -->
+      <div class="email-col left">
+        <div class="email">
+          <span class="from">Cardmarket</span>
+          <span class="subject">Order shipped — 3× Charizard</span>
+          <span class="lbl-chip lbl-pkmn">Pkmn</span>
+        </div>
+        <div class="email">
+          <span class="from">Idealista</span>
+          <span class="subject">New listings near Madrid Centro</span>
+          <span class="lbl-chip lbl-pkmn" style="background:rgba(167,139,250,0.18);color:#c4b5fd;border-color:rgba(167,139,250,0.3)">Pisos</span>
+        </div>
+        <div class="email">
+          <span class="from">AWS Billing</span>
+          <span class="subject">Invoice 0421 ready</span>
+          <span class="lbl-chip lbl-facturas">Facturas</span>
+        </div>
+      </div>
+
+      <!-- Right column: incoming emails -->
+      <div class="email-col right">
+        <div class="email">
+          <span class="from">LinkedIn</span>
+          <span class="subject">5 new jobs matching your profile</span>
+          <span class="lbl-chip lbl-job">Job</span>
+        </div>
+        <div class="email">
+          <span class="from">Substack</span>
+          <span class="subject">Weekly digest — 4 new posts</span>
+          <span class="lbl-chip lbl-newsletter">Newsletter</span>
+        </div>
+        <div class="email">
+          <span class="from">prizes@spam</span>
+          <span class="subject">URGENT: claim your prize now</span>
+          <span class="lbl-chip lbl-basura">Basura</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero centered relative to ENTIRE canvas -->
+    <div class="hero-block">
+      <!-- Gmail-style envelope + tag stack -->
+      <svg class="hero-icon" viewBox="0 0 100 100" fill="none">
+        <rect x="14" y="26" width="64" height="44" rx="4" fill="#1a1a1f" stroke="#d4a84b" stroke-width="1.8"/>
+        <polyline points="14,30 46,52 78,30" fill="none" stroke="#d4a84b" stroke-width="1.8"/>
+        <path d="M56 56 L86 56 L86 86 L66 86 L56 76 Z" fill="rgba(217,119,6,0.2)" stroke="#D97706" stroke-width="2"/>
+        <circle cx="64" cy="68" r="2" fill="#D97706"/>
+      </svg>
+      <h1 class="hero-title">Gmail Auto-Labeler</h1>
+    </div>
+
+    <div class="stats">
+      <span><span class="gold">50</span> emails / hour</span>
+      <span class="sep"></span>
+      <span><span class="gold">11</span> labels</span>
+      <span class="sep"></span>
+      <span><span class="gold">$0.01</span> / day</span>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Claude Token Tracker — Dashboard</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; background: #0B0B0B; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 32px 96px 32px 32px;
+      overflow: hidden;
+    }
+
+    /* Window chrome */
+    .window {
+      width: 380px;
+      background: #0F0E0D;
+      color: #FFFDF7;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow:
+        0 40px 100px rgba(0,0,0,0.7),
+        0 0 0 1px rgba(255,255,255,0.04);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .titlebar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: #1a1817;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .titlebar-icon {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+    .titlebar-icon img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .titlebar-title {
+      flex: 1;
+      font-size: 11.5px;
+      color: rgba(255,253,247,0.6);
+      letter-spacing: 0.2px;
+    }
+    .titlebar-actions {
+      display: flex;
+      gap: 8px;
+      color: rgba(255,253,247,0.45);
+    }
+    .titlebar-actions span {
+      width: 14px;
+      height: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      cursor: default;
+    }
+
+    .body {
+      padding: 28px 30px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .logo {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+    .logo img { width: 100%; height: 100%; display: block; }
+    .header-text h1 {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .header-text p {
+      font-size: 11.5px;
+      color: rgba(255,253,247,0.35);
+      margin-top: 1px;
+    }
+
+    /* Cards */
+    .cards {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 320px;
+    }
+    .card {
+      background: rgba(255,253,247,0.04);
+      border: 1px solid rgba(255,253,247,0.07);
+      border-radius: 12px;
+      padding: 18px 20px 16px;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .card:hover {
+      background: rgba(255,253,247,0.06);
+      border-color: rgba(255,253,247,0.12);
+    }
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 16px;
+    }
+    .card-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255,253,247,0.55);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+    .card-reset {
+      font-size: 11px;
+      color: rgba(255,253,247,0.28);
+    }
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .bar-track {
+      flex: 1;
+      height: 4px;
+      background: rgba(255,253,247,0.08);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 100px;
+      transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .bar-fill.orange { background: #D97706; }
+    .bar-fill.blue   { background: #3B82F6; }
+    .pct {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      min-width: 58px;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+    .pct.orange { color: #F59E0B; }
+    .pct.blue   { color: #3B82F6; }
+
+    /* Live row */
+    .live-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 14px;
+      width: 320px;
+    }
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #4ADE80;
+      border: 1px solid rgba(74, 222, 128, 0.35);
+      border-radius: 100px;
+      padding: 3px 8px 3px 6px;
+    }
+    .live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      animation: pulse-dot 1.6s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50%      { transform: scale(1.6); opacity: 0.6; }
+    }
+    .footer-link {
+      font-size: 11px;
+      color: rgba(255,253,247,0.2);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+    .updated {
+      margin-top: 12px;
+      font-size: 10.5px;
+      color: rgba(255,253,247,0.18);
+    }
+  </style>
+</head>
+<body>
+  <div class="window">
+    <div class="titlebar">
+      <div class="titlebar-icon"><img src="ctt-icon.png" alt="" /></div>
+      <span class="titlebar-title">Claude Token Tracker</span>
+      <div class="titlebar-actions">
+        <span>&#8211;</span>
+        <span>&#9744;</span>
+        <span>&#10005;</span>
+      </div>
+    </div>
+
+    <div class="body">
+      <div class="header">
+        <div class="logo"><img src="ctt-icon-large.png" alt="" /></div>
+        <div class="header-text">
+          <h1>Usage</h1>
+          <p>claude.ai</p>
+        </div>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <div class="card-top">
+            <span class="card-label">5-hour limit</span>
+            <span class="card-reset">resets Sat 13:10</span>
+          </div>
+          <div class="bar-row">
+            <div class="bar-track"><div class="bar-fill orange" style="width:39%"></div></div>
+            <span class="pct orange">39%</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-top">
+            <span class="card-label">Weekly</span>
+            <span class="card-reset">resets Mon 15:00</span>
+          </div>
+          <div class="bar-row">
+            <div class="bar-track"><div class="bar-fill blue" style="width:44%"></div></div>
+            <span class="pct blue">44%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="live-row">
+        <span class="footer-link">GitHub</span>
+        <span class="live-badge">
+          <span class="live-dot"></span>
+          LIVE
+        </span>
+        <span class="footer-link">LinkedIn</span>
+      </div>
+
+      <div class="updated">Updated at 10:33:26</div>
+    </div>
+  </div>
+</body>
+</html>
