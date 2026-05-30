@@ -123,6 +123,12 @@ const IN_PROGRESS = [
     tags: ["Python", "AI"],
     progress: 0.3,
   },
+  {
+    name: "Clinical AI Assistant",
+    tagline: "Records the consultation, transcribes it, and returns a structured clinical note — so the doctor stops typing.",
+    tags: ["Next.js", "FastAPI", "AI"],
+    progress: 0.1,
+  },
 ];
 
 /* ---------- thumbnail glyphs (abstract, not illustrative) ---------- */

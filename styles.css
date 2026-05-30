@@ -339,6 +339,10 @@ body::after {
   grid-template-columns: 1fr 1fr;
   gap: 24px;
 }
+.projects:has(> :only-child) {
+  grid-template-columns: minmax(0, 560px);
+  justify-content: center;
+}
 @media (max-width: 820px) { .projects { grid-template-columns: 1fr; gap: 20px; } }
 
 /* Category groups */
@@ -533,9 +537,10 @@ body::after {
 /* ============= in-progress ============= */
 .wip {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 28px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
 }
+@media (max-width: 1024px) { .wip { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 820px) { .wip { grid-template-columns: 1fr; } }
 
 .wip-card {
