@@ -100,7 +100,7 @@ const PROJECTS = [
     description:
       "Runs every hour on GitHub Actions, hands each new email to a small language model, and files it under one of the labels — no server, no laptop, no manual sorting.",
     status: "complete",
-    githubUrl: "https://github.com/mmesonero/mis-utomatizaciones",
+    githubUrl: "https://github.com/mmesonero/gmail-labeler",
     accent: "labeler",
     cardImage: "assets/gmail-hero.png",
     slides: [
