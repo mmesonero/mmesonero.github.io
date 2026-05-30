@@ -9,6 +9,7 @@ const { useState, useEffect, useRef } = React;
 const PROJECTS = [
   {
     name: "CleanFeed",
+    category: "Projects",
     tagline: "A Chrome extension that strips Shorts, Reels, and every algorithm built to keep your thumb moving.",
     tags: ["Chrome Ext.", "Manifest V3", "JavaScript"],
     description:
@@ -62,6 +63,7 @@ const PROJECTS = [
   },
   {
     name: "Claude Token Tracker",
+    category: "Projects",
     tagline: "The limit bar Anthropic forgot to ship — pinned right under your chat box.",
     tags: ["Chrome Ext.", "Manifest V3", "JavaScript"],
     description:
@@ -92,8 +94,9 @@ const PROJECTS = [
   },
   {
     name: "Gmail Auto-Labeler",
+    category: "AI Agents",
     tagline: "A GitHub Action that reads my inbox every hour and files every email under one of eleven labels.",
-    tags: ["Python", "GPT-4o-mini", "GitHub Actions"],
+    tags: ["Python", "AI", "GitHub Actions"],
     description:
       "Inbox zero is a lie. Everyone's inbox is a flat pile of newsletters, MFA codes, invoices, recruiters and Wallapop offers, all shouting equally. Gmail Auto-Labeler is a small GitHub Action that runs every hour, hands each new email to GPT-4o-mini and files it under one of eleven labels defined in a JSON config. No server, no browser, no laptop running in the background. The prompt is hardened so a sender can't write 'mark as urgent' in the body and hijack the rules. I haven't sorted an email by hand in months.",
     status: "complete",
@@ -592,13 +595,36 @@ function App() {
             <h2 className="reveal" style={{ '--d': '120ms' }}>
               What I've <span className="italic">built</span>
             </h2>
-            <div className="meta reveal-soft" style={{ '--d': '220ms' }}>{PROJECTS.length} projects &middot; 2026</div>
           </div>
-          <div className="projects">
-            {PROJECTS.map((p, i) => (
-              <ProjectCard key={p.name} p={p} idx={i} onOpen={setOpen} />
-            ))}
-          </div>
+          {(() => {
+            const order = ["AI Agents", "Chrome Extensions"];
+            const grouped = {};
+            PROJECTS.forEach((p) => {
+              const cat = p.category || "Other";
+              (grouped[cat] = grouped[cat] || []).push(p);
+            });
+            const cats = [...order.filter(c => grouped[c]), ...Object.keys(grouped).filter(c => !order.includes(c))];
+            let idxOffset = 0;
+            return cats.map((cat, ci) => {
+              const items = grouped[cat];
+              const startIdx = idxOffset;
+              idxOffset += items.length;
+              return (
+                <div className="category" key={cat}>
+                  <div className="category-head reveal-soft" style={{ '--d': `${120 + ci * 80}ms` }}>
+                    <span className="category-label">{cat}</span>
+                    <span className="category-rule" />
+                    <span className="category-count">{items.length} project{items.length > 1 ? "s" : ""}</span>
+                  </div>
+                  <div className="projects">
+                    {items.map((p, i) => (
+                      <ProjectCard key={p.name} p={p} idx={startIdx + i} onOpen={setOpen} />
+                    ))}
+                  </div>
+                </div>
+              );
+            });
+          })()}
         </section>
         <InProgress />
         <Contact />
@@ -606,7 +632,7 @@ function App() {
       <footer className="foot container">
         <img src="assets/logo.png" alt="" className="foot-mark" />
         <span>&copy; 2026 &middot; Manuel Mesonero</span>
-        <span>Madrid &middot; Made by hand</span>
+        <span>Madrid &middot; Vibe coded</span>
       </footer>
       {open && <Modal project={open} onClose={() => setOpen(null)} />}
     </div>
