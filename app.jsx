@@ -95,7 +95,7 @@ const PROJECTS = [
   {
     name: "Gmail Auto-Labeler",
     category: "AI Agents",
-    tagline: "A GitHub Action that reads my inbox every hour and files every email under one of eleven labels.",
+    tagline: "A GitHub Action that reads my inbox every hour and files every email under one of the labels.",
     tags: ["Python", "AI", "GitHub Actions"],
     description:
       "Inbox zero is a lie. Everyone's inbox is a flat pile of newsletters, MFA codes, invoices, recruiters and Wallapop offers, all shouting equally. Gmail Auto-Labeler is a small GitHub Action that runs every hour, hands each new email to GPT-4o-mini and files it under one of eleven labels defined in a JSON config. No server, no browser, no laptop running in the background. The prompt is hardened so a sender can't write 'mark as urgent' in the body and hijack the rules. I haven't sorted an email by hand in months.",
@@ -463,7 +463,7 @@ function ProjectCard({ p, idx, onOpen }) {
         <div className="card-tag">{p.tagline}</div>
         <div className="pills">
           {p.tags.map((t, i) => (
-            <span className={`pill-sm ${i === 0 ? 'accent' : ''}`} key={t}>{t}</span>
+            <span className={`pill-sm ${i === 0 || t === 'AI' ? 'accent' : ''}`} key={t}>{t}</span>
           ))}
         </div>
       </div>
@@ -512,7 +512,7 @@ function Modal({ project, onClose }) {
           <div className="modal-section-label">Stack</div>
           <div className="pills" style={{ marginBottom: 8 }}>
             {project.tags.map((t, i) => (
-              <span className={`pill-sm ${i === 0 ? 'accent' : ''}`} key={t}>{t}</span>
+              <span className={`pill-sm ${i === 0 || t === 'AI' ? 'accent' : ''}`} key={t}>{t}</span>
             ))}
           </div>
 
@@ -597,7 +597,16 @@ function App() {
             </h2>
           </div>
           {(() => {
-            const order = ["AI Agents", "Chrome Extensions"];
+            const order = ["AI Agents", "Projects"];
+            const ACCENTED_WORDS = ["AI"];
+            const renderLabel = (cat) => {
+              const parts = cat.split(/(\s+)/);
+              return parts.map((p, i) =>
+                ACCENTED_WORDS.includes(p)
+                  ? <span key={i} className="cat-accent">{p}</span>
+                  : p
+              );
+            };
             const grouped = {};
             PROJECTS.forEach((p) => {
               const cat = p.category || "Other";
@@ -613,8 +622,6 @@ function App() {
                 <div className="category" key={cat}>
                   <div className="category-head reveal-soft" style={{ '--d': `${120 + ci * 80}ms` }}>
                     <span className="category-label">{cat}</span>
-                    <span className="category-rule" />
-                    <span className="category-count">{items.length} project{items.length > 1 ? "s" : ""}</span>
                   </div>
                   <div className="projects">
                     {items.map((p, i) => (
