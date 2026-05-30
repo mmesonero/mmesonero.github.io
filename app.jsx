@@ -112,16 +112,16 @@ const PROJECTS = [
 
 const IN_PROGRESS = [
   {
-    name: "TBD",
-    tagline: "To be configured.",
-    tags: ["TBD"],
-    progress: 0,
+    name: "AIO Sync",
+    tagline: "One desktop app to control every RGB component and fan in a PC — without installing five manufacturer apps.",
+    tags: ["Electron", "Windows"],
+    progress: 0.7,
   },
   {
-    name: "TBD",
-    tagline: "To be configured.",
-    tags: ["TBD"],
-    progress: 0,
+    name: "AI News Scraper",
+    tagline: "Pulls the day's AI news from YouTube channels and the web, condenses it into a single brief.",
+    tags: ["Python", "AI"],
+    progress: 0.3,
   },
 ];
 
