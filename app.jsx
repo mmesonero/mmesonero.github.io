@@ -64,10 +64,10 @@ const PROJECTS = [
   {
     name: "Claude Token Tracker",
     category: "Projects",
-    tagline: "The limit bar Anthropic forgot to ship — pinned right under your chat box.",
+    tagline: "The usage bar Anthropic shows quietly — and sometimes not at all — pinned right under your chat box.",
     tags: ["Chrome Ext.", "Manifest V3", "JavaScript"],
     description:
-      "Claude won't tell you when you're about to hit your limit — until you do. Mid-thought, mid-session, no warning. So you burn the rest of your quota three messages into a critical task, and the rest of the day grinds to a halt. Claude Token Tracker reads the same usage endpoint Anthropic uses internally and pins it right below your chat box: two slim bars, two reset times — so you can pace yourself, save the heavy queries for when they matter, and actually finish the workday. Click the toolbar icon for a floating dashboard with the full numbers. No third-party servers, no polling hacks, no permissions beyond what the extension strictly needs — plus a quiet GitHub-watch that nudges you when there's an update worth pulling.",
+      "A Chrome extension that pins your real Claude usage right below the chat box — two slim bars, two reset times. No third-party servers, no polling hacks.",
     status: "complete",
     githubUrl: "https://github.com/mmesonero/claude-token-tracker",
     accent: "ctt",
@@ -98,7 +98,7 @@ const PROJECTS = [
     tagline: "A GitHub Action that reads my inbox every hour and files every email under one of the labels.",
     tags: ["Python", "AI", "GitHub Actions"],
     description:
-      "Inbox zero is a lie. Everyone's inbox is a flat pile of newsletters, MFA codes, invoices, recruiters and Wallapop offers, all shouting equally. Gmail Auto-Labeler is a small GitHub Action that runs every hour, hands each new email to GPT-4o-mini and files it under one of eleven labels defined in a JSON config. No server, no browser, no laptop running in the background. The prompt is hardened so a sender can't write 'mark as urgent' in the body and hijack the rules. I haven't sorted an email by hand in months.",
+      "Runs every hour on GitHub Actions, hands each new email to a small language model, and files it under one of the labels — no server, no laptop, no manual sorting.",
     status: "complete",
     githubUrl: "https://github.com/mmesonero/mis-utomatizaciones",
     accent: "labeler",
@@ -112,16 +112,16 @@ const PROJECTS = [
 
 const IN_PROGRESS = [
   {
-    name: "Cantera",
-    tagline: "A workshop log for the woodworker who keeps forgetting what they did last weekend.",
-    tags: ["SwiftUI", "CoreData"],
-    progress: 0.62,
+    name: "TBD",
+    tagline: "To be configured.",
+    tags: ["TBD"],
+    progress: 0,
   },
   {
-    name: "Solera",
-    tagline: "Decanting personal RSS into a slow, weekly digest. The opposite of a feed.",
-    tags: ["Rust", "Astro"],
-    progress: 0.34,
+    name: "TBD",
+    tagline: "To be configured.",
+    tags: ["TBD"],
+    progress: 0,
   },
 ];
 
@@ -260,6 +260,7 @@ function Carousel({ slides }) {
           </div>
           <div className="split-right">
             <iframe
+              key={slides[idx].src}
               src={slides[idx].src}
               title="interactive demo"
               className="carousel-iframe"
@@ -283,6 +284,7 @@ function Carousel({ slides }) {
           </div>
           <div className="split-right">
             <iframe
+              key={slides[idx].src}
               src={slides[idx].src}
               title="interactive demo"
               className="carousel-iframe"
@@ -295,6 +297,7 @@ function Carousel({ slides }) {
       ) : slides[idx].interactive && (slides[idx].title || slides[idx].titleGold) ? (
         <div className="carousel-track carousel-overlay carousel-overlay-iframe">
           <iframe
+            key={slides[idx].src}
             src={slides[idx].src}
             title="interactive demo"
             className="carousel-iframe"
@@ -315,6 +318,7 @@ function Carousel({ slides }) {
       ) : slides[idx].interactive ? (
         <div className="carousel-track">
           <iframe
+            key={slides[idx].src}
             src={slides[idx].src}
             title="interactive demo"
             className="carousel-iframe"

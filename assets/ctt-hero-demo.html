@@ -80,12 +80,12 @@
       text-align: center;
     }
     .hero-icon {
-      width: 150px;
-      height: 150px;
+      width: clamp(90px, 14vw, 150px);
+      height: clamp(90px, 14vw, 150px);
       filter: drop-shadow(0 18px 56px rgba(217,119,6,0.45));
     }
     .hero-title {
-      font-size: 78px;
+      font-size: clamp(48px, 8vw, 78px);
       font-weight: 700;
       letter-spacing: -2px;
       line-height: 1.0;
@@ -96,22 +96,22 @@
     /* Ghost chat bubbles — staggered like a real conversation */
     .ghost-col {
       position: absolute;
-      width: 320px;
+      width: clamp(220px, 24vw, 320px);
       display: flex;
       flex-direction: column;
-      gap: 100px;
+      gap: clamp(50px, 9vh, 100px);
       z-index: 1;
       pointer-events: none;
     }
     /* User column (right) sits higher — user asks first */
     .ghost-col.right {
-      right: 40px;
-      top: 70px;
+      right: 3%;
+      top: 8%;
     }
-    /* Bot column (left) sits ~50px lower — bot replies below */
+    /* Bot column (left) sits lower — bot replies below */
     .ghost-col.left {
-      left: 50px;
-      top: 130px;
+      left: 4%;
+      top: 15%;
     }
 
     .ghost {
@@ -140,7 +140,7 @@
     /* Sketchy chat input — bottom of main */
     .chat-sketch {
       position: absolute;
-      bottom: 92px;
+      bottom: clamp(60px, 14vh, 92px);
       left: 50%;
       transform: translateX(-50%);
       width: 78%;
@@ -174,7 +174,7 @@
     /* Real widget bar — exact styling from content.js (below the chat) */
     #ctt-bar {
       position: absolute;
-      bottom: 36px;
+      bottom: clamp(20px, 5vh, 36px);
       left: 50%;
       transform: translateX(-50%);
       display: flex;
