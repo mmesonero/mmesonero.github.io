@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CleanFeed, Site blocked</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -141,6 +142,22 @@
       color: #666;
     }
     .btn-muted:hover { color: #888; }
+
+    @media (max-width: 600px) {
+      body { padding: 16px; }
+      .container { gap: 12px; }
+      .title { font-size: 18px; }
+      .subtitle { font-size: 11px; }
+      .pill { padding: 4px 12px; font-size: 10px; }
+      .stats { gap: 6px; }
+      .stat-card { padding: 8px 6px; }
+      .stat-value { font-size: 15px; }
+      .stat-label { font-size: 7.5px; }
+      .stat-label small { font-size: 7px; }
+      .actions { gap: 6px; }
+      .btn { padding: 8px 14px; font-size: 11px; }
+      .icon-ring { width: 56px; height: 56px; }
+    }
   </style>
 </head>
 <body>

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CleanFeed Skip Demo</title>
   <style>
     :root {
@@ -131,6 +132,16 @@
       padding: 4px 14px;
       min-width: 40px;
       text-align: center;
+    }
+    @media (max-width: 600px) {
+      body { padding: 56px 16px 20px; }
+      .panel { padding: 12px 14px; }
+      .panel-title { font-size: 12px; }
+      .row-label { font-size: 11px; }
+      .row-sub { font-size: 9px; }
+      .control-num { font-size: 11px; padding: 3px 8px; }
+      .control-btn { padding: 3px 8px; font-size: 11px; }
+      .control-sub { font-size: 8px; }
     }
   </style>
 </head>

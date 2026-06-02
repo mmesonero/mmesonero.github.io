@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Claude Token Tracker, Card</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -94,7 +95,24 @@
       max-width: 92%;
     }
     @media (max-width: 480px) {
-      .hero-title { white-space: normal; text-align: center; }
+      .hero-title { white-space: normal; text-align: center; font-size: 22px; }
+      .hero-icon { width: 56px; height: 56px; }
+      #ctt-bar {
+        gap: 0; padding: 4px 8px; font-size: 9px;
+        flex-direction: column; gap: 4px;
+        left: 8px; right: 8px; transform: none; width: auto;
+        background: rgba(0,0,0,0.45); border-radius: 8px;
+      }
+      .ctt-group { gap: 6px; width: 100%; }
+      .ctt-lbl { font-size: 8px; letter-spacing: 0.6px; flex-shrink: 0; }
+      .ctt-track { width: 100%; height: 2px; flex: 1; }
+      .ctt-val { font-size: 8.5px; flex-shrink: 0; }
+      .ctt-sep { display: none; }
+      .chat-sketch { width: calc(100% - 32px); padding: 8px 12px; }
+      .chat-sketch .placeholder { font-size: 10px; }
+      .ghost { font-size: 9px; padding: 6px 10px; }
+      .ghost-col { width: 38%; gap: 16px; }
+      .sidebar { display: none; }
     }
 
     /* Ghost chat bubbles, staggered like a real conversation */
