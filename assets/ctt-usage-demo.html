@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Claude Code Usage</title>
-  <script src="https://unpkg.com/chart.js@4.4.3/dist/chart.umd.min.js" crossorigin="anonymous"></script>
+  <script src="chart.umd.min.js"></script>
   <style>
     :root {
       --bg: #262624;
@@ -25,9 +25,31 @@
       --radius: 14px;
     }
     * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font: 13px/1.55 var(--sans); -webkit-font-smoothing: antialiased; }
+    html, body {
+      margin: 0; padding: 0;
+      background: var(--bg); color: var(--text);
+      font: 13px/1.55 var(--sans); -webkit-font-smoothing: antialiased;
+      height: 100vh; overflow: hidden;
+      display: flex; flex-direction: column;
+    }
 
-    header { padding: 18px 24px 14px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .hero-title {
+      text-align: center;
+      padding: 28px 60px 28px;
+      flex-shrink: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    }
+    .hero-title h2 {
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin: 0;
+      color: #faf9f5;
+    }
+    .hero-title h2 span { color: #C8A864; font-style: italic; }
+
+    header { padding: 10px 60px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; flex-shrink: 0; border-top: 1px solid rgba(250,249,245,0.07); }
     .brand { display: flex; align-items: center; gap: 10px; }
     .brand-mark { width: 26px; height: 26px; flex-shrink: 0; }
     .brand-mark img { width: 100%; height: 100%; display: block; }
@@ -40,13 +62,14 @@
       background: var(--panel); color: var(--text);
       border: 1px solid var(--border-strong);
       border-radius: 8px; padding: 5px 10px;
-      font: 500 12px var(--sans); cursor: pointer;
+      font: 500 12px var(--sans); cursor: default;
+      pointer-events: none;
     }
 
-    main { padding: 4px 24px 40px; }
+    main { padding: 12px 60px 16px; flex: 1; display: flex; flex-direction: column; min-height: 0; }
     .grid { display: grid; gap: 14px; }
-    .cards { grid-template-columns: repeat(4,1fr); margin-bottom: 20px; }
-    .charts { grid-template-columns: repeat(2,1fr); }
+    .cards { grid-template-columns: repeat(4,1fr); margin-bottom: 14px; flex-shrink: 0; }
+    .charts { grid-template-columns: repeat(2,1fr); flex: 1; min-height: 0; }
     @media (max-width: 900px) {
       .cards { grid-template-columns: repeat(2,1fr); }
       .charts { grid-template-columns: 1fr; }
@@ -64,19 +87,22 @@
 
     .chart-card {
       background: var(--panel); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 16px 20px 16px 14px; min-width: 0;
+      border-radius: var(--radius); padding: 16px 20px 16px 14px;
+      min-width: 0; display: flex; flex-direction: column;
     }
-    .chart-card h2 { font-family: var(--serif); font-size: 14px; margin: 0 0 12px; font-weight: 500; }
-    .chart-wrap { position: relative; height: 240px; }
+    .chart-card h2 { font-family: var(--serif); font-size: 14px; margin: 0 0 12px; font-weight: 500; flex-shrink: 0; }
+    .chart-wrap { position: relative; flex: 1; min-height: 0; }
   </style>
 </head>
 <body>
+  <div class="hero-title">
+    <h2>All your Claude Code <span>dashboard.</span> One report.</h2>
+  </div>
   <header>
     <div class="brand">
       <div class="brand-mark"><img src="ctt-icon-large.png" alt=""></div>
       <h1>Claude Code <span class="accent">usage</span></h1>
     </div>
-    <span class="gen">Generated 2/6/2026, 16:51:14</span>
     <div class="filter">
       <label>Range</label>
       <select><option selected>All time</option><option>Last 30 days</option><option>Last 7 days</option></select>
@@ -177,8 +203,8 @@
             display: true,
             position: 'bottom',
             labels: {
-              color: '#8a8a83', font: { size: 11 }, boxWidth: 16, padding: 12,
-              usePointStyle: true,
+              color: '#8a8a83', font: { size: 11 }, boxWidth: 24, boxHeight: 2, padding: 12,
+              usePointStyle: false,
             },
           },
         },

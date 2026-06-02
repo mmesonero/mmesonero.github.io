@@ -117,8 +117,6 @@ const PROJECTS = [
         src: "assets/ctt-usage-demo.html",
         caption: "",
         interactive: true,
-        title: ["All your Claude Code"],
-        titleGold: "usage. One report.",
       },
     ],
   },
