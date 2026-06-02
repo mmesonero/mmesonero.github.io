@@ -637,39 +637,6 @@ body::after {
   to   { transform: scaleX(var(--p, 0.5)); }
 }
 
-/* ============= cv ============= */
-.cv-soon {
-  display: flex;
-  justify-content: center;
-  padding: 20px 0 40px;
-}
-.cv-soon-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  padding: 48px 64px;
-  border-radius: var(--radius-lg);
-  border: 1.5px dashed var(--border-strong);
-  background: color-mix(in oklab, var(--bg-elev) 50%, transparent);
-  text-align: center;
-  max-width: 480px;
-  width: 100%;
-}
-.cv-soon-label {
-  font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-.cv-soon-text {
-  font-size: 15px;
-  color: var(--text-muted);
-  margin: 0;
-  line-height: 1.5;
-}
-
 /* ============= contact ============= */
 .contact {
   padding-top: 50px;
