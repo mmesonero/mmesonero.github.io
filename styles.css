@@ -862,6 +862,17 @@ body::after {
   border-top: 1px solid var(--border);
 }
 
+@media (max-width: 820px) {
+  .modal-body { padding: 22px 20px 26px; }
+  .modal-title { font-size: 20px; }
+  .modal-logo { width: 30px; height: 30px; }
+  .modal-title-row { gap: 10px; margin-bottom: 4px; }
+  .modal-tag { font-size: 13px; margin-bottom: 14px; line-height: 1.4; }
+  .modal-desc { font-size: 13px; line-height: 1.55; margin-bottom: 16px; }
+  .modal-section-label { font-size: 9.5px; margin-bottom: 8px; }
+  .modal-actions { padding-top: 16px; }
+}
+
 /* ============= carousel ============= */
 .carousel {
   position: relative;
