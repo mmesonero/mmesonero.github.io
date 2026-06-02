@@ -48,9 +48,6 @@ const PROJECTS = [
         src: "assets/dashboard-demo.html",
         caption: "",
         interactive: true,
-        title: ["Dashboard to"],
-        titleGold: "control everything.",
-        titleTop: "32px",
       },
       {
         src: "assets/popup-demo.html",
@@ -454,7 +451,9 @@ function Nav() {
           <span className="nav-sep">&middot;</span>
           <a href="#progress" className="reveal-soft" style={{ '--d': '240ms' }}>In Progress</a>
           <span className="nav-sep">&middot;</span>
-          <a href="#contact" className="reveal-soft" style={{ '--d': '300ms' }}>Contact</a>
+          <a href="#cv" className="reveal-soft" style={{ '--d': '300ms' }}>CV</a>
+          <span className="nav-sep">&middot;</span>
+          <a href="#contact" className="reveal-soft" style={{ '--d': '360ms' }}>Contact</a>
         </div>
       </div>
     </nav>
@@ -596,6 +595,25 @@ function InProgress() {
   );
 }
 
+/* ---------- cv ---------- */
+function CV() {
+  return (
+    <section className="section container" id="cv">
+      <div className="section-head">
+        <h2 className="reveal" style={{ '--d': '120ms' }}>
+          My <span className="italic">CV</span>
+        </h2>
+      </div>
+      <div className="cv-soon reveal" style={{ '--d': '240ms' }}>
+        <div className="cv-soon-inner">
+          <div className="cv-soon-label">Coming soon</div>
+          <p className="cv-soon-text">Full résumé, experience & education — in progress.</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ---------- contact ---------- */
 function Contact() {
 
@@ -672,6 +690,7 @@ function App() {
           })()}
         </section>
         <InProgress />
+        <CV />
         <Contact />
       </main>
       <footer className="foot container">
