@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --p-rgb:   212, 183, 117;
+  --p:       #D4B775;
+  --p-dim:   rgba(212,183,117,0.5);
+  --p-glow:  rgba(212,183,117,0.55);
+  --s:       #9a8352;
+  --danger:  #ff3550;
+  --t-hi:    #f5f5f7;
+  --t-md:    #b4b6c2;
+  --t-lo:    #6c6f80;
+  --t-dim:   #43465a;
+  --line-strong: rgba(255,255,255,0.12);
+  --f-mono:  'JetBrains Mono', ui-monospace, monospace;
+  --f-disp:  'Space Grotesk', system-ui, sans-serif;
+
+  --bubble-idle:  160px;
+  --bubble-hover: 210px;
+  --t-base:   460ms;
+  --ease-spring: cubic-bezier(.22, 1.4, .36, 1);
+  --ease-out:    cubic-bezier(.22, .61, .36, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%; height: 100%;
+  background: #0B0B0B;
+  overflow: hidden;
+  user-select: none;
+  font-family: var(--f-disp);
+}
+
+.stage {
+  width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 80px;
+  transform: scale(var(--s, 1));
+  transform-origin: center center;
+}
+
+.bubble-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.bubble-label {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--t-lo);
+}
+
+/* ── Bubble shell ──────────────────────────────────────── */
+.bubble {
+  position: relative;
+  width: var(--bubble-idle); height: var(--bubble-idle);
+  border-radius: 50%;
+}
+.bubble.open {
+  width: var(--bubble-hover); height: var(--bubble-hover);
+}
+
+/* ── Outer rotating dashed ring ────────────────────────── */
+.ring-outer {
+  position: absolute; inset: -2px;
+  border-radius: 50%;
+  border: 1px dashed rgba(var(--p-rgb),.25);
+  animation: spin 60s linear infinite;
+  pointer-events: none;
+}
+.bubble.open .ring-outer {
+  animation-duration: 12s;
+  border-color: rgba(var(--p-rgb),.55);
+}
+
+.ring-scan {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--p-rgb),0);
+  pointer-events: none;
+}
+.bubble.open .ring-scan {
+  border-color: rgba(var(--p-rgb),0.35);
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Particle canvas ───────────────────────────────────── */
+.particles {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 140%; height: 140%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: .85;
+  mix-blend-mode: screen;
+  z-index: 3;
+}
+
+/* ── Inner disc ────────────────────────────────────────── */
+.disc {
+  position: absolute; inset: 6px;
+  border-radius: 50%;
+  background:
+    radial-gradient(120% 120% at 50% 0%,   rgba(var(--p-rgb),.08), transparent 55%),
+    radial-gradient(120% 120% at 50% 100%, rgba(var(--p-rgb),.06), transparent 55%),
+    radial-gradient(circle at 50% 50%, #0e0f17 0%, #07080d 70%, #04050a 100%);
+  border: 1px solid var(--line-strong);
+  box-shadow:
+    inset 0 0 0 1px rgba(var(--p-rgb),0.08),
+    inset 0 0 60px rgba(var(--p-rgb),0.08);
+  overflow: hidden;
+}
+.disc::before {
+  content: ""; position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,.04) 1px, transparent 1px);
+  background-size: 6px 6px;
+  pointer-events: none; opacity: .5;
+}
+.disc::after {
+  content: ""; position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg, rgba(255,255,255,.03) 0 1px, transparent 1px 3px);
+  mix-blend-mode: overlay; pointer-events: none; opacity: .7;
+}
+
+/* ── HUD orbit ticks ───────────────────────────────────── */
+.ticks {
+  position: absolute; inset: 14px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg,
+    rgba(255,255,255,.25) 0deg 1deg,   transparent 1deg 45deg,
+    rgba(255,255,255,.25) 45deg 46deg, transparent 46deg 90deg,
+    rgba(255,255,255,.25) 90deg 91deg, transparent 91deg 135deg,
+    rgba(255,255,255,.25) 135deg 136deg, transparent 136deg 180deg,
+    rgba(255,255,255,.25) 180deg 181deg, transparent 181deg 225deg,
+    rgba(255,255,255,.25) 225deg 226deg, transparent 226deg 270deg,
+    rgba(255,255,255,.25) 270deg 271deg, transparent 271deg 315deg,
+    rgba(255,255,255,.25) 315deg 316deg, transparent 316deg 360deg
+  );
+  -webkit-mask: radial-gradient(circle,
+    transparent 0 calc(50% - 8px),
+    #000 calc(50% - 8px) calc(50% - 1px),
+    transparent calc(50% - 1px) 100%);
+  mask: radial-gradient(circle,
+    transparent 0 calc(50% - 8px),
+    #000 calc(50% - 8px) calc(50% - 1px),
+    transparent calc(50% - 1px) 100%);
+  pointer-events: none; opacity: .4;
+}
+
+/* ── State containers ──────────────────────────────────── */
+.state {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  pointer-events: none;
+}
+
+/* METRICS */
+.state-metrics { opacity: 1; }
+.bubble.open .state-metrics { opacity: 0; }
+
+.metrics-grid {
+  position: absolute; inset: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+.metrics-grid .cross {
+  position: absolute; inset: 0; pointer-events: none;
+}
+.metrics-grid .cross::before {
+  content: ""; position: absolute;
+  top: 50%; left: 14%; right: 14%; height: 1px; transform: translateY(-.5px);
+  background: linear-gradient(90deg, transparent, rgba(var(--p-rgb),.28) 25%, rgba(var(--p-rgb),.28) 75%, transparent);
+}
+.metrics-grid .cross::after {
+  content: ""; position: absolute;
+  left: 50%; top: 14%; bottom: 14%; width: 1px; transform: translateX(-.5px);
+  background: linear-gradient(180deg, transparent, rgba(var(--p-rgb),.28) 25%, rgba(var(--p-rgb),.28) 75%, transparent);
+}
+
+.quad {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 4px;
+  text-shadow: 0 0 18px var(--p-glow);
+}
+.quad .lab {
+  font-family: var(--f-mono); font-size: 7px; letter-spacing: .28em;
+  color: var(--t-md); text-shadow: none; opacity: .85;
+}
+.quad .val {
+  font-family: var(--f-disp); font-weight: 600;
+  font-size: 19px; letter-spacing: .01em;
+  color: var(--p); line-height: 1;
+}
+.quad .val .u {
+  font-size: 12px; opacity: .82; vertical-align: super;
+}
+.quad .val .u-sm {
+  font-size: 9px; opacity: .7; vertical-align: super;
+}
+
+.quad.tl { padding: 16px 2px 0 10px; }
+.quad.tr { padding: 16px 10px 0 2px; }
+.quad.bl { padding: 0 2px 16px 10px; }
+.quad.br { padding: 0 10px 16px 2px; }
+
+/* CONTROLS */
+.state-controls { opacity: 0; visibility: hidden; }
+.bubble.open .state-controls {
+  opacity: 1; visibility: visible;
+  pointer-events: auto;
+}
+
+.controls {
+  width: 82%; height: 90%;
+  display: grid;
+  grid-template-rows: auto;
+  align-content: center;
+  padding: 0 4px 6px;
+}
+.sec-lab {
+  font-family: var(--f-mono); font-size: 9px;
+  letter-spacing: .26em; color: var(--s);
+  text-align: center; margin-bottom: 6px;
+}
+.sec-lab b { color: var(--p); font-weight: 500; }
+
+.scene { display: grid; gap: 6px; }
+.scene-dots {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;
+  justify-items: center;
+}
+.scene-off-row {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  margin-top: 8px;
+}
+
+.dot {
+  width: 19px; height: 19px; border-radius: 50%;
+  background: radial-gradient(circle at 30% 28%, var(--c), color-mix(in oklab, var(--c) 50%, #000) 70%);
+  border: 1px solid rgba(255,255,255,.12);
+  box-shadow: 0 0 12px color-mix(in oklab, var(--c) 60%, transparent);
+}
+.dot.active {
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.9),
+    0 0 14px color-mix(in oklab, var(--c) 80%, transparent);
+}
+
+.scene-labels {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;
+  justify-items: center;
+  font-family: var(--f-mono); font-size: 8px; letter-spacing: .18em; color: #eaeaf2;
+  margin-top: -1px;
+}
+.scene-labels span.active { color: var(--t-hi); }
+.scene-labels span.muted  { color: var(--t-dim); }
+
+.scene-off {
+  width: 19px; height: 19px; border-radius: 50%;
+  background: radial-gradient(circle at 30% 28%, #2a1818, #150808 70%);
+  border: 1.2px solid var(--danger);
+  box-shadow: 0 0 10px rgba(255,53,80,.40), inset 0 0 4px rgba(255,53,80,.18);
+  display: grid; place-items: center;
+  padding: 0; color: var(--danger);
+}
+.scene-off > svg {
+  width: 10px; height: 10px; display: block;
+}
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+  <!-- LEFT: metrics state (default) -->
+  <div class="bubble-col">
+    <div class="bubble" id="b1">
+      <div class="ring-outer"></div>
+      <div class="ring-scan"></div>
+      <div class="disc">
+        <div class="ticks"></div>
+        <div class="state state-metrics">
+          <div class="metrics-grid">
+            <div class="cross"></div>
+            <div class="quad tl">
+              <span class="lab">CPU</span>
+              <span class="val">34<span class="u">°</span></span>
+            </div>
+            <div class="quad tr">
+              <span class="lab">GPU</span>
+              <span class="val">42<span class="u">°</span></span>
+            </div>
+            <div class="quad bl">
+              <span class="val">38<span class="u">%</span></span>
+              <span class="lab">RAM</span>
+            </div>
+            <div class="quad br">
+              <span class="val">12<span class="u u-sm">ms</span></span>
+              <span class="lab">PING</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <canvas class="particles" id="p1"></canvas>
+    </div>
+    <span class="bubble-label">Idle</span>
+  </div>
+
+  <!-- RIGHT: controls state (hover) -->
+  <div class="bubble-col">
+    <div class="bubble open" id="b2">
+      <div class="ring-outer"></div>
+      <div class="ring-scan"></div>
+      <div class="disc">
+        <div class="ticks"></div>
+        <div class="state state-metrics">
+          <div class="metrics-grid">
+            <div class="cross"></div>
+            <div class="quad tl">
+              <span class="lab">CPU</span>
+              <span class="val">34<span class="u">°</span></span>
+            </div>
+            <div class="quad tr">
+              <span class="lab">GPU</span>
+              <span class="val">42<span class="u">°</span></span>
+            </div>
+            <div class="quad bl">
+              <span class="val">38<span class="u">%</span></span>
+              <span class="lab">RAM</span>
+            </div>
+            <div class="quad br">
+              <span class="val">12<span class="u u-sm">ms</span></span>
+              <span class="lab">PING</span>
+            </div>
+          </div>
+        </div>
+        <div class="state state-controls">
+          <div class="controls">
+            <div class="scene">
+              <div class="sec-lab"><b>SCENE</b></div>
+              <div class="scene-dots">
+                <div class="dot active" style="--c:#D4B775"></div>
+                <div class="dot" style="--c:#4fc870"></div>
+                <div class="dot" style="--c:#b026ff"></div>
+                <div class="dot" style="--c:#ffffff"></div>
+              </div>
+              <div class="scene-labels">
+                <span class="active">WRK</span>
+                <span>GAM</span>
+                <span>MUS</span>
+                <span>CUS</span>
+              </div>
+              <div class="scene-off-row">
+                <button class="scene-off">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <canvas class="particles" id="p2"></canvas>
+    </div>
+    <span class="bubble-label">Hover</span>
+  </div>
+</div>
+
+<script>
+/* Auto-scale stage to fit iframe */
+function fitStage() {
+  const stage = document.getElementById('stage');
+  const needed = 160 + 80 + 210 + 80;
+  const neededH = 210 + 40 + 20;
+  const sx = window.innerWidth / needed;
+  const sy = window.innerHeight / neededH;
+  const s = Math.min(sx, sy, 1);
+  stage.style.setProperty('--s', s.toFixed(3));
+}
+fitStage();
+window.addEventListener('resize', fitStage);
+
+const ACCENT_HUE = 42;
+const ACCENT_SAT = 65;
+
+function initParticles(canvasId, bubbleId, isHover) {
+  const cnv = document.getElementById(canvasId);
+  const bub = document.getElementById(bubbleId);
+  const ctx = cnv.getContext('2d');
+  const DPR = Math.min(2, window.devicePixelRatio || 1);
+  const N = 56;
+  const parts = [];
+  let W = 0, H = 0, CX = 0, CY = 0, RBub = 0;
+
+  function resize() {
+    const cr = cnv.getBoundingClientRect();
+    W = cr.width; H = cr.height;
+    cnv.width = W * DPR;
+    cnv.height = H * DPR;
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    CX = W / 2; CY = H / 2;
+    const br = bub.getBoundingClientRect();
+    RBub = Math.min(br.width, br.height) / 2;
+  }
+
+  function spawn() {
+    for (let i = 0; i < N; i++) {
+      const a = Math.random() * Math.PI * 2;
+      const inner = Math.random() < 0.42;
+      parts.push({
+        a, inner,
+        rad: inner ? RBub * (0.10 + Math.random() * 0.60) : RBub * (1.00 + Math.random() * 0.12),
+        spd: 0.0006 + Math.random() * 0.0022,
+        dir: Math.random() < 0.5 ? 1 : -1,
+        drift: 0.06 + Math.random() * 0.18,
+        size: 0.5 + Math.random() * 1.8,
+        life: Math.random() * 10,
+        hue: ACCENT_HUE + (Math.random() * 20 - 10),
+        sat: ACCENT_SAT,
+        twinkle: 0.35 + Math.random() * 0.65,
+      });
+    }
+  }
+
+  resize();
+  spawn();
+
+  const boost = isHover ? 1.6 : 1;
+  let t0 = performance.now();
+
+  function tick(now) {
+    const dt = Math.min(48, now - t0); t0 = now;
+    ctx.clearRect(0, 0, W, H);
+
+    const lerpF = 0.018 * dt * 0.001 * 60;
+    const pos = [];
+    for (const p of parts) {
+      p.hue += (ACCENT_HUE - p.hue) * lerpF;
+      p.sat += (ACCENT_SAT - p.sat) * lerpF;
+      p.life += dt * 0.0010 * boost;
+      p.rad += Math.sin(p.life * 0.7 + p.a) * p.drift * 0.12;
+      if (p.inner) {
+        if (p.rad < RBub * 0.08) p.rad = RBub * 0.08;
+        if (p.rad > RBub * 0.72) p.rad = RBub * 0.72;
+      } else {
+        if (p.rad < RBub * 0.99) p.rad = RBub * 0.99;
+        if (p.rad > RBub * 1.14) p.rad = RBub * 1.14;
+      }
+      pos.push({ x: CX + Math.cos(p.a) * p.rad, y: CY + Math.sin(p.a) * p.rad, p, rr: p.rad });
+    }
+
+    const linkDist = RBub * 0.32;
+    ctx.lineWidth = 1;
+    for (let i = 0; i < pos.length; i++) {
+      for (let j = i + 1; j < pos.length; j++) {
+        const dx = pos[i].x - pos[j].x, dy = pos[i].y - pos[j].y;
+        const d = Math.hypot(dx, dy);
+        if (d < linkDist) {
+          const a = (1 - d / linkDist) * 0.18 * boost;
+          ctx.strokeStyle = `hsla(${ACCENT_HUE},${ACCENT_SAT}%,72%,${a})`;
+          ctx.beginPath();
+          ctx.moveTo(pos[i].x, pos[i].y);
+          ctx.lineTo(pos[j].x, pos[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    for (const o of pos) {
+      const { p, rr } = o;
+      const inside = rr < RBub * 0.95;
+      const alpha = (0.40 + Math.sin(p.life * 3) * 0.35) * p.twinkle * (inside ? 0.82 : 1);
+      if (alpha <= 0) continue;
+      ctx.beginPath();
+      ctx.fillStyle = `hsla(${p.hue},${Math.round(p.sat)}%,65%,${alpha * 0.18})`;
+      ctx.arc(o.x, o.y, p.size * 3.5, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath();
+      ctx.fillStyle = `hsla(${p.hue},${Math.round(p.sat)}%,82%,${alpha})`;
+      ctx.arc(o.x, o.y, p.size, 0, Math.PI * 2); ctx.fill();
+    }
+
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+initParticles('p1', 'b1', false);
+initParticles('p2', 'b2', true);
+
+document.querySelectorAll('button, input, a, .dot, .scene-off').forEach(el => {
+  el.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); });
+  el.tabIndex = -1;
+});
+</script>
+</body>
+</html>

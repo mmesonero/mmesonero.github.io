@@ -1,10 +1,10 @@
 /* =========================================================
-   Manuel Mesonero — Personal Portfolio
+   Manuel Mesonero, Personal Portfolio
    Soft luxury aesthetic. Cormorant Garamond + Outfit.
    ========================================================= */
 
 :root {
-  /* Light mode — off-white, warm */
+  /* Light mode, off-white, warm */
   --bg:            #FAFAF7;
   --bg-elev:       #FFFFFF;
   --bg-muted:      #F2F0E9;
@@ -76,7 +76,7 @@ img, svg, video { display: block; max-width: 100%; }
 
 ::selection { background: var(--accent-soft); color: var(--text); }
 
-/* subtle paper grain — textured but not gaudy */
+/* subtle paper grain, textured but not gaudy */
 body::before {
   content: '';
   position: fixed; inset: 0;
@@ -87,7 +87,7 @@ body::before {
     radial-gradient(ellipse 800px 600px at 88% 82%, rgba(200,168,100,0.06), transparent 60%),
     radial-gradient(ellipse 1400px 900px at 50% 50%, transparent 0%, rgba(26,24,21,0.03) 80%);
 }
-/* fine fractal noise — barely visible, gives the bg "tooth" */
+/* fine fractal noise, barely visible, gives the bg "tooth" */
 body::after {
   content: '';
   position: fixed; inset: 0;
@@ -112,7 +112,7 @@ body::after {
   }
 }
 
-/* hairline grid — editorial, only on wider screens, very subtle */
+/* hairline grid, editorial, only on wider screens, very subtle */
 @media (min-width: 1100px) {
   .app::before {
     content: '';
@@ -458,7 +458,7 @@ body::after {
 
 .thumb .corner { transition: transform .4s cubic-bezier(.2,.7,.2,1); }
 
-/* view label — slides up from bottom on hover */
+/* view label, slides up from bottom on hover */
 /* subtle vignette inside thumb on hover */
 .thumb-art {
   position: absolute; inset: 0;

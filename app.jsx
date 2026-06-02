@@ -1,5 +1,5 @@
 /* =========================================================
-   Manuel Mesonero — Personal Portfolio
+   Manuel Mesonero, Personal Portfolio
    React app. Single file. Soft luxury, warm + gold.
    ========================================================= */
 
@@ -36,7 +36,7 @@ const PROJECTS = [
     tagline: "A Chrome extension that strips Shorts, Reels, and every algorithm built to keep your thumb moving.",
     tags: ["Chrome Ext.", "Manifest V3", "JavaScript"],
     description:
-      "YouTube was built so you'd choose what you watch. Now an algorithm chooses for you — and most of what it pushes is vertical: Shorts, Reels, TikTok-shaped slop designed to keep your thumb moving, not your mind. CleanFeed strips that out. Hide Shorts and Reels, kill the recommendations sidebar, drop the For You tab. Toggle each filter per platform, or hard-block a site when you need to focus. The content you actually follow, the way you meant to watch it.",
+      "YouTube was built so you'd choose what you watch. Now an algorithm chooses for you, and most of what it pushes is vertical: Shorts, Reels, TikTok-shaped slop designed to keep your thumb moving, not your mind. CleanFeed strips that out. Hide Shorts and Reels, kill the recommendations sidebar, drop the For You tab. Toggle each filter per platform, or hard-block a site when you need to focus. The content you actually follow, the way you meant to watch it.",
     status: "complete",
     githubUrl: "https://github.com/mmesonero/cleanfeed",
     accent: "cleanfeed",
@@ -84,10 +84,10 @@ const PROJECTS = [
   {
     name: "Claude Token Tracker",
     category: "Projects",
-    tagline: "The usage bar Anthropic shows quietly — and sometimes not at all — pinned right under your chat box.",
+    tagline: "The usage bar Anthropic shows quietly, and sometimes not at all, pinned right under your chat box.",
     tags: ["Chrome Ext.", "Manifest V3", "JavaScript"],
     description:
-      "Anthropic hides your real token consumption — half the time it doesn't show at all. This extension surfaces it in real time: live 5h and weekly limits pinned under the chat box, plus a full dashboard with tokens per day, cost, model breakdown, top projects, and cache efficiency. Local-only — no third-party servers.",
+      "Anthropic hides your real token consumption, you have to dig in to find it. This extension surfaces it in real time: live 5h and weekly limits pinned under the chat box, plus a full dashboard with tokens per day, cost, model breakdown, top projects, and cache efficiency. Local-only, no third-party servers.",
     status: "complete",
     githubUrl: "https://github.com/mmesonero/claude-token-tracker",
     accent: "ctt",
@@ -123,7 +123,7 @@ const PROJECTS = [
     tagline: "A GitHub Action that reads my inbox every hour and files every email under one of the labels.",
     tags: ["Python", "AI", "GitHub Actions"],
     description:
-      "Runs every hour on GitHub Actions, hands each new email to a small language model, and files it under one of the labels — no server, no laptop, no manual sorting.",
+      "Runs every hour on GitHub Actions, hands each new email to a small language model, and files it under one of the labels, no server, no laptop, no manual sorting.",
     status: "complete",
     githubUrl: "https://github.com/mmesonero/gmail-labeler",
     accent: "labeler",
@@ -144,13 +144,13 @@ const IN_PROGRESS = [
   },
   {
     name: "Clinical AI Assistant",
-    tagline: "Records the consultation, transcribes it, and returns a structured clinical note — so the doctor stops typing.",
+    tagline: "Records the consultation, transcribes it, and returns a structured clinical note, so the doctor stops typing.",
     tags: ["Next.js", "FastAPI", "AI"],
     progress: 0.3,
   },
   {
     name: "WhatsApp Automation",
-    tagline: "Watches my WhatsApp inbox and routes, tags, or auto-replies by rule — pure logic for now, AI hooks coming later.",
+    tagline: "Watches my WhatsApp inbox and routes, tags, or auto-replies by rule, pure logic for now, AI hooks coming later.",
     tags: ["Node.js", "WhatsApp", "Automation"],
     progress: 0.1,
   },
@@ -607,7 +607,7 @@ function CV() {
       <div className="cv-soon reveal" style={{ '--d': '240ms' }}>
         <div className="cv-soon-inner">
           <div className="cv-soon-label">Coming soon</div>
-          <p className="cv-soon-text">Full résumé, experience & education — in progress.</p>
+          <p className="cv-soon-text">Full résumé, experience & education, in progress.</p>
         </div>
       </div>
     </section>
