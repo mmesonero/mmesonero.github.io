@@ -8,6 +8,29 @@ const { useState, useEffect, useRef } = React;
 /* ---------- project data ---------- */
 const PROJECTS = [
   {
+    name: "AIO Sync",
+    category: "Projects",
+    tagline: "Sync all RGB components with one app. Scenes, animated wallpapers, and full control in a single app.",
+    tags: ["Electron", "Node.js", "JavaScript"],
+    description:
+      "Every component brand ships its own RGB software and they actively conflict. Armoury Crate, iCUE, LGHUB, MSI Center, each one stealing a different lock. AIO Sync detects every connected RGB device and syncs them all at once through their native protocols. Save as many scenes as you like, each one a colour optionally paired with an animated wallpaper, or turn off every LED at once when you need to focus. A floating bubble keeps CPU, GPU, RAM, and AIO liquid temps visible while you work.",
+    status: "complete",
+    accent: "lattice",
+    cardImage: "assets/aio-hero.jpg",
+    logo: "assets/aio-logo.png",
+    slides: [
+      { src: "assets/aio-hero.jpg", caption: "" },
+      {
+        src: "assets/aio-bubble-demo.html",
+        caption: "",
+        interactive: true,
+        split: true,
+        title: ["Floating bubble with live metrics."],
+        titleGold: "Switch scenes without opening the app.",
+      },
+    ],
+  },
+  {
     name: "CleanFeed",
     category: "Projects",
     tagline: "A Chrome extension that strips Shorts, Reels, and every algorithm built to keep your thumb moving.",
@@ -90,6 +113,13 @@ const PROJECTS = [
         title: ["Extension. One click"],
         titleGold: "to track the usage.",
       },
+      {
+        src: "assets/ctt-usage-demo.html",
+        caption: "",
+        interactive: true,
+        title: ["All your Claude Code"],
+        titleGold: "usage. One report.",
+      },
     ],
   },
   {
@@ -112,21 +142,21 @@ const PROJECTS = [
 
 const IN_PROGRESS = [
   {
-    name: "AIO Sync",
-    tagline: "One desktop app to control every RGB component and fan in a PC — without installing five manufacturer apps.",
-    tags: ["Electron", "Windows"],
-    progress: 0.7,
-  },
-  {
     name: "AI News Scraper",
     tagline: "Pulls the day's AI news from YouTube channels and the web, condenses it into a single brief.",
     tags: ["Python", "AI"],
-    progress: 0.3,
+    progress: 0.4,
   },
   {
     name: "Clinical AI Assistant",
     tagline: "Records the consultation, transcribes it, and returns a structured clinical note — so the doctor stops typing.",
     tags: ["Next.js", "FastAPI", "AI"],
+    progress: 0.3,
+  },
+  {
+    name: "WhatsApp Automation",
+    tagline: "Watches my WhatsApp inbox and routes, tags, or auto-replies by rule — pure logic for now, AI hooks coming later.",
+    tags: ["Node.js", "WhatsApp", "Automation"],
     progress: 0.1,
   },
 ];
@@ -526,13 +556,13 @@ function Modal({ project, onClose }) {
             ))}
           </div>
 
-          <div className="modal-actions">
-            {project.githubUrl && (
+          {project.githubUrl && (
+            <div className="modal-actions">
               <a className="btn ghost" href={project.githubUrl} target="_blank" rel="noopener noreferrer">
                 <Icon name="github" size={15} /> View on GitHub
               </a>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -579,7 +609,7 @@ function Contact() {
           Always up for a virtual coffee. Let's talk about AI work, ideas, or whatever you're brewing.
         </p>
         <div className="contact-buttons">
-          <a className="btn primary reveal" style={{ '--d': '260ms' }} href="https://linkedin.com/in/mmesonero" target="_blank" rel="noopener noreferrer">
+          <a className="btn primary reveal" style={{ '--d': '260ms' }} href="https://www.linkedin.com/in/mesonero/" target="_blank" rel="noopener noreferrer">
             <Icon name="linkedin" size={15} /> LinkedIn
           </a>
           <a className="btn ghost reveal" style={{ '--d': '320ms' }} href="https://github.com/mmesonero" target="_blank" rel="noopener noreferrer">

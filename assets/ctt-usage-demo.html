@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Claude Code Usage</title>
+  <script src="https://unpkg.com/chart.js@4.4.3/dist/chart.umd.min.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #262624;
+      --panel: #30302e;
+      --panel-2: #3a3a37;
+      --border: rgba(250,249,245,0.08);
+      --border-strong: rgba(250,249,245,0.14);
+      --text: #faf9f5;
+      --muted: #b9b9b3;
+      --muted-2: #8a8a83;
+      --accent: #d97757;
+      --accent-soft: rgba(217,119,87,0.14);
+      --good: #6ee7b7;
+      --warn: #fbbf24;
+      --bad: #fb7185;
+      --serif: Georgia, ui-serif, serif;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font: 13px/1.55 var(--sans); -webkit-font-smoothing: antialiased; }
+
+    header { padding: 18px 24px 14px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand-mark { width: 26px; height: 26px; flex-shrink: 0; }
+    .brand-mark img { width: 100%; height: 100%; display: block; }
+    header h1 { font-family: var(--serif); font-size: 20px; margin: 0; font-weight: 500; letter-spacing: -0.01em; }
+    header h1 .accent { color: var(--accent); font-style: italic; }
+    .gen { color: var(--muted-2); font-size: 11px; margin-left: 2px; }
+    .filter { margin-left: auto; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .filter label { color: var(--muted); font-size: 12px; }
+    select {
+      background: var(--panel); color: var(--text);
+      border: 1px solid var(--border-strong);
+      border-radius: 8px; padding: 5px 10px;
+      font: 500 12px var(--sans); cursor: pointer;
+    }
+
+    main { padding: 4px 24px 40px; }
+    .grid { display: grid; gap: 14px; }
+    .cards { grid-template-columns: repeat(4,1fr); margin-bottom: 20px; }
+    .charts { grid-template-columns: repeat(2,1fr); }
+    @media (max-width: 900px) {
+      .cards { grid-template-columns: repeat(2,1fr); }
+      .charts { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 14px 16px;
+    }
+    .card .label { color: var(--muted); font-size: 11px; font-weight: 500; letter-spacing: 0.02em; }
+    .card .value { font-family: var(--serif); font-size: 26px; font-weight: 500; margin-top: 6px; letter-spacing: -0.02em; line-height: 1.1; }
+    .card .sub { color: var(--muted-2); font-size: 11px; margin-top: 4px; }
+    .metric-good { color: var(--good); }
+    .metric-warn { color: var(--warn); }
+
+    .chart-card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px 20px 16px 14px; min-width: 0;
+    }
+    .chart-card h2 { font-family: var(--serif); font-size: 14px; margin: 0 0 12px; font-weight: 500; }
+    .chart-wrap { position: relative; height: 240px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="brand-mark"><img src="ctt-icon-large.png" alt=""></div>
+      <h1>Claude Code <span class="accent">usage</span></h1>
+    </div>
+    <span class="gen">Generated 2/6/2026, 16:51:14</span>
+    <div class="filter">
+      <label>Range</label>
+      <select><option selected>All time</option><option>Last 30 days</option><option>Last 7 days</option></select>
+      <label>Agent</label>
+      <select><option>All</option></select>
+      <label>Project</label>
+      <select><option>All</option></select>
+    </div>
+  </header>
+
+  <main>
+    <section class="grid cards">
+      <div class="card">
+        <div class="label">Total tokens</div>
+        <div class="value">5.62B</div>
+        <div class="sub">in 2.07B · out 18.13M</div>
+      </div>
+      <div class="card">
+        <div class="label">Total cost</div>
+        <div class="value">$3414.61</div>
+        <div class="sub">29 days · avg $117.75/day</div>
+      </div>
+      <div class="card">
+        <div class="label">Cache efficiency</div>
+        <div class="value metric-good">98%</div>
+        <div class="sub">reads / (reads + creates + input) · ≥70% ● ≥40% ●</div>
+      </div>
+      <div class="card">
+        <div class="label">Cost / 1K output</div>
+        <div class="value metric-warn">$0.19</div>
+        <div class="sub">API output rate $0.02/1K · 9.3× overhead</div>
+      </div>
+    </section>
+
+    <section class="grid charts">
+      <div class="chart-card">
+        <h2>Tokens per day</h2>
+        <div class="chart-wrap"><canvas id="cTokens"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h2>Model breakdown (tokens)</h2>
+        <div class="chart-wrap"><canvas id="cModels"></canvas></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const DAYS = [
+      "04-18","04-27","05-02","05-04","05-09","05-11","05-13","05-17",
+      "05-19","05-21","05-25","05-27","05-29","05-31","06-02"
+    ];
+    const TOKENS = [
+      18e6, 22e6, 55e6, 30e6, 80e6, 95e6, 110e6, 160e6,
+      190e6, 210e6, 230e6, 280e6, 1300e6, 980e6, 360e6
+    ];
+    const AVG = TOKENS.map((_, i, a) => {
+      const slice = a.slice(Math.max(0, i-3), i+1);
+      return slice.reduce((s,v)=>s+v,0)/slice.length;
+    });
+
+    const baseOpts = {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { enabled: true } },
+    };
+
+    new Chart(document.getElementById('cTokens'), {
+      type: 'line',
+      data: {
+        labels: DAYS.map(d => '2026-' + d),
+        datasets: [
+          {
+            label: 'Total tokens',
+            data: TOKENS,
+            borderColor: '#c8a882',
+            backgroundColor: 'rgba(200,168,130,0.12)',
+            fill: true,
+            tension: 0.35,
+            pointRadius: 0,
+            borderWidth: 2,
+          },
+          {
+            label: '7d rolling avg',
+            data: AVG,
+            borderColor: '#6ee7b7',
+            borderDash: [4, 4],
+            fill: false,
+            tension: 0.4,
+            pointRadius: 0,
+            borderWidth: 1.5,
+          },
+        ],
+      },
+      options: {
+        ...baseOpts,
+        plugins: {
+          ...baseOpts.plugins,
+          legend: {
+            display: true,
+            position: 'bottom',
+            labels: {
+              color: '#8a8a83', font: { size: 11 }, boxWidth: 16, padding: 12,
+              usePointStyle: true,
+            },
+          },
+        },
+        scales: {
+          x: {
+            ticks: { color: '#8a8a83', font: { size: 9 }, maxRotation: 35, autoSkip: true, maxTicksLimit: 8 },
+            grid: { color: 'rgba(250,249,245,0.04)' },
+          },
+          y: {
+            ticks: {
+              color: '#8a8a83', font: { size: 10 },
+              callback: v => v >= 1e9 ? (v/1e9).toFixed(1)+'B' : v >= 1e6 ? (v/1e6).toFixed(0)+'M' : v,
+            },
+            grid: { color: 'rgba(250,249,245,0.05)' },
+          },
+        },
+      },
+    });
+
+    new Chart(document.getElementById('cModels'), {
+      type: 'doughnut',
+      data: {
+        labels: ['opus-4-7', 'sonnet-4-6', 'opus-4-6', 'other'],
+        datasets: [{
+          data: [58, 29, 11, 2],
+          backgroundColor: ['#d97757','#c8a882','#6ee7b7','#6b7280'],
+          borderColor: '#30302e',
+          borderWidth: 3,
+          hoverOffset: 6,
+        }],
+      },
+      options: {
+        ...baseOpts,
+        cutout: '60%',
+        plugins: {
+          legend: {
+            display: true,
+            position: 'right',
+            labels: { color: '#b9b9b3', font: { size: 11 }, padding: 12, usePointStyle: true },
+          },
+          tooltip: {
+            callbacks: { label: ctx => ' ' + ctx.label + ': ' + ctx.parsed + '%' },
+          },
+        },
+      },
+    });
+  </script>
+</body>
+</html>
