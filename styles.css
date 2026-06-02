@@ -1082,7 +1082,7 @@ body::after {
 }
 @media (max-width: 820px) {
   .carousel-split { flex-direction: column; }
-  .split-left { flex: none; padding: 26px 60px 14px 24px; }
+  .split-left { flex: none; padding: 52px 60px 14px 24px; }
   .split-left .composed-title { font-size: 26px; line-height: 1.15; }
   .split-left .composed-label { font-size: 10px; }
   .split-left .composed-subs { font-size: 13px; margin-top: 10px; }
