@@ -87,7 +87,7 @@ const PROJECTS = [
     tagline: "The usage bar Anthropic shows quietly — and sometimes not at all — pinned right under your chat box.",
     tags: ["Chrome Ext.", "Manifest V3", "JavaScript"],
     description:
-      "A Chrome extension that pins your real Claude usage right below the chat box — two slim bars, two reset times. No third-party servers, no polling hacks.",
+      "Anthropic hides your real token consumption — half the time it doesn't show at all. This extension surfaces it in real time: live 5h and weekly limits pinned under the chat box, plus a full dashboard with tokens per day, cost, model breakdown, top projects, and cache efficiency. Local-only — no third-party servers.",
     status: "complete",
     githubUrl: "https://github.com/mmesonero/claude-token-tracker",
     accent: "ctt",
