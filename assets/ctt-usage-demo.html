@@ -16,7 +16,6 @@
       --muted: #b9b9b3;
       --muted-2: #8a8a83;
       --accent: #d97757;
-      --accent-soft: rgba(217,119,87,0.14);
       --good: #6ee7b7;
       --warn: #fbbf24;
       --bad: #fb7185;
@@ -35,12 +34,11 @@
 
     .hero-title {
       text-align: center;
-      padding: 28px 60px 28px;
+      padding: 24px 60px 20px;
       flex-shrink: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
     }
     .hero-title h2 {
-      font-size: 40px;
+      font-size: 38px;
       font-weight: 700;
       letter-spacing: -0.03em;
       line-height: 1.1;
@@ -49,11 +47,11 @@
     }
     .hero-title h2 span { color: #C8A864; font-style: italic; }
 
-    header { padding: 10px 60px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; flex-shrink: 0; border-top: 1px solid rgba(250,249,245,0.07); }
+    header { padding: 8px 48px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; flex-shrink: 0; border-top: 1px solid rgba(250,249,245,0.07); }
     .brand { display: flex; align-items: center; gap: 10px; }
-    .brand-mark { width: 26px; height: 26px; flex-shrink: 0; }
+    .brand-mark { width: 22px; height: 22px; flex-shrink: 0; }
     .brand-mark img { width: 100%; height: 100%; display: block; }
-    header h1 { font-family: var(--serif); font-size: 20px; margin: 0; font-weight: 500; letter-spacing: -0.01em; }
+    header h1 { font-family: var(--serif); font-size: 18px; margin: 0; font-weight: 500; letter-spacing: -0.01em; }
     header h1 .accent { color: var(--accent); font-style: italic; }
     .gen { color: var(--muted-2); font-size: 11px; margin-left: 2px; }
     .filter { margin-left: auto; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
@@ -66,46 +64,44 @@
       pointer-events: none;
     }
 
-    main { padding: 12px 60px 16px; flex: 1; display: flex; flex-direction: column; min-height: 0; }
-    .grid { display: grid; gap: 14px; }
-    .cards { grid-template-columns: repeat(4,1fr); margin-bottom: 14px; flex-shrink: 0; }
-    .charts { grid-template-columns: repeat(2,1fr); flex: 1; min-height: 0; }
-    @media (max-width: 900px) {
-      .cards { grid-template-columns: repeat(2,1fr); }
-      .charts { grid-template-columns: 1fr; }
-    }
+    main { padding: 10px 48px 12px; flex: 1; display: flex; flex-direction: column; min-height: 0; }
+    .grid { display: grid; gap: 12px; }
+    .cards { grid-template-columns: repeat(4,1fr); margin-bottom: 12px; flex-shrink: 0; }
+    .charts { grid-template-columns: repeat(3,1fr); flex: 1; min-height: 0; }
 
     .card {
       background: var(--panel); border: 1px solid var(--border);
       border-radius: var(--radius); padding: 14px 16px;
     }
-    .card .label { color: var(--muted); font-size: 11px; font-weight: 500; letter-spacing: 0.02em; }
+    .card .label { color: var(--muted); font-size: 11px; font-weight: 500; letter-spacing: 0.02em; text-transform: uppercase; }
     .card .value { font-family: var(--serif); font-size: 26px; font-weight: 500; margin-top: 6px; letter-spacing: -0.02em; line-height: 1.1; }
-    .card .sub { color: var(--muted-2); font-size: 11px; margin-top: 4px; }
+    .card .sub { color: var(--muted-2); font-size: 10.5px; margin-top: 4px; }
     .metric-good { color: var(--good); }
     .metric-warn { color: var(--warn); }
+    .metric-bad  { color: var(--bad); }
 
     .chart-card {
       background: var(--panel); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 16px 20px 16px 14px;
+      border-radius: var(--radius); padding: 14px 16px 14px 12px;
       min-width: 0; display: flex; flex-direction: column;
     }
-    .chart-card h2 { font-family: var(--serif); font-size: 14px; margin: 0 0 12px; font-weight: 500; flex-shrink: 0; }
+    .chart-card h2 { font-family: var(--serif); font-size: 13px; margin: 0 0 10px; font-weight: 500; flex-shrink: 0; color: var(--text); }
     .chart-wrap { position: relative; flex: 1; min-height: 0; }
   </style>
 </head>
 <body>
   <div class="hero-title">
-    <h2>All your Claude Code <span>dashboard.</span> One report.</h2>
+    <h2>All your Claude Code <span>usage.</span> One screen.</h2>
   </div>
   <header>
     <div class="brand">
       <div class="brand-mark"><img src="ctt-icon-large.png" alt=""></div>
       <h1>Claude Code <span class="accent">usage</span></h1>
     </div>
+    <span class="gen">Generated 6/2/2026, 17:29</span>
     <div class="filter">
       <label>Range</label>
-      <select><option selected>All time</option><option>Last 30 days</option><option>Last 7 days</option></select>
+      <select><option selected>All time</option></select>
       <label>Agent</label>
       <select><option>All</option></select>
       <label>Project</label>
@@ -117,23 +113,23 @@
     <section class="grid cards">
       <div class="card">
         <div class="label">Total tokens</div>
-        <div class="value">5.62B</div>
-        <div class="sub">in 2.07B · out 18.13M</div>
+        <div class="value">5.66B</div>
+        <div class="sub"><span style="color:var(--good)">1%</span> globally</div>
       </div>
       <div class="card">
         <div class="label">Total cost</div>
-        <div class="value">$3414.61</div>
-        <div class="sub">29 days · avg $117.75/day</div>
+        <div class="value">$3,427</div>
+        <div class="sub">Avg $118/day</div>
       </div>
       <div class="card">
         <div class="label">Cache efficiency</div>
         <div class="value metric-good">98%</div>
-        <div class="sub">reads / (reads + creates + input) · ≥70% ● ≥40% ●</div>
+        <div class="sub">≥70% <span style="color:var(--good)">●</span> ≥40% <span style="color:var(--warn)">●</span></div>
       </div>
       <div class="card">
-        <div class="label">Cost / 1K output</div>
-        <div class="value metric-warn">$0.19</div>
-        <div class="sub">API output rate $0.02/1K · 9.3× overhead</div>
+        <div class="label">Cache reuse rate</div>
+        <div class="value metric-good">45×</div>
+        <div class="sub">reads / creates &nbsp;·&nbsp; ≥10× <span style="color:var(--good)">●</span></div>
       </div>
     </section>
 
@@ -146,80 +142,45 @@
         <h2>Model breakdown (tokens)</h2>
         <div class="chart-wrap"><canvas id="cModels"></canvas></div>
       </div>
+      <div class="chart-card">
+        <h2>Top projects by cost</h2>
+        <div class="chart-wrap"><canvas id="cProjects"></canvas></div>
+      </div>
     </section>
   </main>
 
   <script>
-    const DAYS = [
-      "04-18","04-27","05-02","05-04","05-09","05-11","05-13","05-17",
-      "05-19","05-21","05-25","05-27","05-29","05-31","06-02"
-    ];
-    const TOKENS = [
-      18e6, 22e6, 55e6, 30e6, 80e6, 95e6, 110e6, 160e6,
-      190e6, 210e6, 230e6, 280e6, 1300e6, 980e6, 360e6
-    ];
-    const AVG = TOKENS.map((_, i, a) => {
-      const slice = a.slice(Math.max(0, i-3), i+1);
-      return slice.reduce((s,v)=>s+v,0)/slice.length;
-    });
+    const gridColor = 'rgba(250,249,245,0.05)';
+    Chart.defaults.color = '#8a8a83';
+    Chart.defaults.borderColor = gridColor;
+    Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+    Chart.defaults.font.size = 10;
 
-    const baseOpts = {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { enabled: true } },
-    };
+    const DAYS = ["04-18","04-27","05-02","05-04","05-09","05-11","05-13","05-17","05-19","05-21","05-25","05-27","05-29","05-31","06-02"];
+    const TOKENS = [18e6,22e6,55e6,30e6,80e6,95e6,110e6,160e6,190e6,210e6,230e6,280e6,1300e6,980e6,360e6];
+    const AVG7 = TOKENS.map((_, i, a) => {
+      const s = a.slice(Math.max(0, i-6), i+1);
+      return s.reduce((x,v)=>x+v,0)/s.length;
+    });
 
     new Chart(document.getElementById('cTokens'), {
       type: 'line',
       data: {
         labels: DAYS.map(d => '2026-' + d),
         datasets: [
-          {
-            label: 'Total tokens',
-            data: TOKENS,
-            borderColor: '#c8a882',
-            backgroundColor: 'rgba(200,168,130,0.12)',
-            fill: true,
-            tension: 0.35,
-            pointRadius: 0,
-            borderWidth: 2,
-          },
-          {
-            label: '7d rolling avg',
-            data: AVG,
-            borderColor: '#6ee7b7',
-            borderDash: [4, 4],
-            fill: false,
-            tension: 0.4,
-            pointRadius: 0,
-            borderWidth: 1.5,
-          },
+          { label: 'Total tokens', data: TOKENS, borderColor: '#c8a882', backgroundColor: 'rgba(200,168,130,0.1)', fill: true, tension: 0.3, pointRadius: 0, borderWidth: 1.5 },
+          { label: '7d avg', data: AVG7, borderColor: '#6ee7b7', borderDash: [4,3], fill: false, tension: 0.4, pointRadius: 0, borderWidth: 1.5 },
         ],
       },
       options: {
-        ...baseOpts,
+        responsive: true, maintainAspectRatio: false,
         plugins: {
-          ...baseOpts.plugins,
-          legend: {
-            display: true,
-            position: 'bottom',
-            labels: {
-              color: '#8a8a83', font: { size: 11 }, boxWidth: 24, boxHeight: 2, padding: 12,
-              usePointStyle: false,
-            },
-          },
+          legend: { display: true, position: 'bottom', labels: { color: '#8a8a83', font: { size: 10 }, boxWidth: 20, boxHeight: 1, padding: 10, usePointStyle: true, pointStyle: 'line' } },
+          tooltip: { enabled: true },
         },
         scales: {
-          x: {
-            ticks: { color: '#8a8a83', font: { size: 9 }, maxRotation: 35, autoSkip: true, maxTicksLimit: 8 },
-            grid: { color: 'rgba(250,249,245,0.04)' },
-          },
-          y: {
-            ticks: {
-              color: '#8a8a83', font: { size: 10 },
-              callback: v => v >= 1e9 ? (v/1e9).toFixed(1)+'B' : v >= 1e6 ? (v/1e6).toFixed(0)+'M' : v,
-            },
-            grid: { color: 'rgba(250,249,245,0.05)' },
-          },
+          x: { ticks: { maxRotation: 35, autoSkip: true, maxTicksLimit: 7 }, grid: { color: gridColor } },
+          y: { ticks: { callback: v => v>=1e9?(v/1e9).toFixed(1)+'B':v>=1e6?(v/1e6).toFixed(0)+'M':v }, grid: { color: gridColor } },
         },
       },
     });
@@ -228,26 +189,30 @@
       type: 'doughnut',
       data: {
         labels: ['opus-4-7', 'sonnet-4-6', 'opus-4-6', 'other'],
-        datasets: [{
-          data: [58, 29, 11, 2],
-          backgroundColor: ['#d97757','#c8a882','#6ee7b7','#6b7280'],
-          borderColor: '#30302e',
-          borderWidth: 3,
-          hoverOffset: 6,
-        }],
+        datasets: [{ data: [58, 29, 11, 2], backgroundColor: ['#d97757','#b8472e','#e8955a','#6b7280'], borderColor: '#262624', borderWidth: 2 }],
       },
       options: {
-        ...baseOpts,
-        cutout: '60%',
+        responsive: true, maintainAspectRatio: false, cutout: '60%',
         plugins: {
-          legend: {
-            display: true,
-            position: 'right',
-            labels: { color: '#b9b9b3', font: { size: 11 }, padding: 12, usePointStyle: true },
-          },
-          tooltip: {
-            callbacks: { label: ctx => ' ' + ctx.label + ': ' + ctx.parsed + '%' },
-          },
+          legend: { display: true, position: 'right', labels: { color: '#b9b9b3', font: { size: 11 }, padding: 10, usePointStyle: true } },
+          tooltip: { callbacks: { label: ctx => ' ' + ctx.label + ': ' + ctx.parsed + '%' } },
+        },
+      },
+    });
+
+    new Chart(document.getElementById('cProjects'), {
+      type: 'bar',
+      data: {
+        labels: ['Msonero/cleanfeed','Msonero/GitHub','C:/Dev','boyd/3a981c','curie/696350','nobel/dfe09f','mendel/f48919'],
+        datasets: [{ data: [1712, 945, 161, 149, 77, 68, 62], backgroundColor: '#d97757', borderRadius: 3 }],
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' $' + c.parsed.x.toFixed(0) } } },
+        scales: {
+          x: { ticks: { callback: v => '$'+v }, grid: { color: gridColor } },
+          y: { ticks: { font: { size: 9 } }, grid: { display: false } },
         },
       },
     });
