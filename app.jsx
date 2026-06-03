@@ -484,7 +484,7 @@ function Hero() {
 }
 
 /* ---------- inline carousel (swipeable, strip-based) ---------- */
-function InlineCarousel({ slides }) {
+function InlineCarousel({ slides, cardNum }) {
   const len = slides.length;
   const [idx, setIdx] = useState(0);
   const [dragX, setDragX] = useState(0);
@@ -548,6 +548,7 @@ function InlineCarousel({ slides }) {
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
+      <span className="corner">{cardNum} &middot; {idx + 1}/{len}</span>
       <div
         className="inline-carousel-track"
         style={{
@@ -593,9 +594,8 @@ function ProjectCard({ p, idx, onOpen }) {
     return (
       <div className="card card-inline reveal" style={{ '--d': `${600 + idx * 120}ms` }}>
         <div className={`thumb thumb-carousel ${hasSlides ? 'has-image' : ''}`}>
-          <span className="corner">{String(idx + 1).padStart(2, '0')} &middot; {p.tags[0]}</span>
           {hasSlides
-            ? <InlineCarousel slides={p.slides} />
+            ? <InlineCarousel slides={p.slides} cardNum={String(idx + 1).padStart(2, '0')} />
             : <div className="thumb-art">{p.cardImage
                 ? <img src={p.cardImage} alt={p.name} className="thumb-cover" />
                 : <Glyph kind={p.accent} />}
