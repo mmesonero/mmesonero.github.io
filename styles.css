@@ -1223,7 +1223,7 @@ body::after {
   .reveal, .reveal-soft { opacity: 1; }
 }
 
-/* ============= inline card (no modal, auto-cycling slides) ============= */
+/* ============= inline card (no modal, swipeable inline carousel) ============= */
 .card.card-inline {
   cursor: default;
 }
@@ -1232,42 +1232,90 @@ body::after {
   box-shadow: var(--shadow-md);
   border-color: var(--border-strong);
 }
-.card.card-inline .thumb {
-  cursor: default;
+
+/* Slightly taller thumb to match 1440/900 demo aspect ratio */
+.thumb.thumb-carousel {
+  aspect-ratio: 1440 / 900;
 }
 
-/* Slide indicator dots on card thumbnail */
+/* Suppress the has-image gradient overlay so iframes aren't dimmed */
+.thumb.thumb-carousel.has-image::after {
+  display: none;
+}
+
+/* ── InlineCarousel ──────────────────────────────────── */
+.inline-carousel {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.inline-carousel-track {
+  display: flex;
+  height: 100%;
+  will-change: transform;
+}
+.inline-carousel-slide {
+  flex: 0 0 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.inline-carousel-iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  background: #0B0B0B;
+}
+
+/* Prev / next nav buttons — hidden by default, appear on hover */
+.inline-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.50);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: #fff;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity .2s ease, background .2s ease;
+  pointer-events: none;
+}
+.card.card-inline:hover .inline-nav {
+  opacity: 1;
+  pointer-events: auto;
+}
+.inline-nav:hover { background: rgba(0,0,0,0.72); }
+.inline-nav-prev { left: 10px; }
+.inline-nav-next { right: 10px; }
+
+/* Slide indicator dots */
 .thumb-dots {
   position: absolute;
-  bottom: 12px;
+  bottom: 11px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   gap: 5px;
   align-items: center;
-  z-index: 3;
+  z-index: 5;
   pointer-events: none;
 }
 .thumb-dot {
   height: 5px;
   width: 5px;
   border-radius: 3px;
-  background: rgba(255,255,255,0.35);
-  transition: width 0.35s ease, background 0.35s ease;
+  background: rgba(255,255,255,0.32);
+  transition: width .32s ease, background .32s ease;
   flex-shrink: 0;
 }
 .thumb-dot.active {
   width: 16px;
   background: rgba(255,255,255,0.88);
-}
-
-/* Fade-in when thumbnail slide changes (triggered by key prop) */
-@keyframes thumbFade {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-.thumb-slide {
-  animation: thumbFade 0.4s ease-out;
 }
 
 /* GitHub link row inside inline card body */
