@@ -3,7 +3,7 @@
    React app. Single file. Soft luxury, warm + gold.
    ========================================================= */
 
-const { useState, useEffect, useRef } = React;
+const { useState, useEffect, useRef, useCallback } = React;
 
 /* ---------- project data ---------- */
 const PROJECTS = [
@@ -11,6 +11,7 @@ const PROJECTS = [
     name: "AIO Sync",
     category: "Projects",
     tagline: "Every RGB brand ships its own software and they all conflict. One app to sync them all.",
+    inline: true,
     tags: ["Electron", "Node.js", "JavaScript"],
     description:
       "Armoury Crate, iCUE, LGHUB, MSI Center — each one fighting for the same devices. AIO Sync talks to all of them through their native protocols and syncs every LED at once. Set a scene, pick an animated wallpaper, or kill every light with one click. A floating bubble keeps CPU, GPU, RAM, and AIO temps on screen without opening Task Manager.",
@@ -37,6 +38,7 @@ const PROJECTS = [
     name: "CleanFeed",
     category: "Projects",
     tagline: "A Chrome extension that strips Shorts, Reels, and every algorithm built to keep your thumb moving.",
+    inline: true,
     tags: ["Chrome Ext.", "Manifest V3", "JavaScript"],
     description:
       "YouTube was built so you'd choose what you watch. Now an algorithm chooses for you, and most of what it pushes is vertical: Shorts, Reels, TikTok-shaped slop designed to keep your thumb moving, not your mind. CleanFeed strips that out. Hide Shorts and Reels, kill the recommendations sidebar, drop the For You tab. Toggle each filter per platform, or hard-block a site when you need to focus. The content you actually follow, the way you meant to watch it.",
@@ -88,6 +90,7 @@ const PROJECTS = [
     name: "Claude Token Tracker",
     category: "Projects",
     tagline: "The usage bar Anthropic shows quietly, and sometimes not at all, pinned right under your chat box.",
+    inline: true,
     tags: ["Chrome Ext.", "Manifest V3", "JavaScript"],
     description:
       "Anthropic hides your real token consumption, you have to dig in to find it. This extension surfaces it in real time: live 5h and weekly limits pinned under the chat box, plus a full dashboard with tokens per day, cost, model breakdown, top projects, and cache efficiency. Local-only, no third-party servers.",
@@ -130,6 +133,7 @@ const PROJECTS = [
     status: "complete",
     githubUrl: "https://github.com/mmesonero/gmail-labeler",
     accent: "labeler",
+    inline: true,
     cardImage: "assets/gmail-hero.png",
     slides: [
       { src: "assets/gmail-hero.png", caption: "" },
@@ -479,8 +483,153 @@ function Hero() {
   );
 }
 
+/* ---------- inline carousel (swipeable, infinite loop) ---------- */
+function InlineCarousel({ slides }) {
+  const len = slides.length;
+  // Clone last slide before index 0, first slide after last → seamless infinite wrap
+  const ext = [slides[len - 1], ...slides, slides[0]];
+  const extLen = ext.length; // len + 2
+  // pos 1..len are real slides; 0 = pre-clone (last), extLen-1 = post-clone (first)
+  const [pos, setPos] = useState(1);
+  const [dragX, setDragX] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const [jump, setJump] = useState(false); // suppress transition during silent wrap reset
+  const containerRef = useRef(null);
+
+  // Re-enable transition two frames after a silent position jump
+  useEffect(() => {
+    if (!jump) return;
+    const id = requestAnimationFrame(() => requestAnimationFrame(() => setJump(false)));
+    return () => cancelAnimationFrame(id);
+  }, [jump]);
+
+  const onTransitionEnd = () => {
+    if (pos >= extLen - 1) { setJump(true); setPos(1); }
+    else if (pos <= 0)     { setJump(true); setPos(len); }
+  };
+
+  // Capture-phase listeners fire before the event reaches any iframe
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    let x0 = 0, y0 = 0, dir = null;
+    const onStart = (e) => {
+      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY;
+      dir = null; setDragX(0); setDragging(false);
+    };
+    const onMove = (e) => {
+      if (dir === null) {
+        const dx = Math.abs(e.touches[0].clientX - x0);
+        const dy = Math.abs(e.touches[0].clientY - y0);
+        if (dx > 5 || dy > 5) dir = dx >= dy ? 'h' : 'v';
+      }
+      if (dir === 'h') { e.preventDefault(); setDragX(e.touches[0].clientX - x0); setDragging(true); }
+    };
+    const onEnd = (e) => {
+      if (dir === 'h') {
+        const dx = e.changedTouches[0].clientX - x0;
+        if (dx < -50) setPos(p => p + 1);
+        else if (dx > 50) setPos(p => p - 1);
+      }
+      dir = null; setDragging(false); setDragX(0);
+    };
+    el.addEventListener('touchstart', onStart, { passive: true,  capture: true });
+    el.addEventListener('touchmove',  onMove,  { passive: false, capture: true });
+    el.addEventListener('touchend',   onEnd,   { passive: true,  capture: true });
+    return () => {
+      el.removeEventListener('touchstart', onStart, { capture: true });
+      el.removeEventListener('touchmove',  onMove,  { capture: true });
+      el.removeEventListener('touchend',   onEnd,   { capture: true });
+    };
+  }, [len]);
+
+  // dotIdx maps pos back to 0-based real slide index for badge + dots
+  const dotIdx = Math.max(0, Math.min(len - 1, pos - 1));
+  // each slide width as % of the (extLen × wider) track; drag stays raw px — calc mixes fine
+  const slideW = 100 / extLen;
+
+  return (
+    <div ref={containerRef} className="inline-carousel">
+      <span className="corner">{dotIdx + 1}/{len}</span>
+      <div
+        className="inline-carousel-track"
+        style={{
+          width: `${extLen * 100}%`,
+          transform: `translateX(calc(-${pos * slideW}% + ${dragX}px))`,
+          transition: (dragging || jump) ? 'none' : 'transform 0.32s cubic-bezier(.2,.7,.2,1)',
+        }}
+        onTransitionEnd={onTransitionEnd}
+      >
+        {ext.map((slide, i) => (
+          <div key={`${slide.src}-${i}`} className="inline-carousel-slide" style={{ width: `${slideW}%` }}>
+            {slide.interactive
+              ? <iframe src={slide.src} className="inline-carousel-iframe" frameBorder="0" scrolling="auto" title={`Demo ${i}`} />
+              : <img src={slide.src} alt="" className="thumb-cover" />
+            }
+            <div className="slide-swipe-overlay" />
+          </div>
+        ))}
+      </div>
+
+      {len > 1 && (
+        <>
+          <button className="inline-nav inline-nav-prev" onClick={e => { e.stopPropagation(); setPos(p => p - 1); }} aria-label="Previous">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15,4 7,12 15,20"/></svg>
+          </button>
+          <button className="inline-nav inline-nav-next" onClick={e => { e.stopPropagation(); setPos(p => p + 1); }} aria-label="Next">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9,4 17,12 9,20"/></svg>
+          </button>
+          <div className="thumb-dots">
+            {slides.map((_, i) => (
+              <span key={i} className={`thumb-dot ${i === dotIdx ? 'active' : ''}`} />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
 /* ---------- project card ---------- */
 function ProjectCard({ p, idx, onOpen }) {
+  const hasSlides = p.slides && p.slides.length > 0;
+
+  /* Inline card: <div> so <a> children are valid HTML, no modal */
+  if (p.inline) {
+    return (
+      <div className="card card-inline reveal" style={{ '--d': `${600 + idx * 120}ms` }}>
+        <div className={`thumb thumb-carousel ${hasSlides ? 'has-image' : ''}`}>
+          {hasSlides
+            ? <InlineCarousel slides={p.slides} />
+            : <div className="thumb-art">{p.cardImage
+                ? <img src={p.cardImage} alt={p.name} className="thumb-cover" />
+                : <Glyph kind={p.accent} />}
+              </div>
+          }
+        </div>
+        <div className="card-body">
+          <div className="card-title-row">
+            <div className="card-title">{p.name}</div>
+          </div>
+          <div className="card-tag">{p.tagline}</div>
+          <div className="pills">
+            {p.tags.map((t, i) => (
+              <span className={`pill-sm ${i === 0 || t === 'AI' ? 'accent' : ''}`} key={t}>{t}</span>
+            ))}
+          </div>
+          {p.githubUrl && (
+            <div className="card-inline-link">
+              <a href={p.githubUrl} target="_blank" rel="noopener noreferrer" className="btn ghost">
+                <Icon name="github" size={14} /> View on GitHub
+              </a>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  /* Default card: button, opens modal */
   return (
     <button
       className="card reveal"
