@@ -137,7 +137,6 @@ const PROJECTS = [
     cardImage: "assets/gmail-hero.png",
     slides: [
       { src: "assets/gmail-hero.png", caption: "" },
-      { src: "assets/gmail-features-hero.png", caption: "" },
     ],
   },
 ];
@@ -544,7 +543,7 @@ function InlineCarousel({ slides }) {
 
   return (
     <div ref={containerRef} className="inline-carousel">
-      <span className="corner">{dotIdx + 1}/{len}</span>
+      {len > 1 && <span className="corner">{dotIdx + 1}/{len}</span>}
       <div
         className="inline-carousel-track"
         style={{
