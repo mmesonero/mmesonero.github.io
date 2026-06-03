@@ -3,7 +3,7 @@
    React app. Single file. Soft luxury, warm + gold.
    ========================================================= */
 
-const { useState, useEffect, useRef } = React;
+const { useState, useEffect, useRef, useCallback } = React;
 
 /* ---------- project data ---------- */
 const PROJECTS = [
@@ -11,6 +11,7 @@ const PROJECTS = [
     name: "AIO Sync",
     category: "Projects",
     tagline: "Every RGB brand ships its own software and they all conflict. One app to sync them all.",
+    inline: true,
     tags: ["Electron", "Node.js", "JavaScript"],
     description:
       "Armoury Crate, iCUE, LGHUB, MSI Center — each one fighting for the same devices. AIO Sync talks to all of them through their native protocols and syncs every LED at once. Set a scene, pick an animated wallpaper, or kill every light with one click. A floating bubble keeps CPU, GPU, RAM, and AIO temps on screen without opening Task Manager.",
@@ -37,6 +38,7 @@ const PROJECTS = [
     name: "CleanFeed",
     category: "Projects",
     tagline: "A Chrome extension that strips Shorts, Reels, and every algorithm built to keep your thumb moving.",
+    inline: true,
     tags: ["Chrome Ext.", "Manifest V3", "JavaScript"],
     description:
       "YouTube was built so you'd choose what you watch. Now an algorithm chooses for you, and most of what it pushes is vertical: Shorts, Reels, TikTok-shaped slop designed to keep your thumb moving, not your mind. CleanFeed strips that out. Hide Shorts and Reels, kill the recommendations sidebar, drop the For You tab. Toggle each filter per platform, or hard-block a site when you need to focus. The content you actually follow, the way you meant to watch it.",
@@ -88,6 +90,7 @@ const PROJECTS = [
     name: "Claude Token Tracker",
     category: "Projects",
     tagline: "The usage bar Anthropic shows quietly, and sometimes not at all, pinned right under your chat box.",
+    inline: true,
     tags: ["Chrome Ext.", "Manifest V3", "JavaScript"],
     description:
       "Anthropic hides your real token consumption, you have to dig in to find it. This extension surfaces it in real time: live 5h and weekly limits pinned under the chat box, plus a full dashboard with tokens per day, cost, model breakdown, top projects, and cache efficiency. Local-only, no third-party servers.",
@@ -480,44 +483,124 @@ function Hero() {
   );
 }
 
+/* ---------- inline carousel (swipeable, strip-based) ---------- */
+function InlineCarousel({ slides }) {
+  const len = slides.length;
+  const [idx, setIdx] = useState(0);
+  const [dragX, setDragX] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const containerRef = useRef(null);
+  const touch = useRef({ x0: 0, y0: 0, dir: null });
+
+  const allImages = slides.every(s => !s.interactive);
+
+  const goTo = useCallback((n) => setIdx(((n % len) + len) % len), [len]);
+
+  /* Auto-advance only for all-image carousels (e.g. Gmail) */
+  useEffect(() => {
+    if (!allImages || len <= 1) return;
+    const t = setInterval(() => setIdx(i => (i + 1) % len), 3500);
+    return () => clearInterval(t);
+  }, [allImages, len]);
+
+  /* Non-passive touchmove — needed to call preventDefault and intercept horizontal swipes */
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const onMove = (e) => {
+      const t = touch.current;
+      if (t.dir === null) {
+        const dx = Math.abs(e.touches[0].clientX - t.x0);
+        const dy = Math.abs(e.touches[0].clientY - t.y0);
+        if (dx > 5 || dy > 5) t.dir = dx >= dy ? 'h' : 'v';
+      }
+      if (t.dir === 'h') {
+        e.preventDefault();
+        setDragX(e.touches[0].clientX - t.x0);
+        setDragging(true);
+      }
+    };
+    el.addEventListener('touchmove', onMove, { passive: false });
+    return () => el.removeEventListener('touchmove', onMove);
+  }, []);
+
+  const onTouchStart = (e) => {
+    touch.current = { x0: e.touches[0].clientX, y0: e.touches[0].clientY, dir: null };
+    setDragging(false);
+    setDragX(0);
+  };
+
+  const onTouchEnd = (e) => {
+    if (touch.current.dir === 'h') {
+      const dx = e.changedTouches[0].clientX - touch.current.x0;
+      if (dx < -50) goTo(idx + 1);
+      else if (dx > 50) goTo(idx - 1);
+    }
+    touch.current.dir = null;
+    setDragging(false);
+    setDragX(0);
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      className="inline-carousel"
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+    >
+      <div
+        className="inline-carousel-track"
+        style={{
+          transform: `translateX(calc(-${idx * 100}% + ${dragX}px))`,
+          transition: dragging ? 'none' : 'transform 0.32s cubic-bezier(.2,.7,.2,1)',
+        }}
+      >
+        {slides.map((slide, i) => (
+          <div key={slide.src} className="inline-carousel-slide">
+            {slide.interactive
+              ? <iframe src={slide.src} className="inline-carousel-iframe" frameBorder="0" scrolling="auto" title={`Demo ${i + 1}`} />
+              : <img src={slide.src} alt="" className="thumb-cover" />
+            }
+          </div>
+        ))}
+      </div>
+
+      {len > 1 && (
+        <>
+          <button className="inline-nav inline-nav-prev" onClick={e => { e.stopPropagation(); goTo(idx - 1); }} aria-label="Previous">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15,4 7,12 15,20"/></svg>
+          </button>
+          <button className="inline-nav inline-nav-next" onClick={e => { e.stopPropagation(); goTo(idx + 1); }} aria-label="Next">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9,4 17,12 9,20"/></svg>
+          </button>
+          <div className="thumb-dots">
+            {slides.map((_, i) => (
+              <span key={i} className={`thumb-dot ${i === idx ? 'active' : ''}`} />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
 /* ---------- project card ---------- */
 function ProjectCard({ p, idx, onOpen }) {
-  const imgSlides = (p.slides || []).filter(s => !s.interactive);
-  const hasThumbCarousel = p.inline && imgSlides.length > 1;
-  const [thumbIdx, setThumbIdx] = useState(0);
+  const hasSlides = p.slides && p.slides.length > 0;
 
-  useEffect(() => {
-    if (!hasThumbCarousel) return;
-    const id = setInterval(() => setThumbIdx(i => (i + 1) % imgSlides.length), 3500);
-    return () => clearInterval(id);
-  }, [hasThumbCarousel, imgSlides.length]);
-
-  const thumbSrc = hasThumbCarousel ? imgSlides[thumbIdx].src : p.cardImage;
-  const hasImage = !!thumbSrc;
-
-  /* Inline card: div (so <a> children are valid HTML), no modal */
+  /* Inline card: <div> so <a> children are valid HTML, no modal */
   if (p.inline) {
     return (
       <div className="card card-inline reveal" style={{ '--d': `${600 + idx * 120}ms` }}>
-        <div
-          className={`thumb ${hasImage ? 'has-image' : ''}`}
-          onClick={() => hasThumbCarousel && setThumbIdx(i => (i + 1) % imgSlides.length)}
-          style={hasThumbCarousel ? { cursor: 'pointer' } : undefined}
-        >
+        <div className={`thumb thumb-carousel ${hasSlides ? 'has-image' : ''}`}>
           <span className="corner">{String(idx + 1).padStart(2, '0')} &middot; {p.tags[0]}</span>
-          <div className="thumb-art">
-            {hasImage
-              ? <img key={thumbSrc} src={thumbSrc} alt={p.name} className="thumb-cover thumb-slide" />
-              : <Glyph kind={p.accent} />
-            }
-          </div>
-          {hasThumbCarousel && (
-            <div className="thumb-dots">
-              {imgSlides.map((_, i) => (
-                <span key={i} className={`thumb-dot ${i === thumbIdx ? 'active' : ''}`} />
-              ))}
-            </div>
-          )}
+          {hasSlides
+            ? <InlineCarousel slides={p.slides} />
+            : <div className="thumb-art">{p.cardImage
+                ? <img src={p.cardImage} alt={p.name} className="thumb-cover" />
+                : <Glyph kind={p.accent} />}
+              </div>
+          }
         </div>
         <div className="card-body">
           <div className="card-title-row">
