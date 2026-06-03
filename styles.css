@@ -1222,3 +1222,61 @@ body::after {
   }
   .reveal, .reveal-soft { opacity: 1; }
 }
+
+/* ============= inline card (no modal, auto-cycling slides) ============= */
+.card.card-inline {
+  cursor: default;
+}
+.card.card-inline:hover {
+  transform: none;
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-strong);
+}
+.card.card-inline .thumb {
+  cursor: default;
+}
+
+/* Slide indicator dots on card thumbnail */
+.thumb-dots {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  z-index: 3;
+  pointer-events: none;
+}
+.thumb-dot {
+  height: 5px;
+  width: 5px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.35);
+  transition: width 0.35s ease, background 0.35s ease;
+  flex-shrink: 0;
+}
+.thumb-dot.active {
+  width: 16px;
+  background: rgba(255,255,255,0.88);
+}
+
+/* Fade-in when thumbnail slide changes (triggered by key prop) */
+@keyframes thumbFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.thumb-slide {
+  animation: thumbFade 0.4s ease-out;
+}
+
+/* GitHub link row inside inline card body */
+.card-inline-link {
+  margin-top: 8px;
+}
+.card-inline-link .btn {
+  width: 100%;
+  justify-content: center;
+  padding: 10px 18px;
+  font-size: 13.5px;
+}
