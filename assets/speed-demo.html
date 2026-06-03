@@ -27,9 +27,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 56px 48px 40px;
-      gap: 48px;
+      justify-content: flex-start;
+      padding: clamp(16px, 4vh, 48px) 48px clamp(16px, 3vh, 40px);
+      gap: clamp(20px, 4vh, 48px);
       position: relative;
       overflow: hidden;
     }
@@ -50,7 +50,7 @@
     .title {
       font-family: var(--serif);
       font-weight: 300;
-      font-size: 64px;
+      font-size: clamp(30px, 7.5vh, 64px);
       line-height: 1.05;
       letter-spacing: -0.5px;
       color: var(--text);

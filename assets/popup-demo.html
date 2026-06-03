@@ -277,6 +277,18 @@
     }
     .scroll-hint.hidden { display: none; }
   </style>
+  <script>
+    /* Scale the popup to fit the card viewport at any size ≤ modal size */
+    (function () {
+      function fit() {
+        var s = Math.min(1, window.innerHeight / 540);
+        document.documentElement.style.transform = 'scale(' + s + ')';
+        document.documentElement.style.transformOrigin = 'top center';
+      }
+      fit();
+      window.addEventListener('resize', fit);
+    }());
+  </script>
 </head>
 <body>
   <div class="popup-frame">
