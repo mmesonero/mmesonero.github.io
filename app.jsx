@@ -10,23 +10,26 @@ const PROJECTS = [
   {
     name: "AIO Sync",
     category: "Projects",
-    tagline: "Sync all RGB components with one app. Scenes, animated wallpapers, and full control in a single app.",
+    tagline: "Every RGB brand ships its own software and they all conflict. One app to sync them all.",
     tags: ["Electron", "Node.js", "JavaScript"],
     description:
-      "Every component brand ships its own RGB software and they actively conflict. Armoury Crate, iCUE, LGHUB, MSI Center, each one stealing a different lock. AIO Sync detects every connected RGB device and syncs them all at once through their native protocols. Save as many scenes as you like, each one a colour optionally paired with an animated wallpaper, or turn off every LED at once when you need to focus. A floating bubble keeps CPU, GPU, RAM, and AIO liquid temps visible while you work.",
+      "Armoury Crate, iCUE, LGHUB, MSI Center — each one fighting for the same devices. AIO Sync talks to all of them through their native protocols and syncs every LED at once. Set a scene, pick an animated wallpaper, or kill every light with one click. A floating bubble keeps CPU, GPU, RAM, and AIO temps on screen without opening Task Manager.",
     status: "complete",
     accent: "lattice",
-    cardImage: "assets/aio-hero.jpg",
-    logo: "assets/aio-logo.png",
+    cardImage: "assets/aio-hero.png",
     slides: [
-      { src: "assets/aio-hero.jpg", caption: "" },
+      {
+        src: "assets/aio-main-demo.html",
+        caption: "",
+        interactive: true,
+      },
       {
         src: "assets/aio-bubble-demo.html",
         caption: "",
         interactive: true,
         split: true,
-        title: ["Floating bubble with live metrics."],
-        titleGold: "Switch scenes without opening the app.",
+        title: ["Floating bubble,"],
+        titleGold: "live temps.",
       },
     ],
   },
