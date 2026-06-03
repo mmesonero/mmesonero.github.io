@@ -137,6 +137,7 @@ const PROJECTS = [
     cardImage: "assets/gmail-hero.png",
     slides: [
       { src: "assets/gmail-hero.png", caption: "" },
+      { src: "assets/gmail-features-hero.png", caption: "" },
     ],
   },
 ];
