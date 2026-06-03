@@ -130,6 +130,7 @@ const PROJECTS = [
     status: "complete",
     githubUrl: "https://github.com/mmesonero/gmail-labeler",
     accent: "labeler",
+    inline: true,
     cardImage: "assets/gmail-hero.png",
     slides: [
       { src: "assets/gmail-hero.png", caption: "" },
@@ -481,6 +482,66 @@ function Hero() {
 
 /* ---------- project card ---------- */
 function ProjectCard({ p, idx, onOpen }) {
+  const imgSlides = (p.slides || []).filter(s => !s.interactive);
+  const hasThumbCarousel = p.inline && imgSlides.length > 1;
+  const [thumbIdx, setThumbIdx] = useState(0);
+
+  useEffect(() => {
+    if (!hasThumbCarousel) return;
+    const id = setInterval(() => setThumbIdx(i => (i + 1) % imgSlides.length), 3500);
+    return () => clearInterval(id);
+  }, [hasThumbCarousel, imgSlides.length]);
+
+  const thumbSrc = hasThumbCarousel ? imgSlides[thumbIdx].src : p.cardImage;
+  const hasImage = !!thumbSrc;
+
+  /* Inline card: div (so <a> children are valid HTML), no modal */
+  if (p.inline) {
+    return (
+      <div className="card card-inline reveal" style={{ '--d': `${600 + idx * 120}ms` }}>
+        <div
+          className={`thumb ${hasImage ? 'has-image' : ''}`}
+          onClick={() => hasThumbCarousel && setThumbIdx(i => (i + 1) % imgSlides.length)}
+          style={hasThumbCarousel ? { cursor: 'pointer' } : undefined}
+        >
+          <span className="corner">{String(idx + 1).padStart(2, '0')} &middot; {p.tags[0]}</span>
+          <div className="thumb-art">
+            {hasImage
+              ? <img key={thumbSrc} src={thumbSrc} alt={p.name} className="thumb-cover thumb-slide" />
+              : <Glyph kind={p.accent} />
+            }
+          </div>
+          {hasThumbCarousel && (
+            <div className="thumb-dots">
+              {imgSlides.map((_, i) => (
+                <span key={i} className={`thumb-dot ${i === thumbIdx ? 'active' : ''}`} />
+              ))}
+            </div>
+          )}
+        </div>
+        <div className="card-body">
+          <div className="card-title-row">
+            <div className="card-title">{p.name}</div>
+          </div>
+          <div className="card-tag">{p.tagline}</div>
+          <div className="pills">
+            {p.tags.map((t, i) => (
+              <span className={`pill-sm ${i === 0 || t === 'AI' ? 'accent' : ''}`} key={t}>{t}</span>
+            ))}
+          </div>
+          {p.githubUrl && (
+            <div className="card-inline-link">
+              <a href={p.githubUrl} target="_blank" rel="noopener noreferrer" className="btn ghost">
+                <Icon name="github" size={14} /> View on GitHub
+              </a>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  /* Default card: button, opens modal */
   return (
     <button
       className="card reveal"
