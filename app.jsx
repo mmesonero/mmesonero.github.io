@@ -492,16 +492,7 @@ function InlineCarousel({ slides, cardNum }) {
   const containerRef = useRef(null);
   const touch = useRef({ x0: 0, y0: 0, dir: null });
 
-  const allImages = slides.every(s => !s.interactive);
-
   const goTo = useCallback((n) => setIdx(((n % len) + len) % len), [len]);
-
-  /* Auto-advance only for all-image carousels (e.g. Gmail) */
-  useEffect(() => {
-    if (!allImages || len <= 1) return;
-    const t = setInterval(() => setIdx(i => (i + 1) % len), 3500);
-    return () => clearInterval(t);
-  }, [allImages, len]);
 
   /* Non-passive touchmove — needed to call preventDefault and intercept horizontal swipes */
   useEffect(() => {
