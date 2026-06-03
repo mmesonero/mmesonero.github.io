@@ -572,19 +572,11 @@ function InlineCarousel({ slides }) {
       </div>
 
       {len > 1 && (
-        <>
-          <button className="inline-nav inline-nav-prev" onClick={e => { e.stopPropagation(); setPos(p => p - 1); }} aria-label="Previous">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15,4 7,12 15,20"/></svg>
-          </button>
-          <button className="inline-nav inline-nav-next" onClick={e => { e.stopPropagation(); setPos(p => p + 1); }} aria-label="Next">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9,4 17,12 9,20"/></svg>
-          </button>
-          <div className="thumb-dots">
-            {slides.map((_, i) => (
-              <span key={i} className={`thumb-dot ${i === dotIdx ? 'active' : ''}`} />
-            ))}
-          </div>
-        </>
+        <div className="thumb-dots">
+          {slides.map((_, i) => (
+            <span key={i} className={`thumb-dot ${i === dotIdx ? 'active' : ''}`} />
+          ))}
+        </div>
       )}
     </div>
   );
