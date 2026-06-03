@@ -1259,7 +1259,17 @@ body::after {
   height: 100%;
   position: relative;
   overflow: hidden;
+  z-index: 0; /* explicit stacking context so overlay stays inside the slide */
 }
+/* Captures touch events that iframes would otherwise steal */
+.slide-swipe-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  cursor: grab;
+  -webkit-tap-highlight-color: transparent;
+}
+.slide-swipe-overlay:active { cursor: grabbing; }
 .inline-carousel-iframe {
   width: 100%;
   height: 100%;

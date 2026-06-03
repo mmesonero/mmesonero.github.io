@@ -553,6 +553,8 @@ function InlineCarousel({ slides, cardNum }) {
               ? <iframe src={slide.src} className="inline-carousel-iframe" frameBorder="0" scrolling="auto" title={`Demo ${i + 1}`} />
               : <img src={slide.src} alt="" className="thumb-cover" />
             }
+            {/* Transparent overlay — captures touch events that iframes would otherwise swallow */}
+            <div className="slide-swipe-overlay" />
           </div>
         ))}
       </div>
