@@ -483,96 +483,94 @@ function Hero() {
   );
 }
 
-/* ---------- inline carousel (swipeable, strip-based) ---------- */
+/* ---------- inline carousel (swipeable, infinite loop) ---------- */
 function InlineCarousel({ slides }) {
   const len = slides.length;
-  const [idx, setIdx] = useState(0);
+  const ext = [slides[len - 1], ...slides, slides[0]];
+  const extLen = ext.length;
+  const [pos, setPos] = useState(1);
   const [dragX, setDragX] = useState(0);
   const [dragging, setDragging] = useState(false);
+  const [jump, setJump] = useState(false);
   const containerRef = useRef(null);
-  const touch = useRef({ x0: 0, y0: 0, dir: null });
 
-  const goTo = useCallback((n) => setIdx(((n % len) + len) % len), [len]);
+  useEffect(() => {
+    if (!jump) return;
+    const id = requestAnimationFrame(() => requestAnimationFrame(() => setJump(false)));
+    return () => cancelAnimationFrame(id);
+  }, [jump]);
 
-  /* Non-passive touchmove — needed to call preventDefault and intercept horizontal swipes */
+  const onTransitionEnd = () => {
+    if (pos >= extLen - 1) { setJump(true); setPos(1); }
+    else if (pos <= 0)     { setJump(true); setPos(len); }
+  };
+
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
-    const onMove = (e) => {
-      const t = touch.current;
-      if (t.dir === null) {
-        const dx = Math.abs(e.touches[0].clientX - t.x0);
-        const dy = Math.abs(e.touches[0].clientY - t.y0);
-        if (dx > 5 || dy > 5) t.dir = dx >= dy ? 'h' : 'v';
-      }
-      if (t.dir === 'h') {
-        e.preventDefault();
-        setDragX(e.touches[0].clientX - t.x0);
-        setDragging(true);
-      }
+    let x0 = 0, y0 = 0, dir = null;
+    const onStart = (e) => {
+      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY;
+      dir = null; setDragX(0); setDragging(false);
     };
-    el.addEventListener('touchmove', onMove, { passive: false });
-    return () => el.removeEventListener('touchmove', onMove);
-  }, []);
+    const onMove = (e) => {
+      if (dir === null) {
+        const dx = Math.abs(e.touches[0].clientX - x0);
+        const dy = Math.abs(e.touches[0].clientY - y0);
+        if (dx > 5 || dy > 5) dir = dx >= dy ? 'h' : 'v';
+      }
+      if (dir === 'h') { e.preventDefault(); setDragX(e.touches[0].clientX - x0); setDragging(true); }
+    };
+    const onEnd = (e) => {
+      if (dir === 'h') {
+        const dx = e.changedTouches[0].clientX - x0;
+        if (dx < -50) setPos(p => p + 1);
+        else if (dx > 50) setPos(p => p - 1);
+      }
+      dir = null; setDragging(false); setDragX(0);
+    };
+    el.addEventListener('touchstart', onStart, { passive: true,  capture: true });
+    el.addEventListener('touchmove',  onMove,  { passive: false, capture: true });
+    el.addEventListener('touchend',   onEnd,   { passive: true,  capture: true });
+    return () => {
+      el.removeEventListener('touchstart', onStart, { capture: true });
+      el.removeEventListener('touchmove',  onMove,  { capture: true });
+      el.removeEventListener('touchend',   onEnd,   { capture: true });
+    };
+  }, [len]);
 
-  const onTouchStart = (e) => {
-    touch.current = { x0: e.touches[0].clientX, y0: e.touches[0].clientY, dir: null };
-    setDragging(false);
-    setDragX(0);
-  };
-
-  const onTouchEnd = (e) => {
-    if (touch.current.dir === 'h') {
-      const dx = e.changedTouches[0].clientX - touch.current.x0;
-      if (dx < -50) goTo(idx + 1);
-      else if (dx > 50) goTo(idx - 1);
-    }
-    touch.current.dir = null;
-    setDragging(false);
-    setDragX(0);
-  };
+  const dotIdx = Math.max(0, Math.min(len - 1, pos - 1));
+  const slideW = 100 / extLen;
 
   return (
-    <div
-      ref={containerRef}
-      className="inline-carousel"
-      onTouchStart={onTouchStart}
-      onTouchEnd={onTouchEnd}
-    >
-      <span className="corner">{idx + 1}/{len}</span>
+    <div ref={containerRef} className="inline-carousel">
+      <span className="corner">{dotIdx + 1}/{len}</span>
       <div
         className="inline-carousel-track"
         style={{
-          transform: `translateX(calc(-${idx * 100}% + ${dragX}px))`,
-          transition: dragging ? 'none' : 'transform 0.32s cubic-bezier(.2,.7,.2,1)',
+          width: `${extLen * 100}%`,
+          transform: `translateX(calc(-${pos * slideW}% + ${dragX}px))`,
+          transition: (dragging || jump) ? 'none' : 'transform 0.32s cubic-bezier(.2,.7,.2,1)',
         }}
+        onTransitionEnd={onTransitionEnd}
       >
-        {slides.map((slide, i) => (
-          <div key={slide.src} className="inline-carousel-slide">
+        {ext.map((slide, i) => (
+          <div key={`${slide.src}-${i}`} className="inline-carousel-slide" style={{ width: `${slideW}%` }}>
             {slide.interactive
-              ? <iframe src={slide.src} className="inline-carousel-iframe" frameBorder="0" scrolling="auto" title={`Demo ${i + 1}`} />
+              ? <iframe src={slide.src} className="inline-carousel-iframe" frameBorder="0" scrolling="no" title={`Demo ${i}`} />
               : <img src={slide.src} alt="" className="thumb-cover" />
             }
-            {/* Transparent overlay — captures touch events that iframes would otherwise swallow */}
             <div className="slide-swipe-overlay" />
           </div>
         ))}
       </div>
 
       {len > 1 && (
-        <>
-          <button className="inline-nav inline-nav-prev" onClick={e => { e.stopPropagation(); goTo(idx - 1); }} aria-label="Previous">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15,4 7,12 15,20"/></svg>
-          </button>
-          <button className="inline-nav inline-nav-next" onClick={e => { e.stopPropagation(); goTo(idx + 1); }} aria-label="Next">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9,4 17,12 9,20"/></svg>
-          </button>
-          <div className="thumb-dots">
-            {slides.map((_, i) => (
-              <span key={i} className={`thumb-dot ${i === idx ? 'active' : ''}`} />
-            ))}
-          </div>
-        </>
+        <div className="thumb-dots">
+          {slides.map((_, i) => (
+            <span key={i} className={`thumb-dot ${i === dotIdx ? 'active' : ''}`} />
+          ))}
+        </div>
       )}
     </div>
   );
