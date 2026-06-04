@@ -1233,9 +1233,9 @@ body::after {
   border-color: var(--border-strong);
 }
 
-/* Taller thumb so more demo content is visible in the card */
+/* Tall square thumb so demo content fills the card */
 .thumb.thumb-carousel {
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1;
 }
 
 /* Suppress the has-image gradient overlay so iframes aren't dimmed */
