@@ -572,6 +572,12 @@ function InlineCarousel({ slides }) {
                 ? <iframe src={slide.src} className="inline-carousel-iframe" frameBorder="0" scrolling="no" title={`Demo ${i}`} />
                 : <img src={slide.src} alt="" className="thumb-cover" />
             }
+            {(slide.title || slide.titleGold) && (
+              <div className="inline-overlay-panel">
+                {slide.title && slide.title.map((line, j) => <div key={j} className="composed-title inline-composed-title">{line}</div>)}
+                {slide.titleGold && <div className="composed-title composed-gold inline-composed-title">{slide.titleGold}</div>}
+              </div>
+            )}
             <div className="slide-swipe-overlay" />
           </div>
         ))}
