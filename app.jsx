@@ -18,7 +18,9 @@ const PROJECTS = [
     status: "complete",
     accent: "lattice",
     cardImage: "assets/aio-hero.png",
+    logo: "assets/aio-logo.png",
     slides: [
+      { src: "assets/aio-dashboard.png", caption: "" },
       {
         src: "assets/aio-main-demo.html",
         caption: "",
@@ -51,11 +53,13 @@ const PROJECTS = [
       { src: "assets/cf-hero.jpg", caption: "" },
       {
         src: "assets/dashboard-demo.html",
+        thumb: "assets/cf-dashboard.png",
         caption: "",
         interactive: true,
       },
       {
         src: "assets/popup-demo.html",
+        thumb: "assets/cf-popup.png",
         caption: "",
         interactive: true,
         split: true,
@@ -64,6 +68,7 @@ const PROJECTS = [
       },
       {
         src: "assets/blocked-demo.html",
+        thumb: "assets/cf-blocked.png",
         caption: "",
         interactive: true,
         split: true,
@@ -72,6 +77,7 @@ const PROJECTS = [
       },
       {
         src: "assets/speed-demo.html",
+        thumb: "assets/cf-speed.png",
         caption: "",
         interactive: true,
         title: ["Watch at your own"],
@@ -79,6 +85,7 @@ const PROJECTS = [
       },
       {
         src: "assets/skip-demo.html",
+        thumb: "assets/cf-skip.png",
         caption: "",
         interactive: true,
         title: ["Jump forward"],
@@ -469,9 +476,6 @@ function Nav() {
 function Hero() {
   return (
     <header className="hero container" id="top">
-      <div className="eyebrow reveal" style={{ '--d': '120ms' }}>
-        Personal projects &middot; Built as a hobby
-      </div>
       <h1>
         <span className="reveal" style={{ '--d': '180ms', display: 'inline-block' }}>Manuel</span>{' '}
         <span className="italic reveal" style={{ '--d': '260ms', display: 'inline-block' }}>Mesonero</span>
@@ -542,6 +546,12 @@ function InlineCarousel({ slides }) {
   const dotIdx = Math.max(0, Math.min(len - 1, pos - 1));
   const slideW = 100 / extLen;
 
+  const go = (dir) => (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setPos(p => p + dir);
+  };
+
   return (
     <div ref={containerRef} className="inline-carousel">
       {len > 1 && <span className="corner">{dotIdx + 1}/{len}</span>}
@@ -556,9 +566,11 @@ function InlineCarousel({ slides }) {
       >
         {ext.map((slide, i) => (
           <div key={`${slide.src}-${i}`} className="inline-carousel-slide" style={{ width: `${slideW}%` }}>
-            {slide.interactive
-              ? <iframe src={slide.src} className="inline-carousel-iframe" frameBorder="0" scrolling="no" title={`Demo ${i}`} />
-              : <img src={slide.src} alt="" className="thumb-cover" />
+            {slide.thumb
+              ? <img src={slide.thumb} alt="" className="thumb-cover" />
+              : slide.interactive
+                ? <iframe src={slide.src} className="inline-carousel-iframe" frameBorder="0" scrolling="no" title={`Demo ${i}`} />
+                : <img src={slide.src} alt="" className="thumb-cover" />
             }
             <div className="slide-swipe-overlay" />
           </div>
@@ -566,11 +578,19 @@ function InlineCarousel({ slides }) {
       </div>
 
       {len > 1 && (
-        <div className="thumb-dots">
-          {slides.map((_, i) => (
-            <span key={i} className={`thumb-dot ${i === dotIdx ? 'active' : ''}`} />
-          ))}
-        </div>
+        <>
+          <button type="button" className="inline-carousel-btn inline-carousel-prev" onClick={go(-1)} aria-label="Previous slide">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+          </button>
+          <button type="button" className="inline-carousel-btn inline-carousel-next" onClick={go(1)} aria-label="Next slide">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+          </button>
+          <div className="thumb-dots">
+            {slides.map((_, i) => (
+              <span key={i} className={`thumb-dot ${i === dotIdx ? 'active' : ''}`} />
+            ))}
+          </div>
+        </>
       )}
     </div>
   );

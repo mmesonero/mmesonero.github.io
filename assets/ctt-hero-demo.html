@@ -94,6 +94,12 @@
       white-space: nowrap;
       max-width: 92%;
     }
+    /* Narrow viewport (inline carousel cards): strip noise, center hero cleanly */
+    @media (max-width: 780px) {
+      .sidebar { display: none; }
+      .ghost-col { display: none; }
+      .hero-block { top: 50%; }
+    }
     @media (max-width: 480px) {
       .hero-title { white-space: normal; text-align: center; font-size: 22px; }
       .hero-icon { width: 56px; height: 56px; }
@@ -110,9 +116,6 @@
       .ctt-sep { display: none; }
       .chat-sketch { width: calc(100% - 32px); padding: 8px 12px; }
       .chat-sketch .placeholder { font-size: 10px; }
-      .ghost { font-size: 9px; padding: 6px 10px; }
-      .ghost-col { width: 38%; gap: 16px; }
-      .sidebar { display: none; }
     }
 
     /* Ghost chat bubbles, staggered like a real conversation */

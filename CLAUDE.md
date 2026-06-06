@@ -59,6 +59,21 @@ Italics were also eliminated globally — every `.italic` span was changed to `f
 - `--accent`: `#D4B775` (gold) — used for category labels, gold pills, accent in titles, "View on GitHub" hover
 - **Carousel/iframe background is ALWAYS `#0B0B0B`** — do NOT change it. Demo HTMLs must set `body { background: #0B0B0B }`.
 
+### Typography lock — hero ↔ carousel slide titles
+
+Hero `<h1>` and carousel `.composed-title` MUST share the same typographic system. They're the two largest pieces of type on the site and they need to read as one voice.
+
+| Property | `.hero h1` | `.composed-title` |
+|---|---|---|
+| `font-family` | `var(--sans)` (Outfit) | `var(--sans)` (Outfit) |
+| `font-weight` | `700` | `700` |
+| `letter-spacing` | `-0.035em` | `-0.035em` |
+| `line-height` | `0.98` | `1.05` (slightly looser — multi-line titles) |
+| Default color | `var(--text)` `#ECEAE3` | `var(--text)` `#ECEAE3` |
+| Accent color | `.italic` → `var(--accent)` `#D4B775` | `.composed-gold` → `var(--accent)` `#D4B775` |
+
+**Rule**: gold accent across the whole site is **always** `var(--accent)`. Never hardcode `#d4a84b` or other near-golds — they read as a different brand.
+
 ---
 
 ## Site structure
@@ -393,6 +408,9 @@ Descriptions are **2-3 short sentences max**. Current targets:
 8. **Fonts: one typeface (Outfit).** Cormorant Garamond and JetBrains Mono are gone from the UI. `--mono` is aliased to Outfit on purpose.
 9. **Card thumbnails get cropped ~10% at the bottom.** The card thumb has `aspect-ratio: 16/9` but the PNG is 16/10. Don't put critical content below ~90% of the canvas.
 10. **The single-card category centering is `:has(> :only-child)`** on `.projects`. Don't break it; modern browsers support `:has()` fine.
+11. **`.composed-title` typography is locked to hero h1.** `font-weight: 700`, `letter-spacing: -0.035em`, `color: var(--text)`. **Don't** drift back to weight 600 / no spacing — the slide title stops reading as "the same voice as the hero" and the eye sees two different typesetters.
+12. **`.composed-gold` MUST be `var(--accent)` (`#D4B775`)**, never `#d4a84b`. Same gold across hero italic, category headers, gold pills, and slide gold accents. A 2-3 hue drift in gold is enough that the page reads as inconsistent even if you can't name why.
+13. **All carousel slide assets are exactly 1440×900.** This was violated by `aio-dashboard.png` (1373×821) which letterboxed under `object-fit: cover` and shifted layout. Fixed by re-rendering onto a 1440×900 `#0B0B0B` canvas. Audit with `System.Drawing.Image::FromFile` whenever a slide looks "off."
 
 ---
 
