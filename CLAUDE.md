@@ -97,7 +97,7 @@ App             — the root, including category grouping for PROJECTS
 `PROJECTS` cards are grouped on the page by their `category` field. The render order is fixed:
 
 ```js
-const order = ["AI Agents", "Projects"];
+const order = ["AI Projects", "Projects"];
 ```
 
 Any unknown category goes after these two. Each category gets a centered gold header with the category name (no count, no rule line). When a category has exactly one project, the grid auto-centers it via `.projects:has(> :only-child)`.
@@ -212,18 +212,46 @@ npx --yes playwright@1 screenshot --viewport-size=1440,900 `
 
 The card thumb is shown with `object-fit: cover` and `object-position: top center`, so the bottom ~10% of the image gets cropped. Place key content within the top 90% of the canvas.
 
+### Inline carousel slide layout — SAFE ZONE rules
+
+Every PNG thumbnail rendered in the **InlineCarousel** (`.inline-carousel` on cards) must be **1440×810** (16:9, matches `.thumb { aspect-ratio: 16/9 }`). Inside that frame the panel/content MUST stay inside the SAFE ZONE so it never collides with the carousel chrome:
+
+| Edge | Reserved by | Safe min/max |
+|------|-------------|--------------|
+| Left (split slide) | `.inline-overlay-panel--left` text: `left:max(56px,7%)`, `max-width:36%` → right edge ~**518px** | content must start at **x ≥ 580** |
+| Left (non-split) | `.inline-carousel-prev` `<` button: `left:6px`, width `30px` → right edge x=**36** | content must start at **x ≥ 50** |
+| Right | `.inline-carousel-next` `>` button: `right:6px`, width `30px` → left edge x=**1404** | content must end at **x ≤ 1390** |
+| Top | rounded card corner + breathing room | content must start at **y ≥ 40** |
+| Bottom | `.thumb-dots` indicator: `bottom:11px`, ~50px wide, ~25px tall → occupies y ≈ **750..795** | content must end at **y ≤ 720** |
+
+**Split-slide rule**: a slide is "split" when its config has `split: true` (the JSX overlay sits LEFT, not top-center). cf-popup and cf-blocked are split. cf-speed and cf-skip are NOT split (title sits top-center), so they only need to clear the `<` button (x ≥ 50), not the left text.
+
+For CleanFeed-style thumbnails (panel + baked title text), the build script `C:\Users\usuario\.claude\tools\zoom-split-thumbs.js` does:
+
+1. **mask** the baked title region with bg (`#0B0B0B`).
+2. **crop** EXACTLY the panel content range (drops the empty internal padding inside the panel box).
+3. **extend** the canvas to 16:9 with bg (`#0B0B0B`) so the panel lands inside the safe zone after resize.
+4. **resize** to 1440×810.
+
+After each script run, verify the output panel bbox sits inside the safe zone with a raw-pixel bbox scan (threshold >60, see the verification snippet in the script). All four CleanFeed thumbs currently pass.
+
+Pipeline gotchas:
+- **Sharp re-orders chained ops** (resize-before-extend, composite-runs-last). Materialize each stage to a buffer to force the intended order.
+- **Always read from `<file>.bak`** (not the previous output). The script falls back to `src` only if `.bak` doesn't exist — make sure to back up before the first run so re-runs don't double-process.
+- The content-end y for each panel is measured by raw pixel scan (threshold >60). When a panel changes, re-measure and update the comment block + crop dims in the script.
+
 ---
 
 ## How to add things
 
 ### Add a project
 
-1. Decide its category: `"AI Agents"` (Python / ML / agentic) or `"Projects"` (everything else). Add a new category only when there are at least 2 projects to put in it.
+1. Decide its category: `"AI Projects"` (Python / ML / agentic) or `"Projects"` (everything else). Add a new category only when there are at least 2 projects to put in it.
 2. Append an entry to the `PROJECTS` array:
    ```js
    {
      name: "Project Name",
-     category: "AI Agents",
+     category: "AI Projects",
      tagline: "One concrete sentence — what it does, no marketing.",
      tags: ["Python", "AI", "FastAPI"],
      description: "1-2 short paragraphs. Problem first, then solution, no bullshit.",
@@ -320,7 +348,7 @@ $bmp.Dispose()
 
 ## Project list (current)
 
-### AI Agents (1 project)
+### AI Projects (1 project)
 
 #### Gmail Auto-Labeler — 2 slides
 

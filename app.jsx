@@ -130,7 +130,7 @@ const PROJECTS = [
   },
   {
     name: "Gmail Auto-Labeler",
-    category: "AI Agents",
+    category: "AI Projects",
     tagline: "A GitHub Action that reads my inbox every hour and files every email under one of the labels.",
     tags: ["Python", "AI", "GitHub Actions"],
     description:
@@ -789,7 +789,7 @@ function App() {
       <main>
         <section className="section container" id="work">
           {(() => {
-            const order = ["AI Agents", "Projects"];
+            const order = ["AI Projects", "Projects"];
             const ACCENTED_WORDS = ["AI"];
             const renderLabel = (cat) => {
               const parts = cat.split(/(\s+)/);
