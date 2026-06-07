@@ -1,4 +1,4 @@
-/* =========================================================
+﻿/* =========================================================
    Manuel Mesonero, Personal Portfolio
    Soft luxury aesthetic. Cormorant Garamond + Outfit.
    ========================================================= */
@@ -32,7 +32,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg:            #121210;
+    --bg:            #0D0D0D;
     --bg-elev:       #1A1A17;
     --bg-muted:      #22221E;
     --text:          #ECEAE3;
@@ -387,7 +387,7 @@ body::after {
   flex-shrink: 0;
 }
 .category-count::before {
-  content: "·";
+  content: "Â·";
   margin-right: 14px;
   color: var(--text-soft);
 }
@@ -494,6 +494,9 @@ body::after {
   z-index: 1;
   pointer-events: none;
 }
+/* Carousel slides already match the page bg exactly â€” drop the vignette so it doesn't
+   show as a second layer of black on top of the slide. */
+.thumb.has-image.thumb-carousel::after { display: none; }
 
 .card-body {
   padding: 18px 22px 22px;
@@ -881,14 +884,14 @@ body::after {
   height: 100%;
   aspect-ratio: 1440 / 900;
   min-height: 0;
-  background: #0B0B0B;
+  background: #0D0D0D;
   overflow: hidden;
 }
 .carousel-iframe {
   width: 100%;
   height: 100%;
   border: 0;
-  background: #0B0B0B;
+  background: #0D0D0D;
   display: block;
   animation: iframeFadeIn .25s ease-out;
 }
@@ -986,7 +989,7 @@ body::after {
   position: relative;
   width: 100%;
   height: 100%;
-  background: #0B0B0B;
+  background: #0D0D0D;
 }
 .carousel-overlay .carousel-img {
   width: 100%;
@@ -1050,7 +1053,7 @@ body::after {
   display: flex;
   flex-direction: row;
   align-items: stretch;
-  background: #0B0B0B;
+  background: #0D0D0D;
 }
 .split-left {
   flex: 0 0 34%;
@@ -1234,7 +1237,7 @@ body::after {
   border-color: var(--border-strong);
 }
 
-/* Wide thumb matching slide design (1440/900) — shorter than square so cards stay compact */
+/* Wide thumb matching slide design (1440/900) â€” shorter than square so cards stay compact */
 .thumb.thumb-carousel {
   aspect-ratio: 16 / 10;
 }
@@ -1244,12 +1247,12 @@ body::after {
   display: none;
 }
 
-/* ── InlineCarousel ──────────────────────────────────── */
+/* â”€â”€ InlineCarousel â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .inline-carousel {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  background: #0B0B0B;
+  background: #0D0D0D;
 }
 .inline-carousel-track {
   display: flex;
@@ -1265,7 +1268,7 @@ body::after {
 }
 /* NOTE: arrow safe zones sit at left/right ~42px (36px mobile).
    Demos should keep critical content out of these strips so the < > buttons
-   don't cover anything important. Iframe still renders edge-to-edge — the
+   don't cover anything important. Iframe still renders edge-to-edge â€” the
    safe zone is a design rule, not a layout cut. */
 
 /* prev/next buttons sit inside the reserved gutter so demo content never gets covered */
@@ -1298,11 +1301,12 @@ body::after {
   .inline-carousel-btn { width: 26px; height: 26px; }
   .inline-carousel-btn svg { width: 12px; height: 12px; }
 }
-/* Inline carousel overlay panel — same typographic system as modal .overlay-panel, scaled for ~545×340 box.
-   `top: 6%` (≈48px on a 810-tall slide) gives breathing room above the title without floating it. */
+/* Inline carousel overlay panel â€” same typographic system as modal .overlay-panel, scaled for ~545Ã—340 box.
+   `top: 8%` (â‰ˆ65px on a 810-tall slide) keeps the title clear of the card's rounded
+   top corner at any viewport size, including when the card body shrinks. */
 .inline-overlay-panel {
   position: absolute;
-  top: 6%;
+  top: 8%;
   left: 50%;
   transform: translateX(-50%);
   max-width: calc(100% - 56px);
@@ -1319,7 +1323,7 @@ body::after {
   line-height: 1.05;
   text-shadow: 0 2px 18px rgba(0,0,0,0.55), 0 1px 3px rgba(0,0,0,0.6);
 }
-/* Left-aligned variant — used by split-style slides where the panel sits on the right.
+/* Left-aligned variant â€” used by split-style slides where the panel sits on the right.
    `left` uses px floor so it always clears the prev button (at left: 6px, width: 30px). */
 .inline-overlay-panel--left {
   top: 50%;
@@ -1351,7 +1355,7 @@ body::after {
   height: 100%;
   border: 0;
   display: block;
-  background: #0B0B0B;
+  background: #0D0D0D;
 }
 
 /* Slide indicator dots */
@@ -1390,7 +1394,7 @@ body::after {
   font-size: 13.5px;
 }
 
-/* ── Inline card: compact body so visual gets ~70%, text ~30% ── */
+/* â”€â”€ Inline card: compact body so visual gets ~70%, text ~30% â”€â”€ */
 .card.card-inline .card-body {
   padding: 10px 14px 12px;
   gap: 5px;

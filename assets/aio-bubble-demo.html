@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -33,7 +33,7 @@
 
 html, body {
   width: 100%; height: 100%;
-  background: #0B0B0B;
+  background: #0D0D0D;
   overflow: hidden;
   user-select: none;
   font-family: var(--f-disp);
@@ -63,7 +63,7 @@ html, body {
   color: var(--t-lo);
 }
 
-/* ── Bubble shell ──────────────────────────────────────── */
+/* â”€â”€ Bubble shell â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .bubble {
   position: relative;
   width: var(--bubble-idle); height: var(--bubble-idle);
@@ -73,7 +73,7 @@ html, body {
   width: var(--bubble-hover); height: var(--bubble-hover);
 }
 
-/* ── Outer rotating dashed ring ────────────────────────── */
+/* â”€â”€ Outer rotating dashed ring â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .ring-outer {
   position: absolute; inset: -2px;
   border-radius: 50%;
@@ -98,7 +98,7 @@ html, body {
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ── Particle canvas ───────────────────────────────────── */
+/* â”€â”€ Particle canvas â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .particles {
   position: absolute;
   left: 50%; top: 50%;
@@ -110,7 +110,7 @@ html, body {
   z-index: 3;
 }
 
-/* ── Inner disc ────────────────────────────────────────── */
+/* â”€â”€ Inner disc â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .disc {
   position: absolute; inset: 6px;
   border-radius: 50%;
@@ -136,7 +136,7 @@ html, body {
   mix-blend-mode: overlay; pointer-events: none; opacity: .7;
 }
 
-/* ── HUD orbit ticks ───────────────────────────────────── */
+/* â”€â”€ HUD orbit ticks â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .ticks {
   position: absolute; inset: 14px;
   border-radius: 50%;
@@ -161,7 +161,7 @@ html, body {
   pointer-events: none; opacity: .4;
 }
 
-/* ── State containers ──────────────────────────────────── */
+/* â”€â”€ State containers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .state {
   position: absolute; inset: 0;
   display: grid; place-items: center;
@@ -299,11 +299,11 @@ html, body {
             <div class="cross"></div>
             <div class="quad tl">
               <span class="lab">CPU</span>
-              <span class="val">34<span class="u">°</span></span>
+              <span class="val">34<span class="u">Â°</span></span>
             </div>
             <div class="quad tr">
               <span class="lab">GPU</span>
-              <span class="val">42<span class="u">°</span></span>
+              <span class="val">42<span class="u">Â°</span></span>
             </div>
             <div class="quad bl">
               <span class="val">38<span class="u">%</span></span>
@@ -333,11 +333,11 @@ html, body {
             <div class="cross"></div>
             <div class="quad tl">
               <span class="lab">CPU</span>
-              <span class="val">34<span class="u">°</span></span>
+              <span class="val">34<span class="u">Â°</span></span>
             </div>
             <div class="quad tr">
               <span class="lab">GPU</span>
-              <span class="val">42<span class="u">°</span></span>
+              <span class="val">42<span class="u">Â°</span></span>
             </div>
             <div class="quad bl">
               <span class="val">38<span class="u">%</span></span>

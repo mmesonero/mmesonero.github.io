@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -17,7 +17,7 @@
   --t-lo:   #6c6f80;
   --t-dim:  #43465a;
   --line:   rgba(255,255,255,0.08);
-  --bg:     #0B0B0B;
+  --bg:     #0D0D0D;
   --bg1:    #111113;
   --bg2:    #161618;
   --f-mono: 'JetBrains Mono', ui-monospace, monospace;
@@ -36,7 +36,7 @@ html, body {
   user-select: none;
 }
 
-/* ── App window shell ───────────────────────────────── */
+/* â”€â”€ App window shell â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .window {
   position: absolute;
   top: clamp(18px, 4vh, 40px);
@@ -55,7 +55,7 @@ html, body {
   overflow: hidden;
 }
 
-/* ── Title bar ──────────────────────────────────────── */
+/* â”€â”€ Title bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .titlebar {
   height: clamp(36px, 5vh, 44px);
   background: rgba(255,255,255,0.02);
@@ -84,14 +84,14 @@ html, body {
 }
 .tb-scene-badge b { color: var(--p); font-weight: 500; }
 
-/* ── Body: sidebar + main ───────────────────────────── */
+/* â”€â”€ Body: sidebar + main â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .app-body {
   display: flex;
   flex: 1;
   min-height: 0;
 }
 
-/* ── Sidebar ────────────────────────────────────────── */
+/* â”€â”€ Sidebar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .sidebar {
   width: clamp(160px, 18vw, 220px);
   border-right: 1px solid var(--line);
@@ -145,7 +145,7 @@ html, body {
   margin-top: 1px;
 }
 
-/* ── Main content area ──────────────────────────────── */
+/* â”€â”€ Main content area â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .main {
   flex: 1;
   padding: clamp(18px, 3vh, 28px) clamp(20px, 3vw, 32px);
@@ -236,7 +236,7 @@ html, body {
   color: var(--t-md);
 }
 
-/* ── Stats footer ───────────────────────────────────── */
+/* â”€â”€ Stats footer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .stats-footer {
   border-top: 1px solid var(--line);
   padding: clamp(8px, 1.5vh, 12px) clamp(20px, 3vw, 32px);
@@ -287,7 +287,7 @@ html, body {
   gap: 7px;
 }
 
-/* ── Floating bubble (pinned corner) ────────────────── */
+/* â”€â”€ Floating bubble (pinned corner) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .bubble-pin {
   position: fixed;
   bottom: clamp(18px, 3vh, 30px);
@@ -472,17 +472,17 @@ html, body {
   <div class="stats-footer">
     <div class="stat">
       <span class="stat-lbl">CPU</span>
-      <span class="stat-val">34<span class="stat-unit">°C</span></span>
+      <span class="stat-val">34<span class="stat-unit">Â°C</span></span>
     </div>
     <div class="stat-sep"></div>
     <div class="stat">
       <span class="stat-lbl">GPU</span>
-      <span class="stat-val">42<span class="stat-unit">°C</span></span>
+      <span class="stat-val">42<span class="stat-unit">Â°C</span></span>
     </div>
     <div class="stat-sep"></div>
     <div class="stat">
       <span class="stat-lbl">AIO</span>
-      <span class="stat-val">38<span class="stat-unit">°C</span></span>
+      <span class="stat-val">38<span class="stat-unit">Â°C</span></span>
     </div>
     <div class="stat-sep"></div>
     <div class="stat">
@@ -503,11 +503,11 @@ html, body {
   <div class="bp-ring"></div>
   <div class="bp-grid">
     <div class="bp-q">
-      <div class="bp-val">34°</div>
+      <div class="bp-val">34Â°</div>
       <div class="bp-lbl">CPU</div>
     </div>
     <div class="bp-q">
-      <div class="bp-val">42°</div>
+      <div class="bp-val">42Â°</div>
       <div class="bp-lbl">GPU</div>
     </div>
     <div class="bp-q">
@@ -552,7 +552,7 @@ function initCanvas(id, palette) {
 
   function draw() {
     ctx.clearRect(0, 0, W, H);
-    ctx.fillStyle = '#0B0B0B';
+    ctx.fillStyle = '#0D0D0D';
     ctx.fillRect(0, 0, W, H);
     for (const p of pts) {
       const [r, g, b] = palette[p.ci];
