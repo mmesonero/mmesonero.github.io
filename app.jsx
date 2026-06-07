@@ -54,6 +54,8 @@ const PROJECTS = [
         thumb: "assets/cf-dashboard.png",
         caption: "",
         interactive: true,
+        title: ["Your feeds,"],
+        titleGold: "on your terms.",
       },
       {
         src: "assets/popup-demo.html",

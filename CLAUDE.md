@@ -224,21 +224,44 @@ Every PNG thumbnail rendered in the **InlineCarousel** (`.inline-carousel` on ca
 | Top | rounded card corner + breathing room | content must start at **y ≥ 40** |
 | Bottom | `.thumb-dots` indicator: `bottom:11px`, ~50px wide, ~25px tall → occupies y ≈ **750..795** | content must end at **y ≤ 720** |
 
-**Split-slide rule**: a slide is "split" when its config has `split: true` (the JSX overlay sits LEFT, not top-center). cf-popup and cf-blocked are split. cf-speed and cf-skip are NOT split (title sits top-center), so they only need to clear the `<` button (x ≥ 50), not the left text.
+#### Title overlay (JSX, top-center) — font + placement
 
-For CleanFeed-style thumbnails (panel + baked title text), the build script `C:\Users\usuario\.claude\tools\zoom-split-thumbs.js` does:
+The slide title comes from the slide config's `title: ["..."]` (white lines) + `titleGold: "..."` (gold last line) and is rendered by the InlineCarousel as a `<div className="inline-overlay-panel">` (or `inline-overlay-panel--left` for split slides). It is NOT baked into the PNG — that's why the build script masks the baked title region with bg.
+
+- **Font**: same `.composed-title` family/weight as the modal carousel + hero, scaled down for the small inline box.
+- **Size**: `font-size: clamp(18px, 3.4vw, 28px)` (defined in `styles.css`); split-slide variant clamps to `clamp(15px, 2.8vw, 24px)` so it fits in the narrower left lane.
+- **Color**: white lines from `title[]`, gold line from `titleGold` (`.composed-gold` → `color: var(--accent)`).
+- **Text-shadow**: `0 2px 18px rgba(0,0,0,0.55), 0 1px 3px rgba(0,0,0,0.6)` so it stays readable over busy backgrounds.
+- **Top-center placement** (`inline-overlay-panel`, default): `position:absolute; top: 6%; left: 50%; transform: translateX(-50%); max-width: calc(100% - 56px); text-align: center;` → the title sits at ~6% of the slide height (≈ y=49 on the 810-tall slide), centered. The PNG content below it should start at **y ≥ 150** to give it breathing room.
+- **Left placement** (`inline-overlay-panel--left`, applied when `split: true`): `top: 50%; left: max(56px, 7%); transform: translateY(-50%); max-width: 36%; text-align: left;` → the title sits at the vertical center of the slide, on the left lane. The PNG panel must stay to the right of x ≈ 580 so the two don't overlap.
+
+#### Split-slide rule
+
+A slide is "split" when its config has `split: true` (the JSX overlay sits LEFT, not top-center). cf-popup and cf-blocked are split. cf-speed, cf-skip and cf-dashboard are NOT split (title sits top-center), so they only need to clear the `<` button (x ≥ 50), not the left text.
+
+#### Build pipeline (script: `C:\Users\usuario\.claude\tools\zoom-split-thumbs.js`)
+
+For CleanFeed-style thumbnails (panel + baked title text), the script does:
 
 1. **mask** the baked title region with bg (`#0B0B0B`).
-2. **crop** EXACTLY the panel content range (drops the empty internal padding inside the panel box).
-3. **extend** the canvas to 16:9 with bg (`#0B0B0B`) so the panel lands inside the safe zone after resize.
+2. **crop** EXACTLY the panel content range (drops the empty internal padding inside the panel box). For 2x2-grid cards (cf-dashboard), this is the full content row block instead of a single panel.
+3. **extend** the canvas to 16:9 with bg (`#0B0B0B`) so the panel lands inside the safe zone after resize. `extendLeft/Right` shrink the panel horizontally so it clears the `<>` buttons; `extendTop/Bottom` position it vertically (and shift it down to clear top-center title when needed).
 4. **resize** to 1440×810.
 
-After each script run, verify the output panel bbox sits inside the safe zone with a raw-pixel bbox scan (threshold >60, see the verification snippet in the script). All four CleanFeed thumbs currently pass.
+After each script run, verify the output panel bbox sits inside the safe zone with a raw-pixel bbox scan (threshold >60 for content, >14 for full panel box). All five CleanFeed thumbs currently pass.
 
-Pipeline gotchas:
-- **Sharp re-orders chained ops** (resize-before-extend, composite-runs-last). Materialize each stage to a buffer to force the intended order.
-- **Always read from `<file>.bak`** (not the previous output). The script falls back to `src` only if `.bak` doesn't exist — make sure to back up before the first run so re-runs don't double-process.
-- The content-end y for each panel is measured by raw pixel scan (threshold >60). When a panel changes, re-measure and update the comment block + crop dims in the script.
+**Tuning a thumb (recipe)**:
+1. Read the source `.bak` and measure the true content bbox (raw pixel scan).
+2. Decide target output bbox inside the safe zone (`x ≥ Lmin`, `x ≤ 1390`, `y ≥ 40`, `y ≤ 720`).
+3. Solve for `extendTop/Bottom/Left/Right` so `(content_in_source + extend) * 1440/canvas_w` lands at the target. Keep `canvas_w/canvas_h = 16/9`.
+4. Re-run the script, re-scan the bbox, confirm all four edges pass.
+
+#### Pipeline gotchas
+
+- **Sharp re-orders chained ops** (`resize` runs BEFORE `extend`, `composite` runs LAST). Materialize each stage to a `.toBuffer()` to force the intended order — see the script body.
+- **Always read from `<file>.bak`** (not the previous output). The script falls back to `src` only if `.bak` doesn't exist; back up before the first run so re-runs don't double-process.
+- The content-end y for each panel is measured by raw pixel scan. When a panel changes (e.g. you regenerate the `*-thumb.html` source), re-measure and update the comment block + crop dims in the script.
+- For PNGs generated from `*-thumb.html` via Playwright (e.g. cf-dashboard), screenshot to a regular `.png` path first, then move/rename to `.bak`. Playwright rejects unknown extensions (`Error: path: unsupported mime type "null"`).
 
 ---
 
