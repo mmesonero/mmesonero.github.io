@@ -90,6 +90,10 @@
       background: #131313;
       padding: 14px 12px;
       border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       text-align: center;
     }
     .stat-value {
@@ -97,6 +101,8 @@
       font-weight: 700;
       color: #C9A96E;
       letter-spacing: -0.5px;
+      width: 100%;
+      text-align: center;
     }
     .stat-label {
       font-size: 9.5px;
@@ -105,12 +111,15 @@
       text-transform: uppercase;
       margin-top: 4px;
       font-weight: 500;
+      width: 100%;
+      text-align: center;
     }
     .stat-label small {
       display: block;
       font-size: 8.5px;
       color: #444;
       margin-top: 1px;
+      text-align: center;
     }
 
     .actions {
@@ -144,17 +153,20 @@
     .btn-muted:hover { color: #888; }
 
     @media (max-width: 600px) {
-      .container { gap: 10px; }
-      .subtitle { font-size: 11px; }
-      .pill { padding: 4px 12px; font-size: 10px; }
-      .stats { gap: 6px; }
-      .stat-card { padding: 8px 6px; }
-      .stat-value { font-size: 15px; }
-      .stat-label { font-size: 7.5px; }
-      .stat-label small { font-size: 7px; }
-      .actions { gap: 6px; }
-      .btn { padding: 8px 14px; font-size: 11px; }
-      .icon-ring { width: 56px; height: 56px; }
+      body { padding: 0 10px; }
+      .container { gap: 2px; max-width: 100%; align-items: stretch; text-align: center; }
+      h1 { font-size: 36px; }
+      .subtitle { font-size: 17px; line-height: 1.1; }
+      .pill { padding: 3px 14px; font-size: 15px; align-self: center; }
+      .stats { gap: 6px; width: 100%; justify-items: stretch; margin-top: 0; }
+      .stat-card { padding: 5px 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+      .stat-value { font-size: 32px; text-align: center; line-height: 1; }
+      .stat-label { font-size: 11px; text-align: center; margin-top: 1px; }
+      .stat-label small { font-size: 9px; text-align: center; }
+      .actions { gap: 3px; margin-top: 0; }
+      .btn { padding: 6px 16px; font-size: 17px; }
+      .icon-ring { width: 105px; height: 105px; align-self: center; }
+      .icon-ring img { width: 66px; height: 66px; }
     }
   </style>
 </head>
