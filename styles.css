@@ -1318,8 +1318,22 @@ body::after {
   line-height: 1.05;
   text-shadow: 0 2px 18px rgba(0,0,0,0.55), 0 1px 3px rgba(0,0,0,0.6);
 }
+/* Left-aligned variant — used by split-style slides where the panel sits on the right.
+   `left` uses px floor so it always clears the prev button (at left: 6px, width: 30px). */
+.inline-overlay-panel--left {
+  top: 50%;
+  left: max(56px, 7%);
+  transform: translateY(-50%);
+  max-width: 36%;
+  align-items: flex-start;
+  text-align: left;
+}
+.inline-overlay-panel--left .inline-composed-title {
+  font-size: clamp(15px, 2.8vw, 24px);
+}
 @media (max-width: 820px) {
   .inline-overlay-panel { top: 12px; max-width: calc(100% - 40px); }
+  .inline-overlay-panel--left { top: 12px; left: 50%; transform: translateX(-50%); max-width: calc(100% - 40px); align-items: center; text-align: center; }
   .inline-composed-title { font-size: clamp(15px, 4.2vw, 22px); }
 }
 /* Captures touch events that iframes would otherwise steal */

@@ -20,17 +20,15 @@ const PROJECTS = [
     cardImage: "assets/aio-hero.png",
     logo: "assets/aio-logo.png",
     slides: [
+      { src: "assets/aio-intro.png", caption: "" },
       { src: "assets/aio-dashboard.png", caption: "" },
-      {
-        src: "assets/aio-main-demo.html",
-        caption: "",
-        interactive: true,
-      },
       {
         src: "assets/aio-bubble-demo.html",
         caption: "",
         interactive: true,
-        split: true,
+        // No split: iframe shows IDLE + HOVER bubbles spanning full width,
+        // so left-overlay would sit on top of the left gauge. Top-center keeps
+        // the title above the bubbles instead of overlapping them.
         title: ["Floating bubble,"],
         titleGold: "live temps.",
       },
@@ -573,7 +571,7 @@ function InlineCarousel({ slides }) {
                 : <img src={slide.src} alt="" className="thumb-cover" />
             }
             {(slide.title || slide.titleGold) && (
-              <div className="inline-overlay-panel">
+              <div className={`inline-overlay-panel ${slide.split ? 'inline-overlay-panel--left' : ''}`}>
                 {slide.title && slide.title.map((line, j) => <div key={j} className="composed-title inline-composed-title">{line}</div>)}
                 {slide.titleGold && <div className="composed-title composed-gold inline-composed-title">{slide.titleGold}</div>}
               </div>
@@ -790,11 +788,6 @@ function App() {
       <Hero />
       <main>
         <section className="section container" id="work">
-          <div className="section-head">
-            <h2 className="reveal" style={{ '--d': '120ms' }}>
-              What I've <span className="italic">built</span>
-            </h2>
-          </div>
           {(() => {
             const order = ["AI Agents", "Projects"];
             const ACCENTED_WORDS = ["AI"];
