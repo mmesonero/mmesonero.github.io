@@ -9,9 +9,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg:           #0D0D0D;
-      --surface:      #18181b;
-      --surface-soft: #1f1f23;
+      --bg:           #1A1A17;
+      --surface:      #1A1A17;
+      --surface-soft: #1A1A17;
       --border:       #2a2a2f;
       --text:         #f0ede8;
       --desc:         #7d7975;
@@ -342,7 +342,7 @@
     }
 
     @media (max-width: 600px) {
-      body { padding: 16px 14px 16px; }
+      body { padding: 70px 18px 16px; }
       .hero-title { font-size: 20px; }
       .eyebrow { font-size: 8px; }
       .stats { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
@@ -357,15 +357,6 @@
   </style>
 </head>
 <body>
-  <!-- Hero -->
-  <div class="hero">
-    <div class="hero-logo"><img src="cleanfeed-logo.png" alt="" /></div>
-    <div class="hero-wrap">
-      <div class="eyebrow">Your feeds, on your terms.</div>
-      <div class="hero-title">CleanFeed</div>
-    </div>
-  </div>
-
   <!-- Stats -->
   <div class="stats">
     <div class="stat-card">
@@ -526,123 +517,6 @@
         </div>
       </div>
     </section>
-  </div>
-
-  <!-- Bottom row: General / Speed / Skip -->
-  <div class="bottom">
-    <div class="bottom-card">
-      <div class="bottom-head">
-        <div class="bottom-head-icon"><img src="cleanfeed-logo.png" alt="" /></div>
-        <span class="bottom-name">General</span>
-        <span class="bottom-count">3/3</span>
-      </div>
-      <div class="bottom-row">
-        <div class="br-copy">
-          <strong class="br-name">Subtitles always off</strong>
-          <span class="br-desc">Auto-disables subtitles on any site</span>
-        </div>
-        <label class="switch"><input type="checkbox" checked /><span class="slider"></span></label>
-      </div>
-      <div class="bottom-row">
-        <div class="br-copy">
-          <strong class="br-name">Video speed keys</strong>
-          <span class="br-desc">Keyboard shortcuts to control playback rate</span>
-        </div>
-        <label class="switch"><input type="checkbox" checked /><span class="slider"></span></label>
-      </div>
-    </div>
-
-    <div class="bottom-card">
-      <div class="bottom-head">
-        <span class="bottom-name">Speed Configuration</span>
-      </div>
-      <div class="bottom-row">
-        <div class="br-copy">
-          <strong class="br-name gold">Up</strong>
-          <span class="br-desc">+0.25&times; per press</span>
-        </div>
-        <div class="br-controls">
-          <div class="br-control">
-            <span class="br-control-lbl">Step</span>
-            <div class="br-step">
-              <button class="br-step-btn">&minus;</button>
-              <span class="br-step-val">0.25&times;</span>
-              <button class="br-step-btn">+</button>
-            </div>
-          </div>
-          <div class="br-control">
-            <span class="br-control-lbl">Key</span>
-            <span class="br-key">+</span>
-          </div>
-        </div>
-      </div>
-      <div class="bottom-row">
-        <div class="br-copy">
-          <strong class="br-name gold">Down</strong>
-          <span class="br-desc">&minus;0.25&times; per press</span>
-        </div>
-        <div class="br-controls">
-          <div class="br-control">
-            <span class="br-control-lbl">Step</span>
-            <div class="br-step">
-              <button class="br-step-btn">&minus;</button>
-              <span class="br-step-val">0.25&times;</span>
-              <button class="br-step-btn">+</button>
-            </div>
-          </div>
-          <div class="br-control">
-            <span class="br-control-lbl">Key</span>
-            <span class="br-key">&minus;</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="bottom-card">
-      <div class="bottom-head">
-        <span class="bottom-name">Skip Configuration</span>
-      </div>
-      <div class="bottom-row">
-        <div class="br-copy">
-          <strong class="br-name gold">Forward</strong>
-          <span class="br-desc">+10s per press</span>
-        </div>
-        <div class="br-controls">
-          <div class="br-control">
-            <span class="br-control-lbl">Sec</span>
-            <div class="br-step">
-              <button class="br-step-btn">&minus;</button>
-              <span class="br-step-val">10s</span>
-              <button class="br-step-btn">+</button>
-            </div>
-          </div>
-          <div class="br-control">
-            <span class="br-control-lbl">Key</span>
-            <span class="br-key">&rarr;</span>
-          </div>
-        </div>
-      </div>
-      <div class="bottom-row">
-        <div class="br-copy">
-          <strong class="br-name gold">Back</strong>
-          <span class="br-desc">&minus;10s per press</span>
-        </div>
-        <div class="br-controls">
-          <div class="br-control">
-            <span class="br-control-lbl">Sec</span>
-            <div class="br-step">
-              <button class="br-step-btn">&minus;</button>
-              <span class="br-step-val">10s</span>
-              <button class="br-step-btn">+</button>
-            </div>
-          </div>
-          <div class="br-control">
-            <span class="br-control-lbl">Key</span>
-            <span class="br-key">&larr;</span>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 
   <script>

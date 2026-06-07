@@ -51,7 +51,6 @@ const PROJECTS = [
       { src: "assets/cf-hero.jpg", caption: "" },
       {
         src: "assets/dashboard-demo.html",
-        thumb: "assets/cf-dashboard.png",
         caption: "",
         interactive: true,
         titleGold: "Dashboard.",
@@ -126,6 +125,7 @@ const PROJECTS = [
         src: "assets/ctt-usage-demo.html",
         caption: "",
         interactive: true,
+        titleGold: "Dashboard.",
       },
     ],
   },

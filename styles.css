@@ -32,7 +32,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg:            #0D0D0D;
+    --bg:            #1A1A17;
     --bg-elev:       #1A1A17;
     --bg-muted:      #22221E;
     --text:          #ECEAE3;
@@ -46,7 +46,7 @@
     --shadow-sm:     0 1px 2px rgba(0, 0, 0, 0.30);
     --shadow-md:     0 10px 30px -10px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.30);
     --shadow-lg:     0 30px 70px -20px rgba(0, 0, 0, 0.70), 0 10px 20px -8px rgba(0, 0, 0, 0.40);
-    --thumb-grad:    linear-gradient(135deg, #1A1A17 0%, #1E1E1B 50%, #1A1A17 100%);
+    --thumb-grad:    linear-gradient(135deg, #1A1A17 0%, #1A1A17 50%, #1A1A17 100%);
     --shimmer:       linear-gradient(110deg, transparent 20%, rgba(212, 183, 117, 0.18) 50%, transparent 80%);
   }
 }
@@ -884,14 +884,14 @@ body::after {
   height: 100%;
   aspect-ratio: 1440 / 900;
   min-height: 0;
-  background: #0D0D0D;
+  background: #1A1A17;
   overflow: hidden;
 }
 .carousel-iframe {
   width: 100%;
   height: 100%;
   border: 0;
-  background: #0D0D0D;
+  background: #1A1A17;
   display: block;
   animation: iframeFadeIn .25s ease-out;
 }
@@ -918,7 +918,7 @@ body::after {
   display: flex;
   flex-direction: row;
   align-items: stretch;
-  background: #111113;
+  background: #1A1A17;
 }
 .composed-left {
   flex: 0 0 45%;
@@ -989,7 +989,7 @@ body::after {
   position: relative;
   width: 100%;
   height: 100%;
-  background: #0D0D0D;
+  background: #1A1A17;
 }
 .carousel-overlay .carousel-img {
   width: 100%;
@@ -1053,7 +1053,7 @@ body::after {
   display: flex;
   flex-direction: row;
   align-items: stretch;
-  background: #0D0D0D;
+  background: #1A1A17;
 }
 .split-left {
   flex: 0 0 34%;
@@ -1252,7 +1252,7 @@ body::after {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  background: #0D0D0D;
+  background: #1A1A17;
 }
 .inline-carousel-track {
   display: flex;
@@ -1355,7 +1355,7 @@ body::after {
   height: 100%;
   border: 0;
   display: block;
-  background: #0D0D0D;
+  background: #1A1A17;
 }
 
 /* Slide indicator dots */

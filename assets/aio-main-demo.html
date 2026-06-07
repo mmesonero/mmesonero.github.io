@@ -17,8 +17,8 @@
   --t-lo:   #6c6f80;
   --t-dim:  #43465a;
   --line:   rgba(255,255,255,0.08);
-  --bg:     #0D0D0D;
-  --bg1:    #111113;
+  --bg:     #1A1A17;
+  --bg1:    #1A1A17;
   --bg2:    #161618;
   --f-mono: 'JetBrains Mono', ui-monospace, monospace;
   --f-ui:   'Space Grotesk', system-ui, sans-serif;
@@ -552,7 +552,7 @@ function initCanvas(id, palette) {
 
   function draw() {
     ctx.clearRect(0, 0, W, H);
-    ctx.fillStyle = '#0D0D0D';
+    ctx.fillStyle = '#1A1A17';
     ctx.fillRect(0, 0, W, H);
     for (const p of pts) {
       const [r, g, b] = palette[p.ci];
