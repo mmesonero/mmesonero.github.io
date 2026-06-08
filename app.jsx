@@ -26,9 +26,8 @@ const PROJECTS = [
         src: "assets/aio-bubble-demo.html",
         caption: "",
         interactive: true,
-        // No split: iframe shows IDLE + HOVER bubbles spanning full width,
-        // so left-overlay would sit on top of the left gauge. Top-center keeps
-        // the title above the bubbles instead of overlapping them.
+        // overlay-iframe (top-center title). Demo pushes bubbles to lower
+        // half via .stage padding-top so they don't collide with the title.
         title: ["Floating bubble,"],
         titleGold: "live temps.",
       },
