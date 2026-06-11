@@ -21,11 +21,16 @@ const PROJECTS = [
     logo: "assets/aio-logo.png",
     slides: [
       { src: "assets/aio-cover.png" },
-      { src: "assets/aio-real-dashboard.png" },
-      { src: "assets/aio-real-devices.png", titleGold: "Devices." },
-      { src: "assets/aio-real-scenes.png", titleGold: "Scenes." },
-      { src: "assets/aio-real-wallpaper.png", titleGold: "Wallpaper." },
-      { src: "assets/aio-real-settings.png", titleGold: "Settings." },
+      {
+        src: "assets/aio-bubble-demo.html",
+        interactive: true,
+        titleHtml: 'Bubble with <span class="gold-word">metric</span> and <span class="gold-word">scenes</span>',
+        titleAccent: "#fad34a",
+      },
+      { src: "assets/aio-3.png" },
+      { src: "assets/aio-4.png" },
+      { src: "assets/aio-5.png" },
+      { src: "assets/aio-6.png" },
     ],
   },
   {
@@ -52,7 +57,7 @@ const PROJECTS = [
         src: "assets/popup-demo.html",
         interactive: true,
         split: true,
-        title: ["Open the", "extension,"],
+        title: ["Open the extension,"],
         titleGold: "configure your settings.",
       },
       {
