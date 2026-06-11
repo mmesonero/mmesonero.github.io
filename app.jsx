@@ -31,6 +31,7 @@ const PROJECTS = [
       { src: "assets/aio-4.png" },
       { src: "assets/aio-5.png" },
       { src: "assets/aio-6.png" },
+      { src: "assets/aio-7.png" },
     ],
   },
   {
@@ -77,6 +78,22 @@ const PROJECTS = [
         interactive: true,
         titleHtml: 'Jump <span class="gold-word">forward</span> or <span class="gold-word">back</span>.',
       },
+    ],
+  },
+  {
+    name: "Apple Health Logger",
+    category: "Projects",
+    tagline: "iOS Shortcut, GitHub Action, Google Sheet. My step count is logged on autopilot.",
+    inline: true,
+    tags: ["iOS Shortcut", "GitHub Actions", "Google Sheets"],
+    description:
+      "An iOS Shortcut reads HealthKit step counts on a timer, fires a repository_dispatch event to a GitHub Action, and the action appends the row to a Google Sheet. No app, no laptop, no manual export. Just a quiet pipeline that keeps a daily record without me thinking about it.",
+    status: "complete",
+    githubUrl: "https://github.com/mmesonero/apple-health",
+    accent: "pampano",
+    slides: [
+      { src: "assets/health-1.png" },
+      { src: "assets/health-2.png" },
     ],
   },
   {

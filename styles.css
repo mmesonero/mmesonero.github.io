@@ -450,7 +450,7 @@ body::after {
   100% { background-position: 200% 0; }
 }
 .thumb .corner {
-  position: absolute; top: 16px; left: 16px;
+  position: absolute; top: 8px; left: 8px;
   font-family: var(--mono);
   font-size: 10px;
   letter-spacing: 0.2em;
