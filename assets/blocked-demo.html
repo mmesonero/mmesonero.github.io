@@ -9,14 +9,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; background: #1A1A17; }
+    html, body { height: 100%; background: #0D0D0D; }
     body {
       font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: #e0e0e0;
       display: flex;
       align-items: center;
-      justify-content: flex-start;
-      padding: clamp(14px, 4vh, 32px) 32px;
+      justify-content: flex-end;
+      padding: 28px 80px 28px 24px;
       overflow: hidden;
     }
 
@@ -24,22 +24,23 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 22px;
-      max-width: 420px;
-      width: 100%;
+      gap: 14px;
+      width: 420px;
+      flex-shrink: 0;
       text-align: center;
+      transform-origin: center right;
     }
 
     .icon-ring {
       width: 96px;
       height: 96px;
       border-radius: 50%;
-      border: 2px solid #C9A96E;
+      border: 2px solid #e2ba6b;
       background: #1A1A17;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 0 28px #C9A96E22;
+      box-shadow: 0 0 28px #e2ba6b22;
     }
     .icon-ring img {
       width: 60px;
@@ -50,7 +51,7 @@
     h1 {
       font-size: 28px;
       font-weight: 700;
-      color: #C9A96E;
+      color: #e2ba6b;
       letter-spacing: 0.2px;
     }
 
@@ -61,7 +62,7 @@
       font-weight: 300;
     }
     .subtitle em {
-      color: #C9A96E;
+      color: #e2ba6b;
       font-style: normal;
       font-weight: 500;
     }
@@ -99,7 +100,7 @@
     .stat-value {
       font-size: 22px;
       font-weight: 700;
-      color: #C9A96E;
+      color: #e2ba6b;
       letter-spacing: -0.5px;
       width: 100%;
       text-align: center;
@@ -141,10 +142,10 @@
     }
     .btn-primary {
       background: transparent;
-      border: 1px solid #C9A96E;
-      color: #C9A96E;
+      border: 1px solid #e2ba6b;
+      color: #e2ba6b;
     }
-    .btn-primary:hover { background: rgba(201,169,110,0.08); }
+    .btn-primary:hover { background: rgba(226, 186, 107,0.08); }
     .btn-muted {
       background: #1A1A17;
       border: 1px solid #2a2a2a;
@@ -152,7 +153,7 @@
     }
     .btn-muted:hover { color: #888; }
 
-    @media (max-width: 600px) {
+    @media (max-width: 380px) {
       body { padding: 2px 10px; }
       .container { gap: 5px; max-width: 100%; align-items: stretch; text-align: center; }
       h1 { font-size: 26px; }
@@ -206,6 +207,32 @@
       el.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); });
       el.tabIndex = -1;
     });
+
+    /* Scale content to fit right half of viewport (split slide). */
+    (function () {
+      function fit() {
+        var w = window.innerWidth, h = window.innerHeight;
+        if (w <= 0 || h <= 0) return;
+        var c = document.querySelector('.container');
+        if (!c) return;
+        c.style.transform = '';
+        var rw = c.scrollWidth, rh = c.scrollHeight;
+        if (rw <= 0 || rh <= 0) return;
+        // Use actual padding clearance, not viewport-fraction (otherwise scale
+        // collapses when iframe shrinks past the 820px grid breakpoint).
+        var availW = w - 104;   // 80 right + 24 left padding
+        var availH = h * 0.82;
+        var s = Math.min(1, availW / rw, availH / rh);
+        if (s <= 0) return;
+        c.style.transform = 'scale(' + s + ')';
+      }
+      window.addEventListener('resize', fit);
+      window.addEventListener('load', fit);
+      if (window.ResizeObserver) {
+        new ResizeObserver(fit).observe(document.documentElement);
+      }
+      fit();
+    }());
   </script>
 </body>
 </html>

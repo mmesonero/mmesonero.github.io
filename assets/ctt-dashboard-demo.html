@@ -6,19 +6,21 @@
   <title>Claude Token Tracker, Dashboard</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; background: #1A1A17; }
+    html, body { height: 100%; background: #0D0D0D; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
       display: flex;
       align-items: center;
-      justify-content: center;
-      padding: 32px;
+      justify-content: flex-end;
+      padding: 18px 80px 18px 24px;
       overflow: hidden;
     }
 
     /* Window chrome */
     .window {
-      width: 380px;
+      width: 320px;
+      background: #0F0E0D;
+      max-width: 100%;
       background: #1A1A17;
       color: #FFFDF7;
       border-radius: 12px;
@@ -70,6 +72,7 @@
     .header {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 10px;
       margin-bottom: 20px;
       width: 320px;
@@ -343,13 +346,12 @@
         <div class="card" id="card-daily">
           <div class="card-top">
             <span class="card-label">5-hour limit <span class="chevron">â–¾</span></span>
-            <span class="card-reset">resets Tue 18:10</span>
           </div>
           <div class="bar-row">
             <div class="bar-track">
-              <div class="bar-fill" style="width:100%;background:#EF4444;"></div>
+              <div class="bar-fill" style="width:0%;background:#F97316;"></div>
             </div>
-            <span class="pct" style="color:#EF4444;">100%</span>
+            <span class="pct" style="color:#F97316;">0%</span>
           </div>
           <div class="card-details">
             <div class="detail-divider"></div>
@@ -380,13 +382,12 @@
         <div class="card" id="card-weekly">
           <div class="card-top">
             <span class="card-label">Weekly <span class="chevron">â–¾</span></span>
-            <span class="card-reset">resets Mon 15:00</span>
           </div>
           <div class="bar-row">
             <div class="bar-track">
-              <div class="bar-fill" style="width:24%;background:#3B82F6;"></div>
+              <div class="bar-fill" style="width:0%;background:#3B82F6;"></div>
             </div>
-            <span class="pct" style="color:#3B82F6;">24%</span>
+            <span class="pct" style="color:#3B82F6;">0%</span>
           </div>
           <div class="card-details">
             <div class="detail-divider"></div>
@@ -415,7 +416,7 @@
         <span class="footer-link">LinkedIn</span>
       </div>
 
-      <div class="updated">Updated at 16:27:02</div>
+      <div class="updated">Updated at 00:47:08</div>
     </div>
   </div>
 
@@ -427,6 +428,31 @@
         if (!isExpanded) card.classList.add('expanded');
       });
     });
+  </script>
+
+  <script>
+    /* Scale window to fit available iframe height (below JSX title overlay). */
+    (function () {
+      function fit() {
+        var w = window.innerWidth, h = window.innerHeight;
+        if (w <= 0 || h <= 0) return;
+        var win = document.querySelector('.window');
+        if (!win) return;
+        win.style.transform = '';
+        win.style.transformOrigin = 'center right';
+        var rw = win.scrollWidth, rh = win.scrollHeight;
+        if (rw <= 0 || rh <= 0) return;
+        var availW = w * 0.50;        // right half of slide (split layout)
+        var availH = h - 36;          // 18 top + 18 bottom
+        var s = Math.min(1, availW / rw, availH / rh);
+        if (s <= 0) return;
+        win.style.transform = 'scale(' + s + ')';
+      }
+      window.addEventListener('resize', fit);
+      window.addEventListener('load', fit);
+      if (window.ResizeObserver) new ResizeObserver(fit).observe(document.documentElement);
+      fit();
+    }());
   </script>
 </body>
 </html>

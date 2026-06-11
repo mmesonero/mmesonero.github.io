@@ -32,7 +32,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg:            #1A1A17;
+    --bg:            #0D0D0D;
     --bg-elev:       #1A1A17;
     --bg-muted:      #22221E;
     --text:          #ECEAE3;
@@ -40,14 +40,14 @@
     --text-soft:     #6B655C;
     --border:        rgba(236, 234, 227, 0.08);
     --border-strong: rgba(236, 234, 227, 0.16);
-    --accent:        #D4B775;
-    --accent-soft:   rgba(212, 183, 117, 0.10);
+    --accent:        #e2ba6b;
+    --accent-soft:   rgba(226, 186, 107, 0.10);
     --accent-strong: #E2C589;
     --shadow-sm:     0 1px 2px rgba(0, 0, 0, 0.30);
     --shadow-md:     0 10px 30px -10px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.30);
     --shadow-lg:     0 30px 70px -20px rgba(0, 0, 0, 0.70), 0 10px 20px -8px rgba(0, 0, 0, 0.40);
-    --thumb-grad:    linear-gradient(135deg, #1A1A17 0%, #1A1A17 50%, #1A1A17 100%);
-    --shimmer:       linear-gradient(110deg, transparent 20%, rgba(212, 183, 117, 0.18) 50%, transparent 80%);
+    --thumb-grad:    linear-gradient(135deg, #0D0D0D 0%, #0D0D0D 50%, #0D0D0D 100%);
+    --shimmer:       linear-gradient(110deg, transparent 20%, rgba(226, 186, 107, 0.18) 50%, transparent 80%);
   }
 }
 
@@ -101,8 +101,8 @@ body::after {
 @media (prefers-color-scheme: dark) {
   body::before {
     background-image:
-      radial-gradient(ellipse 900px 700px at 12% 8%, rgba(212,183,117,0.06), transparent 60%),
-      radial-gradient(ellipse 800px 600px at 88% 82%, rgba(212,183,117,0.05), transparent 60%),
+      radial-gradient(ellipse 900px 700px at 12% 8%, rgba(226, 186, 107,0.06), transparent 60%),
+      radial-gradient(ellipse 800px 600px at 88% 82%, rgba(226, 186, 107,0.05), transparent 60%),
       radial-gradient(ellipse 1400px 900px at 50% 50%, transparent 0%, rgba(0,0,0,0.35) 90%);
   }
   body::after {
@@ -351,7 +351,13 @@ body::after {
 }
 @media (max-width: 820px) {
   .projects { grid-template-columns: 1fr; gap: 20px; }
+  .projects:has(> :only-child) { grid-template-columns: 1fr; }
   .projects > :last-child:nth-child(odd):not(:only-child) { width: 100%; grid-column: auto; }
+  /* Cap inline-card width so the carousel slide rendered iframe stays the
+     same size whether the grid is 2-col (above 820px, ~700w card) or
+     1-col (below, full container width). Prevents fit() in inline demos
+     from rescaling drastically across the breakpoint. */
+  .card.card-inline { max-width: 720px; margin-left: auto; margin-right: auto; }
 }
 
 /* Category groups */
@@ -884,14 +890,14 @@ body::after {
   height: 100%;
   aspect-ratio: 1440 / 900;
   min-height: 0;
-  background: #1A1A17;
+  background: #0D0D0D;
   overflow: hidden;
 }
 .carousel-iframe {
   width: 100%;
   height: 100%;
   border: 0;
-  background: #1A1A17;
+  background: #0D0D0D;
   display: block;
   animation: iframeFadeIn .25s ease-out;
 }
@@ -918,7 +924,7 @@ body::after {
   display: flex;
   flex-direction: row;
   align-items: stretch;
-  background: #1A1A17;
+  background: #0D0D0D;
 }
 .composed-left {
   flex: 0 0 45%;
@@ -943,7 +949,7 @@ body::after {
   font-family: var(--sans);
 }
 .composed-gold {
-  color: var(--accent);
+  color: var(--slide-accent, var(--accent));
 }
 .composed-subs {
   margin-top: 24px;
@@ -989,7 +995,7 @@ body::after {
   position: relative;
   width: 100%;
   height: 100%;
-  background: #1A1A17;
+  background: #0D0D0D;
 }
 .carousel-overlay .carousel-img {
   width: 100%;
@@ -1053,7 +1059,7 @@ body::after {
   display: flex;
   flex-direction: row;
   align-items: stretch;
-  background: #1A1A17;
+  background: #0D0D0D;
 }
 .split-left {
   flex: 0 0 34%;
@@ -1252,7 +1258,7 @@ body::after {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  background: #1A1A17;
+  background: #0D0D0D;
 }
 .inline-carousel-track {
   display: flex;
@@ -1323,6 +1329,7 @@ body::after {
   line-height: 1.05;
   text-shadow: 0 2px 18px rgba(0,0,0,0.55), 0 1px 3px rgba(0,0,0,0.6);
 }
+.gold-word { color: var(--slide-accent, var(--accent)); }
 /* Left-aligned variant â€” used by split-style slides where the panel sits on the right.
    `left` uses px floor so it always clears the prev button (at left: 6px, width: 30px). */
 .inline-overlay-panel--left {
@@ -1337,8 +1344,8 @@ body::after {
   font-size: clamp(15px, 2.8vw, 24px);
 }
 @media (max-width: 820px) {
-  .inline-overlay-panel { top: 12px; max-width: calc(100% - 40px); }
-  .inline-overlay-panel--left { top: 12px; left: 50%; transform: translateX(-50%); max-width: calc(100% - 40px); align-items: center; text-align: center; }
+  .inline-overlay-panel { top: 28px; max-width: calc(100% - 40px); }
+  .inline-overlay-panel--left { top: 50%; left: max(40px, 6%); transform: translateY(-50%); max-width: 40%; align-items: flex-start; text-align: left; }
   .inline-composed-title { font-size: clamp(15px, 4.2vw, 22px); }
 }
 /* Captures touch events that iframes would otherwise steal */
@@ -1355,7 +1362,7 @@ body::after {
   height: 100%;
   border: 0;
   display: block;
-  background: #1A1A17;
+  background: #0D0D0D;
 }
 
 /* Slide indicator dots */

@@ -9,15 +9,15 @@
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --p:      #D4B775;
-  --p-dim:  rgba(212,183,117,0.5);
-  --p-glow: rgba(212,183,117,0.45);
+  --p:      #e2ba6b;
+  --p-dim:  rgba(226, 186, 107,0.5);
+  --p-glow: rgba(226, 186, 107,0.45);
   --t-hi:   #f5f5f7;
   --t-md:   #b4b6c2;
   --t-lo:   #6c6f80;
   --t-dim:  #43465a;
   --line:   rgba(255,255,255,0.08);
-  --bg:     #1A1A17;
+  --bg:     #0D0D0D;
   --bg1:    #1A1A17;
   --bg2:    #161618;
   --f-mono: 'JetBrains Mono', ui-monospace, monospace;
@@ -79,7 +79,7 @@ html, body {
   letter-spacing: 0.2em;
   color: var(--p-dim);
   padding: 2px 12px;
-  border: 1px solid rgba(212,183,117,0.15);
+  border: 1px solid rgba(226, 186, 107,0.15);
   border-radius: 100px;
 }
 .tb-scene-badge b { color: var(--p); font-weight: 500; }
@@ -179,7 +179,7 @@ html, body {
   gap: clamp(8px, 1.2vh, 12px);
   transition: border-color 0.2s;
 }
-.scene-tile.active { border-color: rgba(212,183,117,0.4); }
+.scene-tile.active { border-color: rgba(226, 186, 107,0.4); }
 .scene-top {
   display: flex;
   align-items: center;
@@ -223,7 +223,7 @@ html, body {
   overflow: hidden;
   position: relative;
 }
-.wp-thumb.active { border-color: rgba(212,183,117,0.4); }
+.wp-thumb.active { border-color: rgba(226, 186, 107,0.4); }
 .wp-thumb canvas { width: 100%; height: 100%; display: block; }
 .wp-label {
   position: absolute;
@@ -296,10 +296,10 @@ html, body {
   height: clamp(64px, 8vw, 84px);
   border-radius: 50%;
   background:
-    radial-gradient(120% 120% at 50% 0%, rgba(212,183,117,0.1), transparent 55%),
+    radial-gradient(120% 120% at 50% 0%, rgba(226, 186, 107,0.1), transparent 55%),
     radial-gradient(circle at 50% 50%, #0e0f17 0%, #07080d 100%);
   border: 1px solid rgba(255,255,255,0.1);
-  box-shadow: 0 0 0 1px rgba(212,183,117,0.12),
+  box-shadow: 0 0 0 1px rgba(226, 186, 107,0.12),
               0 8px 32px rgba(0,0,0,0.5);
   display: flex;
   flex-direction: column;
@@ -311,7 +311,7 @@ html, body {
 .bp-ring {
   position: absolute; inset: -3px;
   border-radius: 50%;
-  border: 1px dashed rgba(212,183,117,0.22);
+  border: 1px dashed rgba(226, 186, 107,0.22);
   animation: bpspin 40s linear infinite;
 }
 @keyframes bpspin { to { transform: rotate(360deg); } }
@@ -362,7 +362,7 @@ html, body {
       <div class="sb-section-label"><b>5</b> DEVICES SYNCED</div>
 
       <div class="dev-item active">
-        <div class="dev-led on" style="background:#D4B775;--led-color:rgba(212,183,117,0.7)"></div>
+        <div class="dev-led on" style="background:#e2ba6b;--led-color:rgba(226, 186, 107,0.7)"></div>
         <div>
           <div>Corsair K100</div>
           <div class="dev-brand">KEYBOARD</div>

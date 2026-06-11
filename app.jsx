@@ -20,17 +20,12 @@ const PROJECTS = [
     cardImage: "assets/aio-hero.png",
     logo: "assets/aio-logo.png",
     slides: [
-      { src: "assets/aio-intro.png", caption: "" },
-      { src: "assets/aio-dashboard.png", caption: "" },
-      {
-        src: "assets/aio-bubble-demo.html",
-        caption: "",
-        interactive: true,
-        // overlay-iframe (top-center title). Demo pushes bubbles to lower
-        // half via .stage padding-top so they don't collide with the title.
-        title: ["Floating bubble,"],
-        titleGold: "live temps.",
-      },
+      { src: "assets/aio-cover.png" },
+      { src: "assets/aio-real-dashboard.png" },
+      { src: "assets/aio-real-devices.png", titleGold: "Devices." },
+      { src: "assets/aio-real-scenes.png", titleGold: "Scenes." },
+      { src: "assets/aio-real-wallpaper.png", titleGold: "Wallpaper." },
+      { src: "assets/aio-real-settings.png", titleGold: "Settings." },
     ],
   },
   {
@@ -47,26 +42,21 @@ const PROJECTS = [
     cardImage: "assets/cf-hero.jpg",
     logo: "assets/cf-logo.png",
     slides: [
-      { src: "assets/cf-hero.jpg", caption: "" },
+      { src: "assets/cf-hero.jpg" },
       {
         src: "assets/dashboard-demo.html",
-        caption: "",
         interactive: true,
         titleGold: "Dashboard.",
       },
       {
         src: "assets/popup-demo.html",
-        thumb: "assets/cf-popup.png",
-        caption: "",
         interactive: true,
         split: true,
         title: ["Open the", "extension,"],
-        titleGold: "take it all back.",
+        titleGold: "configure your settings.",
       },
       {
         src: "assets/blocked-demo.html",
-        thumb: "assets/cf-blocked.png",
-        caption: "",
         interactive: true,
         split: true,
         title: ["Block sites", "before you"],
@@ -74,19 +64,13 @@ const PROJECTS = [
       },
       {
         src: "assets/speed-demo.html",
-        thumb: "assets/cf-speed.png",
-        caption: "",
         interactive: true,
-        title: ["Watch at your own"],
-        titleGold: "pace.",
+        titleHtml: 'Watch at your own <span class="gold-word">pace.</span>',
       },
       {
         src: "assets/skip-demo.html",
-        thumb: "assets/cf-skip.png",
-        caption: "",
         interactive: true,
-        title: ["Jump forward"],
-        titleGold: "or back.",
+        titleHtml: 'Jump <span class="gold-word">forward</span> or <span class="gold-word">back</span>.',
       },
     ],
   },
@@ -104,27 +88,27 @@ const PROJECTS = [
     cardImage: "assets/ctt-hero.png",
     logo: "assets/ctt-icon-large.png",
     slides: [
-      { src: "assets/ctt-hero-demo.html", caption: "", interactive: true },
+      { src: "assets/ctt-cover.png" },
       {
         src: "assets/ctt-widget-demo.html",
-        caption: "",
         interactive: true,
         title: ["Below every"],
         titleGold: "claude.ai chat box.",
+        titleAccent: "#dc6b11",
       },
       {
         src: "assets/ctt-dashboard-demo.html",
-        caption: "",
         interactive: true,
         split: true,
         title: ["Extension. One click"],
         titleGold: "to track the usage.",
+        titleAccent: "#dc6b11",
       },
       {
         src: "assets/ctt-usage-demo.html",
-        caption: "",
         interactive: true,
         titleGold: "Dashboard.",
+        titleAccent: "#dc6b11",
       },
     ],
   },
@@ -141,8 +125,8 @@ const PROJECTS = [
     inline: true,
     cardImage: "assets/gmail-hero.png",
     slides: [
-      { src: "assets/gmail-hero.png", caption: "" },
-      { src: "assets/gmail-features-hero.png", caption: "" },
+      { src: "assets/gmail-hero.png" },
+      { src: "assets/gmail-features-hero.png" },
     ],
   },
 ];
@@ -570,10 +554,17 @@ function InlineCarousel({ slides }) {
                 ? <iframe src={slide.src} className="inline-carousel-iframe" frameBorder="0" scrolling="no" title={`Demo ${i}`} />
                 : <img src={slide.src} alt="" className="thumb-cover" />
             }
-            {(slide.title || slide.titleGold) && (
-              <div className={`inline-overlay-panel ${slide.split ? 'inline-overlay-panel--left' : ''}`}>
-                {slide.title && slide.title.map((line, j) => <div key={j} className="composed-title inline-composed-title">{line}</div>)}
-                {slide.titleGold && <div className="composed-title composed-gold inline-composed-title">{slide.titleGold}</div>}
+            {(slide.title || slide.titleGold || slide.titleHtml) && (
+              <div className={`inline-overlay-panel ${slide.split ? 'inline-overlay-panel--left' : ''}`} style={slide.titleAccent ? { '--slide-accent': slide.titleAccent } : undefined}>
+                {slide.titleHtml
+                  ? <div className="composed-title inline-composed-title" dangerouslySetInnerHTML={{ __html: slide.titleHtml }} />
+                  : (
+                    <>
+                      {slide.title && slide.title.map((line, j) => <div key={j} className="composed-title inline-composed-title">{line}</div>)}
+                      {slide.titleGold && <div className="composed-title composed-gold inline-composed-title">{slide.titleGold}</div>}
+                    </>
+                  )
+                }
               </div>
             )}
             <div className="slide-swipe-overlay" />

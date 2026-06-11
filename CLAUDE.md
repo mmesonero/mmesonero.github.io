@@ -54,10 +54,14 @@ Italics were also eliminated globally — every `.italic` span was changed to `f
 
 ### Colors
 
-- `--bg`: `#121210` (dark mode default)
+- `--bg`: `#0D0D0D` (dark mode page / carousel / iframe — the dark plane)
+- `--bg-elev`: `#1A1A17` (the lighter card surface — `.card.card-inline` body, modal, internal demo panels)
 - `--text`: `#ECEAE3`
 - `--accent`: `#D4B775` (gold) — used for category labels, gold pills, accent in titles, "View on GitHub" hover
-- **Carousel/iframe background is ALWAYS `#0B0B0B`** — do NOT change it. Demo HTMLs must set `body { background: #0B0B0B }`.
+- **Carousel/iframe background is ALWAYS `#0D0D0D`.** Demo HTMLs must set `body { background: #0D0D0D }`.
+- **Project card body (`.card.card-inline` `.card-body`) is ALWAYS `#1A1A17`** via `--bg-elev`. The slide above is `#0D0D0D`, the card body below it is `#1A1A17`. This two-tone is INTENTIONAL — the card body must read as a lighter elevated surface that holds the project name + tagline + GitHub button.
+- **`--bg` and `--bg-elev` MUST remain separate tokens with different hex values.** Never collapse them (no `--bg-elev: var(--bg)`, no global `#1A1A17` → `#0D0D0D` sweep, no `--bg-elev: #0D0D0D`). If you ever unify them, the card body merges into the slide and the project name area stops reading as a card — that's the failure mode the user has already flagged twice. Revert immediately.
+- **Internal panels INSIDE demo HTMLs stay `#1A1A17`** (popup-frame in `popup-demo.html`, `.platform` rows, `.email-card`, `.label-card`, etc.). They are cards floating on the dark `#0D0D0D` demo body. Do not sweep those internal `#1A1A17` values when changing the global plane color.
 
 ### Typography lock — hero ↔ carousel slide titles
 
@@ -110,7 +114,7 @@ The carousel is the modal slideshow. Dimensions are **LOCKED to aspect-ratio 144
 
 ```css
 .modal .thumb         { aspect-ratio: 1440 / 900; height: auto; }
-.carousel             { aspect-ratio: 1440 / 900; background: #0B0B0B; }
+.carousel             { aspect-ratio: 1440 / 900; background: #0D0D0D; }
 .modal-carousel-wrap  { aspect-ratio: 1440 / 900; }
 ```
 
@@ -133,7 +137,7 @@ Every `<iframe>` in the Carousel uses `key={slides[idx].src}` and a CSS fade-in 
 
 ```css
 .carousel-iframe {
-  background: #0B0B0B;
+  background: #0D0D0D;
   animation: iframeFadeIn .25s ease-out;
 }
 ```
@@ -176,7 +180,7 @@ Every interactive slide is a static HTML file in `assets/*-demo.html`. They're l
 
 ### Rules
 
-1. **Body background MUST be `#0B0B0B`** to match the carousel. Never a different shade.
+1. **Body background MUST be `#0D0D0D`** to match the carousel. Never a different shade.
 2. **Use REAL CSS from the actual source project being demoed**. Copy variables, colors, spacing from the project. Examples:
    - CleanFeed demos → `cleanfeed/ui/popup.html`, `cleanfeed/ui/dashboard.html`, `cleanfeed/content/video.js`
    - Claude Token Tracker demos → `claude-token-tracker/dashboard.html`, `claude-token-tracker/content.js`, `claude-token-tracker/options.html`
@@ -243,9 +247,9 @@ A slide is "split" when its config has `split: true` (the JSX overlay sits LEFT,
 
 For CleanFeed-style thumbnails (panel + baked title text), the script does:
 
-1. **mask** the baked title region with bg (`#0B0B0B`).
+1. **mask** the baked title region with bg (`#0D0D0D`).
 2. **crop** EXACTLY the panel content range (drops the empty internal padding inside the panel box). For 2x2-grid cards (cf-dashboard), this is the full content row block instead of a single panel.
-3. **extend** the canvas to 16:9 with bg (`#0B0B0B`) so the panel lands inside the safe zone after resize. `extendLeft/Right` shrink the panel horizontally so it clears the `<>` buttons; `extendTop/Bottom` position it vertically (and shift it down to clear top-center title when needed).
+3. **extend** the canvas to 16:9 with bg (`#0D0D0D`) so the panel lands inside the safe zone after resize. `extendLeft/Right` shrink the panel horizontally so it clears the `<>` buttons; `extendTop/Bottom` position it vertically (and shift it down to clear top-center title when needed).
 4. **resize** to 1440×810.
 
 After each script run, verify the output panel bbox sits inside the safe zone with a raw-pixel bbox scan (threshold >60 for content, >14 for full panel box). All five CleanFeed thumbs currently pass.
@@ -449,7 +453,7 @@ Descriptions are **2-3 short sentences max**. Current targets:
 
 ## Lessons learned (do not repeat)
 
-1. **PNG canvas color must be `#0B0B0B`.** A `#111113` canvas looks like a visible grey box inside the carousel. Either crop the PNG to remove the canvas or rebuild as an HTML demo.
+1. **PNG canvas color must be `#0D0D0D`.** A `#111113` canvas looks like a visible grey box inside the carousel. Either crop the PNG to remove the canvas or rebuild as an HTML demo.
 2. **Never bake text into PNGs.** Baked-in fonts won't match Outfit. Use HTML overlay text via React.
 3. **Never use `min-height` on the carousel.** Lock with `aspect-ratio: 1440 / 900` so slides don't change size between navigation.
 4. **Never duplicate the title inside the demo HTML.** If React's split-left or overlay-panel provides the title, the demo HTML must not have its own big header.
@@ -461,7 +465,7 @@ Descriptions are **2-3 short sentences max**. Current targets:
 10. **The single-card category centering is `:has(> :only-child)`** on `.projects`. Don't break it; modern browsers support `:has()` fine.
 11. **`.composed-title` typography is locked to hero h1.** `font-weight: 700`, `letter-spacing: -0.035em`, `color: var(--text)`. **Don't** drift back to weight 600 / no spacing — the slide title stops reading as "the same voice as the hero" and the eye sees two different typesetters.
 12. **`.composed-gold` MUST be `var(--accent)` (`#D4B775`)**, never `#d4a84b`. Same gold across hero italic, category headers, gold pills, and slide gold accents. A 2-3 hue drift in gold is enough that the page reads as inconsistent even if you can't name why.
-13. **All carousel slide assets are exactly 1440×900.** This was violated by `aio-dashboard.png` (1373×821) which letterboxed under `object-fit: cover` and shifted layout. Fixed by re-rendering onto a 1440×900 `#0B0B0B` canvas. Audit with `System.Drawing.Image::FromFile` whenever a slide looks "off."
+13. **All carousel slide assets are exactly 1440×900.** This was violated by `aio-dashboard.png` (1373×821) which letterboxed under `object-fit: cover` and shifted layout. Fixed by re-rendering onto a 1440×900 `#0D0D0D` canvas. Audit with `System.Drawing.Image::FromFile` whenever a slide looks "off."
 
 ---
 

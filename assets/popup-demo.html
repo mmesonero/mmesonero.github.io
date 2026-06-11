@@ -14,45 +14,57 @@
       user-select: none;
       display: flex;
       align-items: center;
-      justify-content: center;
-      padding: 24px;
+      justify-content: flex-end;
+      padding: 14px 100px 14px 0;
       overflow: hidden;
     }
-    @media (max-width: 600px) {
-      body { padding: 8px; }
-      .popup-frame { width: 100%; max-width: 100%; height: 100%; max-height: 540px; }
+    .popup-wrap {
+      width: 348px;
+      transform-origin: center right;
+      flex-shrink: 0;
     }
 
-    /* Popup container, fixed size, internal scroll */
+    /* Popup container — looks like a floating Chrome extension popup */
     .popup-frame {
       width: 348px;
-      height: 540px;
       background: #1A1A17;
-      border: 0;
-      border-radius: 0;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
       overflow: hidden;
-      box-shadow: none;
+      box-shadow:
+        0 14px 36px rgba(0, 0, 0, 0.55),
+        0 4px 10px rgba(0, 0, 0, 0.45);
       display: flex;
       flex-direction: column;
       position: relative;
     }
+    .popup-frame::before {
+      content: "";
+      position: absolute;
+      top: -7px;
+      right: 38px;
+      width: 12px;
+      height: 12px;
+      background: #1A1A17;
+      border-left: 1px solid rgba(255, 255, 255, 0.06);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      transform: rotate(45deg);
+      z-index: 1;
+    }
 
     .popup-scroll {
-      flex: 1;
-      overflow-y: auto;
-      overflow-x: hidden;
-      scrollbar-width: thin;
-      scrollbar-color: #3a3a3d #111111;
+      flex: 0 0 auto;
+      overflow: hidden;
     }
 
     .popup-scroll::-webkit-scrollbar { width: 6px; }
     .popup-scroll::-webkit-scrollbar-track { background: transparent; }
     .popup-scroll::-webkit-scrollbar-thumb {
-      background: rgba(212, 168, 75, 0.35);
+      background: rgba(226, 186, 107, 0.35);
       border-radius: 3px;
     }
     .popup-scroll::-webkit-scrollbar-thumb:hover {
-      background: rgba(212, 168, 75, 0.55);
+      background: rgba(226, 186, 107, 0.55);
     }
 
     button, input { font: inherit; }
@@ -83,7 +95,7 @@
       white-space: nowrap;
       flex-shrink: 0;
     }
-    .config-btn:hover { color: #C9A96E; border-color: rgba(201,169,110,0.35); }
+    .config-btn:hover { color: #e2ba6b; border-color: rgba(226, 186, 107,0.35); }
 
     .header-logo { width: 28px; height: 28px; flex-shrink: 0; }
     .header-logo img { width: 100%; height: 100%; object-fit: contain; display: block; }
@@ -146,7 +158,8 @@
       padding: 0 11px;
       flex-shrink: 0;
     }
-    .lock-btn:hover { color: #C9A96E; }
+    .lock-btn:hover { color: #e2ba6b; }
+    .lock-btn.locked { color: #e2ba6b; }
 
     /* Settings */
     .setting-row {
@@ -202,12 +215,12 @@
       transition: transform 0.2s, background 0.2s;
     }
     .switch input:checked + .slider {
-      background: #C9A96E22;
-      border-color: #C9A96E77;
+      background: #e2ba6b22;
+      border-color: #e2ba6b77;
     }
     .switch input:checked + .slider::before {
       transform: translateX(16px);
-      background: #C9A96E;
+      background: #e2ba6b;
     }
 
     /* General */
@@ -243,7 +256,7 @@
       padding: 4px 10px;
       white-space: nowrap;
     }
-    .dashboard-btn:hover { color: #C9A96E; border-color: rgba(201,169,110,0.4); }
+    .dashboard-btn:hover { color: #e2ba6b; border-color: rgba(226, 186, 107,0.4); }
 
     .setting-link-arrow { font-size: 10px; color: #444; margin-left: 3px; vertical-align: middle; }
 
@@ -256,9 +269,9 @@
       background: rgba(20, 20, 20, 0.85);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(212, 168, 75, 0.35);
+      border: 1px solid rgba(226, 186, 107, 0.35);
       border-radius: 999px;
-      color: rgba(212, 168, 75, 0.9);
+      color: rgba(226, 186, 107, 0.9);
       font-size: 10px;
       font-weight: 600;
       letter-spacing: 1px;
@@ -276,19 +289,37 @@
     .scroll-hint.hidden { display: none; }
   </style>
   <script>
-    /* Scale the popup to fit the card viewport at any size ≤ modal size */
+    /* Scale popup to fit viewport in both dimensions, keep centered.
+       Re-fit on iframe resize (ResizeObserver on documentElement catches
+       initial layout pass + container resizes). */
     (function () {
       function fit() {
-        var s = Math.min(1, window.innerHeight / 540);
-        document.documentElement.style.transform = 'scale(' + s + ')';
-        document.documentElement.style.transformOrigin = 'top center';
+        var w = window.innerWidth, h = window.innerHeight;
+        if (w <= 0 || h <= 0) return;
+        // Reserve LEFT half for the JSX overlay title (split slide).
+        // Popup hugs the right edge; right padding (56px) clears the > button.
+        var availW = w * 0.42;
+        var availH = h * 0.94;
+        var wrap = document.querySelector('.popup-wrap');
+        if (!wrap) return;
+        wrap.style.transform = '';
+        var natW = wrap.scrollWidth || 348;
+        var natH = wrap.scrollHeight || 540;
+        var s = Math.min(1, availW / natW, availH / natH);
+        if (s <= 0) return;
+        wrap.style.transform = 'scale(' + s + ')';
+      }
+      window.addEventListener('resize', fit);
+      window.addEventListener('load', fit);
+      if (window.ResizeObserver) {
+        new ResizeObserver(fit).observe(document.documentElement);
       }
       fit();
-      window.addEventListener('resize', fit);
     }());
   </script>
 </head>
 <body>
+  <div class="popup-wrap">
   <div class="popup-frame">
     <div class="popup-scroll" id="scrollArea">
       <!-- Header -->
@@ -355,7 +386,7 @@
           </div>
         </section>
 
-        <!-- Instagram: 2/3 (now expanded, not blocked) -->
+        <!-- Instagram: collapsed, lock active -->
         <section class="platform">
           <div class="platform-head">
             <div class="platform-toggle">
@@ -363,131 +394,14 @@
               <span class="platform-name">Instagram</span>
               <span class="platform-count">2/3</span>
             </div>
-            <button type="button" class="lock-btn">&#x1F513;</button>
-          </div>
-          <div class="setting-list">
-            <div class="setting-row">
-              <div class="setting-copy">
-                <strong class="setting-name">Hide Reels</strong>
-                <span class="setting-desc">Removes Reels from the app</span>
-              </div>
-              <label class="switch"><input type="checkbox" checked /><span class="slider"></span></label>
-            </div>
-            <div class="setting-row">
-              <div class="setting-copy">
-                <strong class="setting-name">Only accounts I follow</strong>
-                <span class="setting-desc">Filters feed to followed accounts only</span>
-              </div>
-              <label class="switch"><input type="checkbox" checked /><span class="slider"></span></label>
-            </div>
-            <div class="setting-row">
-              <div class="setting-copy">
-                <strong class="setting-name">Hide metrics</strong>
-                <span class="setting-desc">Hides likes, views and follower counts</span>
-              </div>
-              <label class="switch"><input type="checkbox" /><span class="slider"></span></label>
-            </div>
-          </div>
-        </section>
-
-        <!-- X: 3/4 -->
-        <section class="platform">
-          <div class="platform-head">
-            <div class="platform-toggle">
-              <img class="platform-icon" src="x.jpg" alt="" />
-              <span class="platform-name">X</span>
-              <span class="platform-count">3/4</span>
-            </div>
-            <button type="button" class="lock-btn">&#x1F513;</button>
-          </div>
-          <div class="setting-list">
-            <div class="setting-row">
-              <div class="setting-copy">
-                <strong class="setting-name">Remove "For You"</strong>
-                <span class="setting-desc">Opens the Following tab by default</span>
-              </div>
-              <label class="switch"><input type="checkbox" checked /><span class="slider"></span></label>
-            </div>
-            <div class="setting-row">
-              <div class="setting-copy">
-                <strong class="setting-name">Clean sidebar</strong>
-                <span class="setting-desc">Hides Explore, Communities and Premium links</span>
-              </div>
-              <label class="switch"><input type="checkbox" checked /><span class="slider"></span></label>
-            </div>
-            <div class="setting-row">
-              <div class="setting-copy">
-                <strong class="setting-name">Hide right panel</strong>
-                <span class="setting-desc">Hides trends and suggestions</span>
-              </div>
-              <label class="switch"><input type="checkbox" checked /><span class="slider"></span></label>
-            </div>
-            <div class="setting-row">
-              <div class="setting-copy">
-                <strong class="setting-name">Hide metrics</strong>
-                <span class="setting-desc">Hides likes, reposts and counters</span>
-              </div>
-              <label class="switch"><input type="checkbox" /><span class="slider"></span></label>
-            </div>
-          </div>
-        </section>
-
-        <!-- TikTok: 1/1 (now expanded, not blocked) -->
-        <section class="platform">
-          <div class="platform-head">
-            <div class="platform-toggle">
-              <img class="platform-icon" src="tiktok.jpg" alt="" />
-              <span class="platform-name">TikTok</span>
-              <span class="platform-count">1/1</span>
-            </div>
-            <button type="button" class="lock-btn">&#x1F513;</button>
-          </div>
-          <div class="setting-list">
-            <div class="setting-row">
-              <div class="setting-copy">
-                <strong class="setting-name">Hide metrics</strong>
-                <span class="setting-desc">Hides likes, saves and share counts</span>
-              </div>
-              <label class="switch"><input type="checkbox" checked /><span class="slider"></span></label>
-            </div>
+            <button type="button" class="lock-btn locked">&#x1F512;</button>
           </div>
         </section>
 
       </div>
 
-      <!-- General Section -->
-      <div class="general-section">
-        <div class="general-head">
-          <div class="general-icon"><img src="cleanfeed-logo.png" alt="" /></div>
-          <span class="general-name">General</span>
-          <button class="dashboard-btn">Full settings &#x2197;</button>
-        </div>
-        <div class="setting-row">
-          <div class="setting-copy">
-            <strong class="setting-name">Subtitles always off</strong>
-            <span class="setting-desc">Auto-disables subtitles on any site</span>
-          </div>
-          <label class="switch"><input type="checkbox" /><span class="slider"></span></label>
-        </div>
-        <div class="setting-row">
-          <div class="setting-copy">
-            <strong class="setting-name">Video speed keys <span class="setting-link-arrow">&#x2197;</span></strong>
-            <span class="setting-desc">Keyboard shortcuts to control playback speed</span>
-          </div>
-          <label class="switch"><input type="checkbox" checked /><span class="slider"></span></label>
-        </div>
-        <div class="setting-row">
-          <div class="setting-copy">
-            <strong class="setting-name">Skip seconds <span class="setting-link-arrow">&#x2197;</span></strong>
-            <span class="setting-desc">Jump forward / back with configurable keys</span>
-          </div>
-          <label class="switch"><input type="checkbox" checked /><span class="slider"></span></label>
-        </div>
-      </div>
     </div>
-
-    <!-- Scroll hint pill -->
-    <div class="scroll-hint" id="scrollHint">scroll &darr;</div>
+  </div>
   </div>
 
   <script>
