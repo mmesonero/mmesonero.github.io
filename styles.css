@@ -1258,7 +1258,7 @@ body::after {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  background: #0D0D0D;
+  background: #0D0D0D url('assets/bg.png') center center / cover no-repeat;
 }
 .inline-carousel-track {
   display: flex;
