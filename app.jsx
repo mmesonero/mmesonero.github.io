@@ -109,6 +109,23 @@ const PROJECTS = [
       { src: "assets/gmail-features-hero.png" },
     ],
   },
+  {
+    name: "3 Agents",
+    category: "AI Projects",
+    tagline: "Three AI agents, each with its own avatar, connected to GPT-4o mini.",
+    tags: ["AI", "Agents", "Avatar"],
+    credit: "Done with Rafael Moreno Escamilla.",
+    description:
+      "3 agents with its own avatar connected to GPT-4o mini. Done with Rafael Moreno Escamilla.",
+    status: "complete",
+    accent: "labeler",
+    inline: true,
+    cardImage: "assets/agent-1.png",
+    slides: [
+      { src: "assets/agent-1.png" },
+      { src: "assets/agent-2.mp4", poster: "assets/agent-2-poster.png" },
+    ],
+  },
 ];
 
 const IN_PROGRESS = [
@@ -217,6 +234,99 @@ const Glyph = ({ kind }) => {
     default:
       return null;
   }
+};
+
+/* ---------- slide media (img or autoplay-loop video w/ mute toggle) ---------- */
+const isVideoSrc = (s) => typeof s === 'string' && /\.(mp4|webm|mov)(\?.*)?$/i.test(s);
+const SlideMedia = ({ src, className, poster, alt = "", isActive = true }) => {
+  if (!isVideoSrc(src)) return <img src={src} alt={alt} className={className} />;
+  const ref = useRef(null);
+  const wrapRef = useRef(null);
+  const barRef = useRef(null);
+  const [muted, setMuted] = useState(true);
+  const [progress, setProgress] = useState(0);
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    if (isActive) {
+      v.play().catch(() => {});
+    } else {
+      v.pause();
+      v.currentTime = 0;
+      v.muted = true;
+      setMuted(true);
+      setProgress(0);
+    }
+  }, [isActive]);
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    const onTime = () => {
+      if (v.duration > 0) setProgress((v.currentTime / v.duration) * 100);
+    };
+    v.addEventListener('timeupdate', onTime);
+    return () => v.removeEventListener('timeupdate', onTime);
+  }, []);
+  const toggle = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const v = ref.current;
+    if (!v) return;
+    v.muted = !v.muted;
+    setMuted(v.muted);
+    if (v.paused) v.play().catch(() => {});
+  };
+  const seek = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const v = ref.current;
+    const bar = barRef.current;
+    if (!v || !bar || !v.duration) return;
+    const r = bar.getBoundingClientRect();
+    const x = (e.clientX ?? e.touches?.[0]?.clientX ?? 0) - r.left;
+    const pct = Math.max(0, Math.min(1, x / r.width));
+    v.currentTime = pct * v.duration;
+    if (v.paused) v.play().catch(() => {});
+  };
+  return (
+    <div className="slide-video-wrap" ref={wrapRef}>
+      <video
+        ref={ref}
+        src={src}
+        className={className}
+        poster={poster}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+      />
+      <button
+        type="button"
+        className="slide-audio-btn"
+        onClick={toggle}
+        aria-label={muted ? "Unmute" : "Mute"}
+        title={muted ? "Unmute" : "Mute"}
+      >
+        {muted ? (
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <line x1="23" y1="9" x2="17" y2="15"/>
+            <line x1="17" y1="9" x2="23" y2="15"/>
+          </svg>
+        ) : (
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+          </svg>
+        )}
+      </button>
+      <div className="slide-progress" ref={barRef} onClick={seek} onTouchStart={seek}>
+        <div className="slide-progress-fill" style={{ width: `${progress}%` }} />
+      </div>
+    </div>
+  );
 };
 
 /* ---------- carousel ---------- */
@@ -336,7 +446,7 @@ function Carousel({ slides }) {
         </div>
       ) : slides[idx].label || slides[idx].title || slides[idx].titleGold ? (
         <div className="carousel-track carousel-overlay">
-          <img src={slides[idx].src} alt="" className="carousel-img" />
+          <SlideMedia src={slides[idx].src} poster={slides[idx].poster} className="carousel-img" />
           <div className="overlay-panel" style={slides[idx].titleTop ? { top: slides[idx].titleTop } : undefined}>
             {slides[idx].label && <div className="composed-label">{slides[idx].label}</div>}
             {slides[idx].title && slides[idx].title.map((line, i) => <div key={i} className="composed-title">{line}</div>)}
@@ -351,7 +461,7 @@ function Carousel({ slides }) {
         </div>
       ) : (
         <div className="carousel-track">
-          <img src={slides[idx].src} alt="" className="carousel-img" />
+          <SlideMedia src={slides[idx].src} poster={slides[idx].poster} className="carousel-img" />
           <div className="carousel-counter">{idx + 1} / {len}</div>
         </div>
       )}
@@ -427,7 +537,7 @@ function Nav() {
           <span className="nav-sep">&middot;</span>
           <a href="#progress" className="reveal-soft" style={{ '--d': '240ms' }}>In Progress</a>
           <span className="nav-sep">&middot;</span>
-          <a href="#contact" className="reveal-soft" style={{ '--d': '300ms' }}>Contact</a>
+          <a href="#about" className="reveal-soft" style={{ '--d': '300ms' }}>About</a>
         </div>
       </div>
     </nav>
@@ -437,14 +547,11 @@ function Nav() {
 /* ---------- hero ---------- */
 function Hero() {
   return (
-    <header className="hero container" id="top">
+    <header className="hero container hero--compact" id="top">
       <h1>
         <span className="reveal" style={{ '--d': '180ms', display: 'inline-block' }}>Manuel</span>{' '}
         <span className="italic reveal" style={{ '--d': '260ms', display: 'inline-block' }}>Mesonero</span>
       </h1>
-      <p className="subtitle reveal" style={{ '--d': '420ms' }}>
-        Digital Transformation Consultant
-      </p>
     </header>
   );
 }
@@ -532,7 +639,7 @@ function InlineCarousel({ slides }) {
               ? <img src={slide.thumb} alt="" className="thumb-cover" />
               : slide.interactive
                 ? <iframe src={slide.src} className="inline-carousel-iframe" frameBorder="0" scrolling="no" title={`Demo ${i}`} />
-                : <img src={slide.src} alt="" className="thumb-cover" />
+                : <SlideMedia src={slide.src} poster={slide.poster} className="thumb-cover" isActive={i === pos} />
             }
             {(slide.title || slide.titleGold || slide.titleHtml) && (
               <div className={`inline-overlay-panel ${slide.split ? 'inline-overlay-panel--left' : ''}`} style={slide.titleAccent ? { '--slide-accent': slide.titleAccent } : undefined}>
@@ -598,6 +705,7 @@ function ProjectCard({ p, idx, onOpen }) {
               <span className={`pill-sm ${i === 0 || t === 'AI' ? 'accent' : ''}`} key={t}>{t}</span>
             ))}
           </div>
+          {p.credit && <div className="card-credit">{p.credit}</div>}
           {p.githubUrl && (
             <div className="card-inline-link">
               <a href={p.githubUrl} target="_blank" rel="noopener noreferrer" className="btn ghost">
@@ -727,6 +835,38 @@ function InProgress() {
 }
 
 /* ---------- contact ---------- */
+/* ---------- about ---------- */
+function About() {
+  return (
+    <section className="about container" id="about">
+      <div className="about-grid">
+        <div className="about-copy">
+          <div className="about-label reveal-soft" style={{ '--d': '60ms' }}>About</div>
+          <p className="about-bio reveal-soft" style={{ '--d': '160ms' }}>
+            <span className="gold-word">Digital Transformation Consultant</span> in a Big4 &amp;{' '}
+            <span className="gold-word">Business Advisor</span> in the family business.
+            In love with tech, and since January 2026 I stopped using <span className="gold-word">AI</span> as
+            a standard user and started producing with it. Almost everything I have done has been in my{' '}
+            free time, as a <span className="gold-word">hobby</span>.
+          </p>
+          <div className="about-buttons">
+            <a className="btn primary reveal-soft" style={{ '--d': '260ms' }} href="https://www.linkedin.com/in/mesonero/" target="_blank" rel="noopener noreferrer">
+              <Icon name="linkedin" size={15} /> LinkedIn
+            </a>
+            <a className="btn ghost reveal-soft" style={{ '--d': '320ms' }} href="https://github.com/mmesonero" target="_blank" rel="noopener noreferrer">
+              <Icon name="github" size={15} /> GitHub
+            </a>
+          </div>
+        </div>
+        <div className="about-photos">
+          <img src="assets/manuel-1.png" alt="Manuel speaking" className="about-photo reveal-soft" style={{ '--d': '180ms' }} />
+          <img src="assets/manuel-2.png" alt="Manuel speaking" className="about-photo reveal-soft" style={{ '--d': '260ms' }} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Contact() {
 
   return (
@@ -797,7 +937,7 @@ function App() {
           })()}
         </section>
         <InProgress />
-        <Contact />
+        <About />
       </main>
       <footer className="foot container">
         <img src="assets/logo.png" alt="" className="foot-mark" />
