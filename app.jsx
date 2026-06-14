@@ -3,7 +3,7 @@
    React app. Single file. Soft luxury, warm + gold.
    ========================================================= */
 
-const { useState, useEffect, useRef, useCallback } = React;
+const { useState, useEffect, useRef } = React;
 
 /* ---------- project data ---------- */
 const PROJECTS = [
@@ -238,8 +238,22 @@ const Glyph = ({ kind }) => {
 
 /* ---------- slide media (img or autoplay-loop video w/ mute toggle) ---------- */
 const isVideoSrc = (s) => typeof s === 'string' && /\.(mp4|webm|mov)(\?.*)?$/i.test(s);
-const SlideMedia = ({ src, className, poster, alt = "", isActive = true }) => {
-  if (!isVideoSrc(src)) return <img src={src} alt={alt} className={className} />;
+const prefersReducedMotion = () =>
+  typeof window !== 'undefined' && window.matchMedia &&
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const SlideImage = ({ src, className, alt = "", eager = false }) => (
+  <img
+    src={src}
+    alt={alt}
+    className={className}
+    loading={eager ? "eager" : "lazy"}
+    decoding="async"
+    fetchpriority={eager ? "high" : undefined}
+  />
+);
+
+const SlideVideo = ({ src, className, poster, alt = "", isActive = true }) => {
   const ref = useRef(null);
   const wrapRef = useRef(null);
   const barRef = useRef(null);
@@ -248,7 +262,7 @@ const SlideMedia = ({ src, className, poster, alt = "", isActive = true }) => {
   useEffect(() => {
     const v = ref.current;
     if (!v) return;
-    if (isActive) {
+    if (isActive && !prefersReducedMotion()) {
       v.play().catch(() => {});
     } else {
       v.pause();
@@ -295,11 +309,12 @@ const SlideMedia = ({ src, className, poster, alt = "", isActive = true }) => {
         src={src}
         className={className}
         poster={poster}
-        autoPlay
+        aria-label={alt}
+        autoPlay={!prefersReducedMotion()}
         muted
         loop
         playsInline
-        preload="auto"
+        preload={isActive ? "auto" : "metadata"}
       />
       <button
         type="button"
@@ -309,41 +324,55 @@ const SlideMedia = ({ src, className, poster, alt = "", isActive = true }) => {
         title={muted ? "Unmute" : "Mute"}
       >
         {muted ? (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
             <line x1="23" y1="9" x2="17" y2="15"/>
             <line x1="17" y1="9" x2="23" y2="15"/>
           </svg>
         ) : (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
             <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
             <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
           </svg>
         )}
       </button>
-      <div className="slide-progress" ref={barRef} onClick={seek} onTouchStart={seek}>
+      <div
+        className="slide-progress"
+        ref={barRef}
+        onClick={seek}
+        onTouchStart={seek}
+        role="slider"
+        aria-label="Video progress"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={Math.round(progress)}
+      >
         <div className="slide-progress-fill" style={{ width: `${progress}%` }} />
       </div>
     </div>
   );
 };
 
+const SlideMedia = (props) =>
+  isVideoSrc(props.src) ? <SlideVideo {...props} /> : <SlideImage {...props} />;
+
 /* ---------- carousel ---------- */
-function Carousel({ slides }) {
+function Carousel({ slides, projectName = "" }) {
   const [idx, setIdx] = useState(0);
   const len = slides.length;
-  const prev = () => setIdx((idx - 1 + len) % len);
-  const next = () => setIdx((idx + 1) % len);
+  const prev = () => setIdx(i => (i - 1 + len) % len);
+  const next = () => setIdx(i => (i + 1) % len);
 
   useEffect(() => {
     const onKey = (e) => {
+      if (e.target?.tagName === 'INPUT' || e.target?.tagName === 'TEXTAREA') return;
       if (e.key === 'ArrowLeft') prev();
       if (e.key === 'ArrowRight') next();
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [idx]);
+  }, [len]);
 
   return (
     <div className="carousel">
@@ -359,9 +388,9 @@ function Carousel({ slides }) {
             <div className="composed-scroll-cue">↓ scroll to explore</div>
           </div>
           <div className="composed-right">
-            <img src={slides[idx].src} alt="" className="composed-scroll-img" />
+            <img src={slides[idx].src} alt="" loading="lazy" decoding="async" className="composed-scroll-img" />
           </div>
-          <div className="carousel-counter">{idx + 1} / {len}</div>
+          <div className="carousel-counter" aria-live="polite" aria-atomic="true">{idx + 1}/{len}</div>
         </div>
       ) : slides[idx].interactive && slides[idx].label ? (
         <div className="carousel-track carousel-split">
@@ -385,31 +414,7 @@ function Carousel({ slides }) {
               frameBorder="0"
             />
           </div>
-          <div className="carousel-counter">{idx + 1} / {len}</div>
-        </div>
-      ) : slides[idx].interactive && (slides[idx].split || slides[idx].label) ? (
-        <div className="carousel-track carousel-split">
-          <div className="split-left">
-            {slides[idx].label && <div className="composed-label">{slides[idx].label}</div>}
-            {slides[idx].title && slides[idx].title.map((line, i) => <div key={i} className="composed-title">{line}</div>)}
-            {slides[idx].titleGold && <div className="composed-title composed-gold">{slides[idx].titleGold}</div>}
-            {slides[idx].subtitle && (
-              <div className="composed-subs">
-                {slides[idx].subtitle.map((line, i) => <div key={i}>{line}</div>)}
-              </div>
-            )}
-          </div>
-          <div className="split-right">
-            <iframe
-              key={slides[idx].src}
-              src={slides[idx].src}
-              title="interactive demo"
-              className="carousel-iframe"
-              scrolling="auto"
-              frameBorder="0"
-            />
-          </div>
-          <div className="carousel-counter">{idx + 1} / {len}</div>
+          <div className="carousel-counter" aria-live="polite" aria-atomic="true">{idx + 1}/{len}</div>
         </div>
       ) : slides[idx].interactive && (slides[idx].title || slides[idx].titleGold) ? (
         <div className="carousel-track carousel-overlay carousel-overlay-iframe">
@@ -430,7 +435,7 @@ function Carousel({ slides }) {
               </div>
             )}
           </div>
-          <div className="carousel-counter">{idx + 1} / {len}</div>
+          <div className="carousel-counter" aria-live="polite" aria-atomic="true">{idx + 1}/{len}</div>
         </div>
       ) : slides[idx].interactive ? (
         <div className="carousel-track">
@@ -442,11 +447,11 @@ function Carousel({ slides }) {
             scrolling="auto"
             frameBorder="0"
           />
-          <div className="carousel-counter">{idx + 1} / {len}</div>
+          <div className="carousel-counter" aria-live="polite" aria-atomic="true">{idx + 1}/{len}</div>
         </div>
       ) : slides[idx].label || slides[idx].title || slides[idx].titleGold ? (
         <div className="carousel-track carousel-overlay">
-          <SlideMedia src={slides[idx].src} poster={slides[idx].poster} className="carousel-img" />
+          <SlideMedia src={slides[idx].src} poster={slides[idx].poster} className="carousel-img" alt={slides[idx].alt || `${projectName} screenshot ${idx + 1}`} eager={idx === 0} />
           <div className="overlay-panel" style={slides[idx].titleTop ? { top: slides[idx].titleTop } : undefined}>
             {slides[idx].label && <div className="composed-label">{slides[idx].label}</div>}
             {slides[idx].title && slides[idx].title.map((line, i) => <div key={i} className="composed-title">{line}</div>)}
@@ -457,12 +462,12 @@ function Carousel({ slides }) {
               </div>
             )}
           </div>
-          <div className="carousel-counter">{idx + 1} / {len}</div>
+          <div className="carousel-counter" aria-live="polite" aria-atomic="true">{idx + 1}/{len}</div>
         </div>
       ) : (
         <div className="carousel-track">
-          <SlideMedia src={slides[idx].src} poster={slides[idx].poster} className="carousel-img" />
-          <div className="carousel-counter">{idx + 1} / {len}</div>
+          <SlideMedia src={slides[idx].src} poster={slides[idx].poster} className="carousel-img" alt={slides[idx].alt || `${projectName} screenshot ${idx + 1}`} eager={idx === 0} />
+          <div className="carousel-counter" aria-live="polite" aria-atomic="true">{idx + 1}/{len}</div>
         </div>
       )}
       <button className="carousel-btn carousel-prev" onClick={prev} aria-label="Previous slide">
@@ -530,7 +535,7 @@ function Nav() {
     <nav className={`nav ${scrolled ? "scrolled" : ""}`}>
       <div className="container nav-inner">
         <a href="#top" className="brand reveal-soft" style={{ '--d': '60ms' }} aria-label="Manuel Mesonero">
-          <img src="assets/logo.png" alt="Manuel Mesonero" className="brand-mark" />
+          <img src="assets/logo.png" alt="" className="brand-mark" />
         </a>
         <div className="nav-links">
           <a href="#work" className="reveal-soft" style={{ '--d': '180ms' }}>Work</a>
@@ -557,7 +562,7 @@ function Hero() {
 }
 
 /* ---------- inline carousel (swipeable, infinite loop) ---------- */
-function InlineCarousel({ slides }) {
+function InlineCarousel({ slides, projectName = "" }) {
   const len = slides.length;
   const ext = [slides[len - 1], ...slides, slides[0]];
   const extLen = ext.length;
@@ -623,7 +628,7 @@ function InlineCarousel({ slides }) {
 
   return (
     <div ref={containerRef} className="inline-carousel">
-      {len > 1 && <span className="corner">{dotIdx + 1}/{len}</span>}
+      {len > 1 && <span className="corner" aria-live="polite" aria-atomic="true">{dotIdx + 1}/{len}</span>}
       <div
         className="inline-carousel-track"
         style={{
@@ -636,10 +641,16 @@ function InlineCarousel({ slides }) {
         {ext.map((slide, i) => (
           <div key={`${slide.src}-${i}`} className="inline-carousel-slide" style={{ width: `${slideW}%` }}>
             {slide.thumb
-              ? <img src={slide.thumb} alt="" className="thumb-cover" />
+              ? <img src={slide.thumb} alt="" loading="lazy" decoding="async" className="thumb-cover" />
               : slide.interactive
-                ? <iframe src={slide.src} className="inline-carousel-iframe" frameBorder="0" scrolling="no" title={`Demo ${i}`} />
-                : <SlideMedia src={slide.src} poster={slide.poster} className="thumb-cover" isActive={i === pos} />
+                ? <iframe src={slide.src} className="inline-carousel-iframe" frameBorder="0" scrolling="no" loading="lazy" title={`${projectName || 'Project'} demo ${i}`} />
+                : <SlideMedia
+                    src={slide.src}
+                    poster={slide.poster}
+                    className="thumb-cover"
+                    isActive={i === pos}
+                    alt={slide.alt || `${projectName} screenshot ${i}`}
+                  />
             }
             {(slide.title || slide.titleGold || slide.titleHtml) && (
               <div className={`inline-overlay-panel ${slide.split ? 'inline-overlay-panel--left' : ''}`} style={slide.titleAccent ? { '--slide-accent': slide.titleAccent } : undefined}>
@@ -688,9 +699,9 @@ function ProjectCard({ p, idx, onOpen }) {
       <div className="card card-inline reveal" style={{ '--d': `${600 + idx * 120}ms` }}>
         <div className={`thumb thumb-carousel ${hasSlides ? 'has-image' : ''}`}>
           {hasSlides
-            ? <InlineCarousel slides={p.slides} />
+            ? <InlineCarousel slides={p.slides} projectName={p.name} />
             : <div className="thumb-art">{p.cardImage
-                ? <img src={p.cardImage} alt={p.name} className="thumb-cover" />
+                ? <img src={p.cardImage} alt={p.name} loading="lazy" decoding="async" className="thumb-cover" />
                 : <Glyph kind={p.accent} />}
               </div>
           }
@@ -729,7 +740,7 @@ function ProjectCard({ p, idx, onOpen }) {
       <div className={`thumb ${p.cardImage ? 'has-image' : ''}`}>
         <span className="corner">{String(idx + 1).padStart(2, '0')} &middot; {p.tags[0]}</span>
         <div className="thumb-art">
-          {p.cardImage ? <img src={p.cardImage} alt={p.name} className="thumb-cover" /> : <Glyph kind={p.accent} />}
+          {p.cardImage ? <img src={p.cardImage} alt={p.name} loading="lazy" decoding="async" className="thumb-cover" /> : <Glyph kind={p.accent} />}
         </div>
       </div>
       <div className="card-body">
@@ -749,27 +760,51 @@ function ProjectCard({ p, idx, onOpen }) {
 
 /* ---------- modal ---------- */
 function Modal({ project, onClose }) {
+  const closeRef = useRef(null);
+  const panelRef = useRef(null);
+  const titleId = `modal-title-${(project?.name || '').replace(/\s+/g, '-').toLowerCase()}`;
   useEffect(() => {
-    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    const prevActive = document.activeElement;
+    const onKey = (e) => {
+      if (e.key === 'Escape') { onClose(); return; }
+      if (e.key !== 'Tab' || !panelRef.current) return;
+      const focusables = panelRef.current.querySelectorAll(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"]), input, textarea, select'
+      );
+      if (!focusables.length) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    };
     document.body.style.overflow = 'hidden';
     window.addEventListener('keydown', onKey);
+    setTimeout(() => closeRef.current?.focus(), 0);
     return () => {
       document.body.style.overflow = '';
       window.removeEventListener('keydown', onKey);
+      if (prevActive && typeof prevActive.focus === 'function') prevActive.focus();
     };
   }, [onClose]);
 
   if (!project) return null;
 
   return (
-    <div className="modal-backdrop" onClick={onClose} role="dialog" aria-modal="true">
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose} aria-label="Close">
+    <div className="modal-backdrop" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <div
+        className="modal"
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button ref={closeRef} className="modal-close" onClick={onClose} aria-label="Close">
           <Icon name="close" size={16} />
         </button>
         {project.slides ? (
           <div className="modal-carousel-wrap">
-            <Carousel slides={project.slides} />
+            <Carousel slides={project.slides} projectName={project.name} />
           </div>
         ) : (
           <div className="thumb">
@@ -779,8 +814,8 @@ function Modal({ project, onClose }) {
         )}
         <div className="modal-body">
           <div className="modal-title-row">
-            {project.logo && <img src={project.logo} alt="" className="modal-logo" />}
-            <h3 className="modal-title">{project.name}</h3>
+            {project.logo && <img src={project.logo} alt="" loading="lazy" decoding="async" className="modal-logo" />}
+            <h3 id={titleId} className="modal-title">{project.name}</h3>
           </div>
           <p className="modal-tag">{project.tagline}</p>
           <p className="modal-desc">{project.description}</p>
@@ -834,7 +869,6 @@ function InProgress() {
   );
 }
 
-/* ---------- contact ---------- */
 /* ---------- about ---------- */
 function About() {
   return (
@@ -859,30 +893,8 @@ function About() {
           </div>
         </div>
         <div className="about-photos">
-          <img src="assets/manuel-1.png" alt="Manuel speaking" className="about-photo reveal-soft" style={{ '--d': '180ms' }} />
-          <img src="assets/manuel-2.png" alt="Manuel speaking" className="about-photo reveal-soft" style={{ '--d': '260ms' }} />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Contact() {
-
-  return (
-    <section className="contact container" id="contact">
-      <div className="panel">
-        <div className="contact-label reveal" style={{ '--d': '60ms' }}>Contact</div>
-        <p className="contact-copy reveal" style={{ '--d': '160ms' }}>
-          Always up for a virtual coffee. Let's talk about AI work, ideas, or whatever you're brewing.
-        </p>
-        <div className="contact-buttons">
-          <a className="btn primary reveal" style={{ '--d': '260ms' }} href="https://www.linkedin.com/in/mesonero/" target="_blank" rel="noopener noreferrer">
-            <Icon name="linkedin" size={15} /> LinkedIn
-          </a>
-          <a className="btn ghost reveal" style={{ '--d': '320ms' }} href="https://github.com/mmesonero" target="_blank" rel="noopener noreferrer">
-            <Icon name="github" size={15} /> GitHub
-          </a>
+          <img src="assets/manuel-1.png" alt="" loading="lazy" decoding="async" className="about-photo reveal-soft" style={{ '--d': '180ms' }} />
+          <img src="assets/manuel-2.png" alt="" loading="lazy" decoding="async" className="about-photo reveal-soft" style={{ '--d': '260ms' }} />
         </div>
       </div>
     </section>

@@ -15,7 +15,7 @@ Personal portfolio site. Single-file React app served as static files via GitHub
 ### Local dev
 
 ```bash
-npx serve C:\Users\Msonero\mmesonero.github.io -l 3003
+npx serve C:\Users\usuario\github\mmesonero.github.io -l 3003
 ```
 
 Config in `cleanfeed/.claude/launch.json` under the name `mmesonero-site` so the Preview MCP can boot it.
@@ -210,8 +210,8 @@ To regenerate a card screenshot:
 
 ```powershell
 npx --yes playwright@1 screenshot --viewport-size=1440,900 `
-  "file:///C:/Users/Msonero/mmesonero.github.io/assets/<name>-card.html" `
-  "C:\Users\Msonero\mmesonero.github.io\assets\<name>-hero.png"
+  "file:///C:/Users/usuario/github/mmesonero.github.io/assets/<name>-card.html" `
+  "C:\Users\usuario\github\mmesonero.github.io\assets\<name>-hero.png"
 ```
 
 The card thumb is shown with `object-fit: cover` and `object-position: top center`, so the bottom ~10% of the image gets cropped. Place key content within the top 90% of the canvas.
@@ -350,7 +350,7 @@ Grid is 3 columns on desktop, 2 below 1024px. Three entries fit in one row at de
 1. Drop the source file in `Downloads\web\` (or wherever your design tool exports to).
 2. Copy + resize to **exactly 1440×900 PNG** in `assets/`:
    ```powershell
-   Copy-Item "C:\Users\Msonero\Downloads\web\<source>.png" "C:\Users\Msonero\mmesonero.github.io\assets\<target>.png" -Force
+   Copy-Item "C:\Users\usuario\Downloads\web\<source>.png" "C:\Users\usuario\github\mmesonero.github.io\assets\<target>.png" -Force
    ```
    For dimension mismatch use the System.Drawing script pattern (see git history for `gmail-hero.png` / `gmail-features-hero.png` for the exact PowerShell snippet that crops + resizes to 1440×900).
 3. Reference the asset path in `cardImage` or `slides[i].src`.
@@ -359,7 +359,7 @@ Grid is 3 columns on desktop, 2 below 1024px. Three entries fit in one row at de
 
 ```powershell
 Add-Type -AssemblyName System.Drawing
-$src = "C:\Users\Msonero\mmesonero.github.io\assets\<file>.png"
+$src = "C:\Users\usuario\github\mmesonero.github.io\assets\<file>.png"
 $img = [System.Drawing.Image]::FromFile($src)
 $bmp = New-Object System.Drawing.Bitmap(1440, 900)
 $g = [System.Drawing.Graphics]::FromImage($bmp)

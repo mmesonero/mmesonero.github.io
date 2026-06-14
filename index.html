@@ -6,7 +6,6 @@
   <title>Manuel Mesonero — Digital Transformation Consultant & Builder</title>
   <meta name="description" content="Portfolio of Manuel Mesonero — Digital Transformation Consultant building Chrome extensions, AI automations, and developer tools. CleanFeed, Claude Token Tracker, AIO Sync, Gmail Auto-Labeler." />
   <meta name="author" content="Manuel Mesonero Medina" />
-  <meta name="keywords" content="Manuel Mesonero, portfolio, Chrome extension, Claude Token Tracker, CleanFeed, AIO Sync, Gmail Auto-Labeler, digital transformation, AI projects, Madrid, developer" />
   <link rel="canonical" href="https://mmesonero.github.io/" />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
 
@@ -15,22 +14,26 @@
   <meta property="og:url" content="https://mmesonero.github.io/" />
   <meta property="og:title" content="Manuel Mesonero — Digital Transformation Consultant & Builder" />
   <meta property="og:description" content="Portfolio of Manuel Mesonero. Chrome extensions, AI automations, developer tools." />
-  <meta property="og:image" content="https://mmesonero.github.io/assets/logo.png" />
+  <meta property="og:image" content="https://mmesonero.github.io/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Manuel Mesonero — Digital Transformation Consultant" />
   <meta property="og:locale" content="en_US" />
 
   <!-- Twitter card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Manuel Mesonero — Portfolio" />
   <meta name="twitter:description" content="Chrome extensions, AI automations, developer tools." />
-  <meta name="twitter:image" content="https://mmesonero.github.io/assets/logo.png" />
+  <meta name="twitter:image" content="https://mmesonero.github.io/assets/og-image.png" />
 
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/logo.png" />
-  <link rel="apple-touch-icon" href="assets/logo.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="styles.css" />
 
@@ -38,26 +41,61 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Manuel Mesonero Medina",
-    "url": "https://mmesonero.github.io/",
-    "image": "https://mmesonero.github.io/assets/logo.png",
-    "jobTitle": "Digital Transformation Consultant",
-    "worksFor": { "@type": "Organization", "name": "Deloitte" },
-    "address": { "@type": "PostalAddress", "addressLocality": "Madrid", "addressCountry": "ES" },
-    "sameAs": [
-      "https://github.com/mmesonero",
-      "https://www.linkedin.com/in/mesonero/"
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://mmesonero.github.io/#person",
+        "name": "Manuel Mesonero Medina",
+        "givenName": "Manuel",
+        "familyName": "Mesonero Medina",
+        "url": "https://mmesonero.github.io/",
+        "image": "https://mmesonero.github.io/assets/og-image.png",
+        "jobTitle": "Digital Transformation Consultant",
+        "worksFor": { "@type": "Organization", "name": "Deloitte" },
+        "address": { "@type": "PostalAddress", "addressLocality": "Madrid", "addressCountry": "ES" },
+        "sameAs": [
+          "https://github.com/mmesonero",
+          "https://www.linkedin.com/in/mesonero/"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://mmesonero.github.io/#website",
+        "url": "https://mmesonero.github.io/",
+        "name": "Manuel Mesonero — Portfolio",
+        "inLanguage": "en",
+        "author": { "@id": "https://mmesonero.github.io/#person" }
+      }
     ]
   }
   </script>
 
-  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
 </head>
 <body>
   <div id="root"></div>
+  <noscript>
+    <main style="max-width:720px;margin:48px auto;padding:0 24px;color:#f0ede8;font-family:'Outfit',sans-serif;">
+      <h1 style="color:#e2ba6b;font-size:32px;margin:0 0 12px">Manuel Mesonero</h1>
+      <p>Digital Transformation Consultant in a Big4 &amp; Business Advisor in the family business.
+         In love with tech, and since January 2026 in love with AI.</p>
+      <h2 style="margin-top:24px">Projects</h2>
+      <ul>
+        <li>AIO Sync — Electron app that syncs every RGB ecosystem (Armoury, iCUE, LGHUB, MSI).</li>
+        <li>CleanFeed — Chrome extension that strips Shorts, Reels, and algorithmic clutter.</li>
+        <li>Apple Health Logger — iOS Shortcut → GitHub Action → Google Sheet step log.</li>
+        <li>Claude Token Tracker — Chrome extension surfacing real Anthropic token usage.</li>
+        <li>Gmail Auto-Labeler — Hourly GitHub Action that auto-files Gmail with an LLM.</li>
+        <li>3 Agents — Three avatar-driven AI agents on GPT-4o mini.</li>
+      </ul>
+      <p>
+        <a href="https://www.linkedin.com/in/mesonero/" style="color:#e2ba6b">LinkedIn</a> &middot;
+        <a href="https://github.com/mmesonero" style="color:#e2ba6b">GitHub</a>
+      </p>
+    </main>
+  </noscript>
   <script type="text/babel" src="app.jsx"></script>
 </body>
 </html>
