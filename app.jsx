@@ -873,9 +873,11 @@ function InProgress() {
 function About() {
   return (
     <section className="about container" id="about">
+      <div className="category-head reveal-soft" style={{ '--d': '60ms' }}>
+        <span className="category-label">About</span>
+      </div>
       <div className="about-grid">
         <div className="about-copy">
-          <div className="about-label reveal-soft" style={{ '--d': '60ms' }}>About</div>
           <p className="about-bio reveal-soft" style={{ '--d': '160ms' }}>
             <span className="gold-word">Digital Transformation Consultant</span> in a Big4 &amp;{' '}
             <span className="gold-word">Business Advisor</span> in the family business.

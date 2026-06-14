@@ -298,8 +298,14 @@ body::after {
 @media (max-width: 820px) {
   .about { padding-top: 12px; padding-bottom: 24px; }
   .about-grid { grid-template-columns: 1fr; gap: 24px; max-width: none; }
-  .about-copy { max-width: none; }
+  .about-copy { max-width: none; text-align: center; }
+  .about-buttons { justify-content: center; }
+  .about-photos { padding: 0 6px; gap: 14px; }
   .about-photo:nth-child(2) { transform: none; }
+}
+@media (max-width: 640px) {
+  .about { padding-left: 32px; padding-right: 32px; }
+  .about-photos { max-width: 280px; margin: 0 auto; padding: 0; gap: 12px; }
 }
 .hero--compact h1 { margin: 0; }
 @media (max-width: 640px) { .hero--compact { padding: 4px 0 0; } }
@@ -469,7 +475,7 @@ body::after {
 @media (max-width: 820px) {
   .category { margin-bottom: 40px; }
   .category-head { gap: 12px; margin-bottom: 16px; }
-  .category-label { font-size: 12px; letter-spacing: 2px; }
+  .category-label { font-size: 18px; }
 }
 
 .card {
