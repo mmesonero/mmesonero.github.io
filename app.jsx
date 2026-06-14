@@ -542,7 +542,7 @@ function Nav() {
           <span className="nav-sep">&middot;</span>
           <a href="#progress" className="reveal-soft" style={{ '--d': '240ms' }}>In Progress</a>
           <span className="nav-sep">&middot;</span>
-          <a href="#about" className="reveal-soft" style={{ '--d': '300ms' }}>About</a>
+          <a href="#about" className="reveal-soft" style={{ '--d': '300ms' }}>About Me</a>
         </div>
       </div>
     </nav>
@@ -874,7 +874,7 @@ function About() {
   return (
     <section className="about container" id="about">
       <div className="category-head reveal-soft" style={{ '--d': '60ms' }}>
-        <span className="category-label">About</span>
+        <span className="category-label">About Me</span>
       </div>
       <div className="about-grid">
         <div className="about-copy">

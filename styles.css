@@ -253,11 +253,11 @@ body::after {
 }
 .about-grid {
   display: grid;
-  grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
   gap: 48px;
   align-items: center;
 }
-.about-copy { max-width: 320px; }
+.about-copy { max-width: 420px; }
 .about-label {
   font-family: var(--sans);
   font-size: 22px;
@@ -305,7 +305,7 @@ body::after {
 }
 @media (max-width: 640px) {
   .about { padding-left: 32px; padding-right: 32px; }
-  .about-photos { max-width: 280px; margin: 0 auto; padding: 0; gap: 12px; }
+  .about-photos { max-width: 360px; margin: 0 auto; padding: 0; gap: 14px; }
 }
 .hero--compact h1 { margin: 0; }
 @media (max-width: 640px) { .hero--compact { padding: 4px 0 0; } }
