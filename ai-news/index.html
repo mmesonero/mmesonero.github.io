@@ -234,6 +234,8 @@ body::before{
 .story[data-level="baja"] .s-score b{ color:var(--text-muted); }
 
 .s-title{ margin:0; font-weight:500; font-size:19px; line-height:1.32; letter-spacing:-0.02em; color:var(--text); }
+.s-title a{ color:inherit; text-decoration:none; transition:color .15s; }
+.s-title a:hover{ color:var(--accent); }
 .s-sum{ margin:6px 0 0; color:var(--text-muted); font-size:14.5px; line-height:1.6; font-weight:300; text-wrap:pretty; max-width:72ch; }
 .s-foot{ display:flex; align-items:center; gap:10px; margin-top:10px; font-size:12px; color:var(--text-soft); flex-wrap:wrap; }
 .s-foot > span{ white-space:nowrap; }
@@ -469,6 +471,7 @@ body::before{
     <span>Madrid &middot; Vibe coded</span>
   </footer>
 </div>
+<script src="data.js"></script>
 <script>
 /* ---------- taxonomy ---------- */
 const THEMES = [
@@ -485,9 +488,9 @@ const THEMES = [
 const TLABEL = Object.fromEntries(THEMES.map(t => [t.key, t]));
 
 /* ---------- data (estática, incrustada) ---------- */
-const NOW = 1781593980; // 16 jun 2026 07:33 UTC
+const NOW = (window.__NEWS && window.__NEWS.now) || 1781593980; // engine data, fallback to sample
 const H = 3600, D = 86400;
-const DATA = [
+const DATA = (window.__NEWS && window.__NEWS.data) || [
   { title:"Anthropic releases Claude Fable 5", url:"#", theme:"nuevo_modelo", score:91, level:"alta", sources:1, players:["Anthropic"], ago:0.9*D,
     urls:[{label:"TechCrunch",href:"#"}],
     sum:"Nuevo modelo insignia con mejoras en razonamiento y honestidad. Supera a la generación anterior en benchmarks de código y reduce las alucinaciones en tareas largas." },
@@ -667,7 +670,7 @@ function render(){
           </div>
           <div class="s-score" style="--v:${d.score}" title="Relevance ${d.score}/100"><b>${d.score}</b></div>
         </div>
-        <h2 class="s-title">${d.title}</h2>
+        <h2 class="s-title">${d.detail ? `<a href="${d.detail}">${d.title}</a>` : d.title}</h2>
         <p class="s-sum">${d.sum}</p>
         <div class="s-foot">
           <span>${fmtDate(d.ago)}</span>${src}
