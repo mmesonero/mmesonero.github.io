@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="es"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI News — Manuel Mesonero</title>
-<meta name="description" content="Daily AI news briefing: deduplicated by meaning, AI-classified and published twice a day.">
+<meta name="description" content="Briefing diario de noticias de IA, deduplicado y clasificado automáticamente.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -14,701 +14,178 @@
     --shadow-md:0 8px 24px -8px rgba(26,24,21,0.10), 0 2px 6px rgba(26,24,21,0.05);
     --sans:'Outfit','Inter',-apple-system,BlinkMacSystemFont,sans-serif;
     --mono:'Outfit','Inter',-apple-system,BlinkMacSystemFont,sans-serif;
-    --radius-sm:8px; --radius-md:14px; --r-sm:8px; --r-md:14px; --container:1180px; --measure:720px;
+    --radius-sm:8px; --radius-md:14px; --container:1180px;
   }
-  @media (prefers-color-scheme: dark){
-    :root{
-      --bg:#0D0D0D; --bg-elev:#1A1A17; --bg-muted:#242420;
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#1A1A17; --bg-elev:#22221E; --bg-muted:#22221E;
       --text:#ECEAE3; --text-muted:#9A938A; --text-soft:#6B655C;
       --border:rgba(236,234,227,0.08); --border-strong:rgba(236,234,227,0.16);
-      --accent:#e2ba6b; --accent-soft:rgba(226,186,107,0.12); --accent-strong:#f0cc88;
+      --accent:#D4B775; --accent-soft:rgba(212,183,117,0.12); --accent-strong:#E2C589;
       --shadow-sm:0 1px 2px rgba(0,0,0,0.30);
-      --shadow-md:0 14px 34px -16px rgba(0,0,0,0.6), 0 2px 6px rgba(0,0,0,0.30);
+      --shadow-md:0 10px 30px -10px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.30);
     }
   }
-*,*::before,*::after{box-sizing:border-box;}
-html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth;}
-body{
-  margin:0; background:var(--bg); color:var(--text);
-  font-family:var(--sans); font-weight:300; font-size:17px; line-height:1.55;
-  letter-spacing:-0.005em; min-height:100vh; overflow-x:hidden;
-}
-::selection{background:var(--accent-soft); color:var(--text);}
-a{color:inherit; text-decoration:none;}
-
-/* warm paper wash, very subtle */
-body::before{
-  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
-  background-image:
-    radial-gradient(ellipse 900px 700px at 12% 4%, var(--accent-soft), transparent 60%),
-    radial-gradient(ellipse 800px 620px at 88% 96%, var(--accent-soft), transparent 62%);
-  opacity:.7;
-}
-.app{position:relative; z-index:1; padding:0 clamp(24px, 6vw, 160px);}
-.container{max-width:var(--measure); margin:0 auto;}
-@media (max-width:560px){ body{font-size:16px;} }
-
-/* ============ masthead ============ */
-.masthead{ text-align:center; padding:28px 0 4px; }
-@media (max-width:768px){ .masthead{ padding:22px 0 3px; } }
-@media (max-width:560px){ .masthead{ padding:18px 0 2px; } }
-.kicker{
-  display:inline-flex; align-items:center; gap:10px;
-  font-size:10px; font-weight:500; letter-spacing:0.28em; text-transform:uppercase;
-  color:var(--text-soft); margin-bottom:10px;
-}
-.kicker::before,.kicker::after{
-  content:''; width:26px; height:1px; background:var(--border-strong);
-}
-.masthead h1{
-  font-family:var(--sans); font-weight:600; font-size:clamp(22px,4vw,32px);
-  letter-spacing:-0.04em; line-height:0.96; margin:0;
-}
-.masthead h1 .g{ color:var(--accent); }
-.dateline{
-  margin:10px auto 0; max-width:560px;
-  font-size:12px; color:var(--text-soft); font-weight:400;
-  display:flex; align-items:center; justify-content:center; gap:8px; flex-wrap:wrap;
-  letter-spacing:0.04em;
-}
-.dateline .dot{ width:2.5px; height:2.5px; border-radius:50%; background:var(--text-soft); opacity:.5; }
-.dateline b{ color:var(--text-muted); font-weight:500; }
-.live{ display:inline-flex; align-items:center; gap:6px; }
-.live .pulse{ width:6px; height:6px; border-radius:50%; background:var(--accent); position:relative; }
-.live .pulse::after{
-  content:''; position:absolute; inset:-4px; border-radius:50%;
-  border:1px solid var(--accent); animation:pulse 2.4s ease-out infinite;
-}
-@keyframes pulse{ 0%{transform:scale(.5);opacity:1;} 100%{transform:scale(1.9);opacity:0;} }
-
-/* ============ filter rail (sticky, quiet) ============ */
-.rail{
-  position:sticky; top:72px; z-index:40;
-  background:color-mix(in oklab, var(--bg) 80%, transparent);
-  backdrop-filter:blur(14px) saturate(1.2); -webkit-backdrop-filter:blur(14px) saturate(1.2);
-  border-bottom:1px solid transparent; transition:border-color .25s ease;
-  padding:12px 0 12px; margin:0 calc(-1 * clamp(24px, 6vw, 160px)); 
-  padding-left:clamp(24px, 6vw, 160px); padding-right:clamp(24px, 6vw, 160px);
-  margin-bottom:0; border-top:1px solid var(--border);
-}
-.rail.stuck{ border-bottom-color:var(--border); }
-.rail-inner{ max-width:var(--measure); margin:0 auto; padding:0; }
-
-/* single-line filter controls — all equal weight, discreet */
-.filters{
-  display:flex; align-items:center; justify-content:center; gap:10px 16px; flex-wrap:wrap;
-  font-size:13px; color:var(--text-soft);
-}
-.flex-spacer{ flex:1 1 auto; }
-
-/* refine line — same weight as other controls */
-.refine .grp{ display:inline-flex; align-items:center; gap:7px; }
-.refine .lbl{ display:none; }
-
-.sep-dot{ width:3px; height:3px; border-radius:50%; background:var(--text-soft); opacity:.4; flex:0 0 auto; }
-
-/* segmented (time range) */
-.seg{ display:inline-flex; gap:2px; }
-.seg button{
-  font-family:inherit; font-size:12.5px; font-weight:500; cursor:pointer;
-  background:none; border:none; color:var(--text-muted); padding:3px 8px; border-radius:999px;
-  transition:color .18s ease, background .18s ease;
-}
-.seg button:hover{ color:var(--text); }
-.seg button.active{ color:var(--accent-strong); background:var(--accent-soft); }
-
-/* custom dropdown */
-.csel{ position:relative; display:inline-flex; }
-.csel-btn{
-  font-family:inherit; font-size:12.5px; font-weight:500;
-  color:var(--text-muted); background:none; border:none; cursor:pointer;
-  display:inline-flex; align-items:center; gap:5px;
-  padding:3px 6px; border-radius:6px;
-  transition:color .18s ease, background .18s ease;
-}
-.csel-btn:hover,.csel.open .csel-btn{ color:var(--text); }
-.csel-btn.active-filter{ color:var(--accent); }
-.csel-chev{
-  width:9px; height:9px; flex-shrink:0; opacity:.55;
-  transition:transform .2s cubic-bezier(.2,.7,.2,1);
-}
-.csel.open .csel-chev{ transform:rotate(180deg); }
-.csel-menu{
-  position:absolute; top:calc(100% + 10px); left:50%;
-  transform:translateX(-50%) translateY(-6px);
-  background:var(--bg-elev); border:1px solid var(--border-strong);
-  border-radius:var(--r-md); padding:5px;
-  box-shadow:var(--shadow-md);
-  min-width:140px;
-  opacity:0; pointer-events:none;
-  transition:opacity .16s ease, transform .18s cubic-bezier(.2,.7,.2,1);
-  z-index:200;
-}
-.csel.open .csel-menu{
-  opacity:1; pointer-events:all;
-  transform:translateX(-50%) translateY(0);
-}
-.csel-opt{
-  display:block; width:100%;
-  font-family:inherit; font-size:12.5px; font-weight:400;
-  color:var(--text-muted); background:none; border:none;
-  text-align:left; cursor:pointer;
-  padding:7px 12px; border-radius:8px;
-  transition:color .14s ease, background .14s ease;
-  white-space:nowrap;
-}
-.csel-opt:hover{ color:var(--text); background:var(--accent-soft); }
-.csel-opt.active{ color:var(--accent); font-weight:500; }
-
-/* sort toggle (compact, single active button visible) */
-.sort-grp{ display:inline-flex; align-items:center; }
-.sort-grp button{
-  font-family:inherit; font-size:12.5px; font-weight:500; cursor:pointer;
-  background:none; border:none; color:var(--text-soft); padding:2px 1px; transition:color .18s ease;
-}
-.sort-grp button:hover{ color:var(--text); }
-.sort-grp button.active{ color:var(--text-muted); }
-.sort-grp button:not(.active){ display:none; }
-
-/* low-relevance toggle */
-.tog{ display:inline-flex; align-items:center; gap:8px; cursor:pointer; color:var(--text-soft); font-size:12.5px; font-weight:500; user-select:none; transition:color .18s ease; }
-.tog:hover{ color:var(--text-muted); }
-.tog .sw{ width:30px; height:17px; border-radius:999px; background:var(--bg-muted); border:1px solid var(--border-strong); position:relative; transition:background .2s ease, border-color .2s ease; flex:0 0 auto; }
-.tog .sw::after{ content:''; position:absolute; top:1.5px; left:1.5px; width:11px; height:11px; border-radius:50%; background:var(--text-soft); transition:transform .2s ease, background .2s ease; }
-.tog.on{ color:var(--accent-strong); }
-.tog.on .sw{ background:var(--accent-soft); border-color:transparent; }
-.tog.on .sw::after{ transform:translateX(13px); background:var(--accent); }
-
-/* ============ feed ============ */
-.feed{ padding:4px 0 40px; }
-.story{
-  position:relative; padding:20px 0;
-  border-top:1px solid var(--border);
-}
-.story:first-child{ border-top:none; }
-@media (prefers-reduced-motion: no-preference){
-  .story{ animation:rise .5s cubic-bezier(.2,.7,.2,1) both; }
-}
-/* transform-only: content is always visible even if the animation never runs */
-@keyframes rise{ from{transform:translateY(10px);} to{transform:none;} }
-
-.s-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:6px; }
-.s-tags{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; min-width:0; }
-.s-theme{
-  display:inline-flex; align-items:center; gap:6px;
-  font-size:11.5px; font-weight:500; letter-spacing:0.01em;
-  color:var(--text-muted);
-}
-.s-theme .em{ font-size:12px; text-transform:none; }
-.s-players{ display:inline-flex; align-items:center; gap:6px; }
-.s-player{
-  font-size:11.5px; font-weight:500; color:var(--accent-strong);
-  letter-spacing:0.01em;
-  display:inline-flex; align-items:center; gap:5px;
-}
-.s-player-dot{
-  width:7px; height:7px; border-radius:50%; flex-shrink:0; display:inline-block;
-}
-.s-player-logo{
-  width:14px; height:14px; border-radius:3px; object-fit:contain; flex-shrink:0; display:inline-block;
-}
-.csel-opt-logo{
-  width:16px; height:16px; border-radius:3px; object-fit:contain; vertical-align:middle; margin-right:4px; flex-shrink:0;
-}
-.csel-opt{ display:flex; align-items:center; }
-.csel-opt-count{ color:var(--text-soft); font-size:11.5px; margin-left:auto; padding-left:8px; }
-.s-player + .s-player::before{ content:'·'; margin-right:6px; color:var(--text-soft); }
-
-/* score dial */
-.s-score{
-  flex:0 0 auto; width:36px; height:36px; border-radius:50%;
-  display:grid; place-items:center; position:relative;
-  background:conic-gradient(var(--ring) calc(var(--v)*1%), var(--track) 0);
-  --track:var(--border); --ring:var(--accent);
-}
-.s-score::before{ content:''; position:absolute; inset:3px; border-radius:50%; background:var(--bg); }
-.s-score b{ position:relative; font-size:11.5px; font-weight:600; color:var(--text); letter-spacing:-0.02em; }
-.story[data-level="alta"] .s-score{ --ring:var(--accent-strong); }
-.story[data-level="media"] .s-score{ --ring:var(--accent); }
-.story[data-level="baja"] .s-score{ --ring:var(--text-soft); }
-.story[data-level="baja"] .s-score b{ color:var(--text-muted); }
-
-.s-title{ margin:0; font-weight:500; font-size:19px; line-height:1.32; letter-spacing:-0.02em; color:var(--text); }
-.s-sum{ margin:6px 0 0; color:var(--text-muted); font-size:14.5px; line-height:1.6; font-weight:300; text-wrap:pretty; max-width:72ch; }
-.s-foot{ display:flex; align-items:center; gap:10px; margin-top:10px; font-size:12px; color:var(--text-soft); flex-wrap:wrap; }
-.s-foot > span{ white-space:nowrap; }
-.s-foot .dot{ width:2.5px; height:2.5px; border-radius:50%; background:var(--text-soft); opacity:.7; }
-.s-src{ display:inline-flex; align-items:center; gap:6px; white-space:nowrap; }
-.s-src svg{ width:12px; height:12px; opacity:.8; }
-.s-level{ text-transform:uppercase; letter-spacing:0.12em; font-size:10px; font-weight:500; }
-.story[data-level="alta"] .s-level{ color:var(--accent-strong); }
-
-/* source links row */
-.s-links{ display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
-.s-link{
-  display:inline-flex; align-items:center; gap:4px;
-  font-size:12px; font-weight:400; color:var(--text-soft);
-  padding:3px 10px; border-radius:999px;
-  border:1px solid var(--border); background:transparent;
-  text-decoration:none; transition:color .2s ease, border-color .2s ease;
-}
-.s-link:hover{ color:var(--accent-strong); border-color:var(--accent); }
-.s-link svg{ width:10px; height:10px; opacity:.7; }
-
-/* empty state */
-.empty{ padding:60px 0; text-align:center; color:var(--text-muted); }
-.empty .em{ font-size:30px; display:block; margin-bottom:12px; opacity:.5; }
-
-/* ============ subscribe ============ */
-.subscribe{
-  border-top:1px solid var(--border); margin-top:8px;
-  padding:28px 0 8px; text-align:center;
-}
-.sub-panel{
-  max-width:460px; margin:0 auto;
-  padding:28px 32px 24px;
-  border-radius:var(--r-md);
-  background:var(--bg-elev); border:1px solid var(--border);
-  position:relative; overflow:hidden;
-}
-.sub-panel::before{
-  content:''; position:absolute; inset:-1px; border-radius:var(--r-md);
-  background:radial-gradient(ellipse at top, var(--accent-soft), transparent 55%);
-  pointer-events:none; z-index:0;
-}
-.sub-label{
-  position:relative; font-size:12px; font-weight:600;
-  letter-spacing:0.28em; text-transform:uppercase;
-  color:var(--accent-strong); margin-bottom:8px;
-}
-.sub-copy{
-  position:relative; font-size:17px; font-weight:500;
-  color:var(--text); line-height:1.35; margin:0 0 18px;
-  letter-spacing:-0.02em;
-}
-.sub-form{
-  position:relative; display:flex; gap:0; max-width:340px; margin:0 auto 12px;
-  border:1px solid var(--border-strong); border-radius:999px;
-  overflow:hidden; background:var(--bg-muted);
-  transition:border-color .2s ease;
-}
-.sub-form:focus-within{ border-color:var(--accent); }
-.sub-form input{
-  flex:1; font-family:var(--sans); font-size:13px; font-weight:400;
-  color:var(--text); background:transparent; border:none;
-  padding:10px 16px; outline:none; min-width:0;
-}
-.sub-form input::placeholder{ color:var(--text-soft); }
-.sub-form button{
-  font-family:var(--sans); font-size:12px; font-weight:600;
-  color:#1A1815; background:var(--accent);
-  border:none; border-radius:999px;
-  padding:10px 18px; margin:3px; cursor:pointer;
-  transition:background .2s ease, transform .18s ease; white-space:nowrap;
-  letter-spacing:0.01em;
-}
-.sub-form button:hover{ background:var(--accent-strong); transform:scale(1.02); }
-.sub-divider{
-  position:relative; display:flex; align-items:center; justify-content:center;
-  gap:12px; margin:10px auto; max-width:240px;
-  font-size:10px; color:var(--text-soft); letter-spacing:0.1em; text-transform:uppercase;
-}
-.sub-divider::before,.sub-divider::after{
-  content:''; flex:1; height:1px; background:var(--border);
-}
-.sub-tg{
-  position:relative; display:inline-flex; align-items:center; gap:10px;
-  font-size:13px; font-weight:500; color:#fff;
-  padding:11px 24px; border-radius:999px;
-  border:none; background:linear-gradient(135deg, #2AABEE, #229ED9);
-  transition:transform .2s ease, box-shadow .2s ease;
-  text-decoration:none; cursor:pointer;
-  box-shadow:0 2px 8px rgba(34,158,217,0.25);
-}
-.sub-tg:hover{ transform:translateY(-2px); box-shadow:0 4px 16px rgba(34,158,217,0.35); color:#fff; }
-.sub-tg svg{ width:18px; height:18px; opacity:1; }
-.foot{
-  border-top:1px solid var(--border); margin-top:8px;
-  padding:24px 0;
-  font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-soft);
-  display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;
-}
-.foot-mark{ height:28px; width:auto; opacity:.75; transition:opacity .3s ease; }
-.foot-mark:hover{ opacity:1; }
-.foot a{ color:var(--accent); text-decoration:none; transition:color .2s ease; }
-.foot a:hover{ color:var(--accent-strong); }
-.foot .foot-li{ color:#0A66C2; }
-.foot .foot-li:hover{ color:#004182; }
-.foot .foot-tg{ color:#2AABEE; }
-.foot .foot-tg:hover{ color:#229ED9; }
-
-/* ============ top nav (shared with portfolio) ============ */
-.topnav{
-  position:sticky; top:0; z-index:50;
-  backdrop-filter:blur(14px) saturate(1.2); -webkit-backdrop-filter:blur(14px) saturate(1.2);
-  background:color-mix(in oklab, var(--bg) 78%, transparent);
-  border-bottom:1px solid transparent; transition:border-color .25s ease;
-  margin:0 calc(-1 * clamp(24px, 6vw, 160px));
-  padding-left:clamp(24px, 6vw, 160px); padding-right:clamp(24px, 6vw, 160px);
-}
-.topnav.stuck{ border-bottom-color:var(--border); }
-.topnav-inner{
-  max-width:1200px; margin:0 auto;
-  display:flex; align-items:center; justify-content:center;
-  height:72px; gap:32px;
-}
-.topnav-brand{ display:flex; align-items:center; }
-.topnav-brand img{ height:36px; width:auto; opacity:.85; transition:transform .4s cubic-bezier(.2,.7,.2,1), opacity .3s ease; }
-.topnav-brand:hover img{ transform:scale(1.04); opacity:1; }
-.topnav-links{
-  display:flex; gap:18px; align-items:center;
-  font-size:12px; font-weight:400; letter-spacing:0.22em; text-transform:uppercase;
-  color:var(--text-muted);
-}
-.topnav-links a{ color:var(--text-muted); text-decoration:none; transition:color .2s ease; position:relative; }
-.topnav-links a:hover{ color:var(--text); }
-.topnav-links a:hover::after{ content:''; position:absolute; left:0; right:0; bottom:-6px; height:1px; background:var(--accent); transform:scaleX(1); }
-.topnav-links a::after{ content:''; position:absolute; left:0; right:0; bottom:-6px; height:1px; background:var(--accent); transform:scaleX(0); transform-origin:left; transition:transform .35s cubic-bezier(.2,.7,.2,1); }
-.topnav-links .active{ color:var(--accent); }
-.topnav-sep{ color:var(--text-soft); font-size:11px; }
-
-@media (prefers-reduced-motion: reduce){
-  *,*::before,*::after{ animation-duration:.01ms !important; transition-duration:.01ms !important; }
-}
-</style>
-</head>
-<body>
-<div class="app">
-  <nav class="topnav" id="topnav">
-    <div class="topnav-inner">
-      <a href="https://mmesonero.github.io/" class="topnav-brand"><img src="../assets/logo.png" alt="MM"></a>
-      <div class="topnav-links">
-        <a href="https://mmesonero.github.io/">Portfolio</a>
-        <span class="topnav-sep">&middot;</span>
-        <a class="active">AI News</a>
-      </div>
-    </div>
-  </nav>
-
-  <nav class="rail" id="rail" aria-label="Filters">
-    <div class="rail-inner">
-      <div class="filters">
-        <span class="grp">
-          <div class="csel" id="playersel" aria-label="Filter by company">
-            <button class="csel-btn" type="button">
-              <span class="csel-val">All</span>
-              <svg class="csel-chev" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 1 5 5 9 1"/></svg>
-            </button>
-            <div class="csel-menu"></div>
-          </div>
-        </span>
-        <span class="sep-dot"></span>
-        <span class="grp">
-          <div class="csel" id="themesel" aria-label="Filter by topic">
-            <button class="csel-btn" type="button">
-              <span class="csel-val">All</span>
-              <svg class="csel-chev" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 1 5 5 9 1"/></svg>
-            </button>
-            <div class="csel-menu"></div>
-          </div>
-        </span>
-        <span class="sep-dot"></span>
-        <span class="grp">
-          <span class="seg" id="seg">
-            <button data-h="24">24h</button>
-            <button data-h="72">72h</button>
-            <button data-h="168" class="active">Week</button>
-            <button data-h="99999">Month</button>
-          </span>
-        </span>
-        <span class="sep-dot"></span>
-        <span class="grp sort-grp" id="sort" title="Toggle sort order">
-          <button data-s="rel" class="active">↓ Relevance</button>
-          <button data-s="date">↓ Recent</button>
-        </span>
-        <span class="sep-dot"></span>
-        <span class="tog" id="lowtog" role="switch" aria-checked="false" tabindex="0">
-          <span class="sw"></span> Low relevance
-        </span>
-      </div>
-    </div>
-  </nav>
-
-  <header class="masthead container">
-    <h1>AI <span class="g">News</span></h1>
-    <div class="dateline">
-      <span class="live"><b id="count">—</b> stories</span>
-      <span class="dot"></span>
-      <span>updated <b>Jun 16, 2026, 07:33 UTC</b></span>
-      <span class="dot"></span>
-      <span>2× daily</span>
-    </div>
-  </header>
-
-  <main class="feed container" id="feed"></main>
-
-  <section class="subscribe container">
-    <div class="sub-panel">
-      <div class="sub-label">Stay up to date</div>
-      <p class="sub-copy">Get the briefing in your inbox, once a week.</p>
-      <form class="sub-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='✓ Subscribed'; this.querySelector('input').disabled=true;">
-        <input type="email" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="your@email.com" required title="Enter a valid email">
-        <button type="submit">Subscribe</button>
-      </form>
-      <div class="sub-divider">or</div>
-      <a class="sub-tg" href="https://t.me/+ImA4ksuUUbMzMzFk" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="white" stroke="none"><path d="M21.2 4.4L2.4 10.8c-.6.2-.6.6 0 .8l4.6 1.4 1.8 5.6c.2.4.6.4.8.2l2.6-2.2 4.8 3.6c.4.2.8 0 1-.4L21.8 5.2c.2-.6-.2-1-.6-.8z"/></svg>
-        Join the Telegram channel
-      </a>
-    </div>
-  </section>
-
-  <footer class="foot container">
-    <a href="https://mmesonero.github.io/"><img src="../assets/logo.png" alt="MM" class="foot-mark"></a>
-    <span>&copy; 2026 &middot; Manuel Mesonero &middot; <a href="https://mmesonero.github.io/">Portfolio</a> &middot; <a class="foot-li" href="https://www.linkedin.com/in/mesonero/" target="_blank" rel="noopener">LinkedIn</a> &middot; <a class="foot-tg" href="https://t.me/+ImA4ksuUUbMzMzFk" target="_blank" rel="noopener">Telegram</a></span>
-    <span>Madrid &middot; Vibe coded</span>
-  </footer>
+  * { box-sizing:border-box; }
+  body { font-family:var(--sans); background:var(--bg); color:var(--text);
+         margin:0; padding:0; font-weight:400; line-height:1.55;
+         -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:760px; margin:0 auto; padding:40px 22px 64px; }
+  /* nav (matches mmesonero.github.io) */
+  .container { max-width:var(--container); margin:0 auto; padding:0 32px; }
+  .nav { position:sticky; top:0; z-index:50; backdrop-filter:blur(14px) saturate(1.2);
+         -webkit-backdrop-filter:blur(14px) saturate(1.2);
+         background:color-mix(in oklab, var(--bg) 78%, transparent);
+         border-bottom:1px solid transparent; }
+  .nav-inner { display:flex; align-items:center; justify-content:center; height:72px; gap:32px; }
+  .brand { display:flex; align-items:center; }
+  .brand-mark { height:42px; width:auto; display:block; transition:transform .4s; }
+  .brand:hover .brand-mark { transform:scale(1.04); }
+  .nav-links { display:flex; gap:18px; font-size:12px; font-weight:400; font-family:var(--mono);
+               letter-spacing:0.22em; text-transform:uppercase; color:var(--text-muted); align-items:center; }
+  .nav-links a { position:relative; text-decoration:none; color:var(--text-muted); white-space:nowrap; transition:color .2s ease; }
+  .nav-links a:hover { color:var(--text); }
+  .nav-sep { color:var(--text-soft); font-family:var(--mono); font-size:11px; }
+  .nav-accent { color:var(--accent) !important; }
+  .nav-accent:hover { color:var(--accent-strong) !important; }
+  @media (max-width:640px) { .nav-links { gap:10px; font-size:10px; letter-spacing:0.16em; } .nav-sep { font-size:9px; } .brand-mark { height:34px; } .container { padding:0 22px; } }
+  header { margin-bottom:22px; }
+  h1 { font-family:var(--sans); font-weight:600; font-size:34px; letter-spacing:-0.02em; margin:0 0 6px; }
+  .sub { color:var(--text-muted); font-size:14px; }
+  .accent { color:var(--accent-strong); }
+  .controls { display:flex; flex-direction:column; gap:10px; margin:22px 0 26px; }
+  .ctrl-row { display:flex; gap:9px; flex-wrap:wrap; align-items:center; }
+  .ctrl-label { font-size:12px; font-weight:600; color:var(--text-soft); text-transform:uppercase; letter-spacing:0.04em; }
+  select { font-family:var(--sans); font-size:13px; font-weight:500; color:var(--text);
+           background:var(--bg-elev); border:1px solid var(--border-strong); border-radius:999px;
+           padding:7px 13px; cursor:pointer; }
+  select:hover { border-color:var(--accent-strong); }
+  .switch { display:inline-flex; align-items:center; gap:8px; cursor:pointer;
+            font-size:13px; font-weight:500; color:var(--text-muted); margin-left:auto; user-select:none; }
+  .switch input { position:absolute; opacity:0; pointer-events:none; }
+  .switch .track { width:40px; height:23px; border-radius:999px; background:var(--border-strong);
+                   position:relative; transition:background .2s; flex:none; }
+  .switch .track::after { content:""; position:absolute; top:2.5px; left:2.5px; width:18px; height:18px;
+                          border-radius:50%; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,0.3); transition:transform .2s; }
+  .switch input:checked + .track { background:var(--accent-strong); }
+  .switch input:checked + .track::after { transform:translateX(17px); }
+  .card { background:var(--bg-elev); border:1px solid var(--border); border-radius:var(--radius-md);
+          padding:16px 18px; margin-bottom:12px; box-shadow:var(--shadow-sm); transition:box-shadow .2s,border-color .2s; }
+  .card:hover { box-shadow:var(--shadow-md); border-color:var(--border-strong); }
+  .card.hide { display:none; }
+  .meta { display:flex; gap:9px; align-items:center; margin-bottom:8px; font-size:12px; color:var(--text-soft); flex-wrap:wrap; }
+  .tag { font-weight:500; color:var(--text-muted); }
+  .nota { background:var(--accent-soft); color:var(--accent-strong); padding:2px 9px; border-radius:999px; font-weight:600; }
+  .src { border:1px solid var(--border-strong); padding:2px 9px; border-radius:999px; }
+  .date { margin-left:auto; }
+  .title a { color:var(--text); text-decoration:none; font-weight:500; font-size:17px; line-height:1.35; }
+  .title a:hover { color:var(--accent-strong); }
+  .sum { color:var(--text-muted); font-size:14px; margin:9px 0 0; font-weight:300; }
+  .empty { color:var(--text-muted); }
+  footer { color:var(--text-soft); font-size:12.5px; margin-top:44px; border-top:1px solid var(--border); padding-top:16px; }
+  footer a { color:var(--accent-strong); text-decoration:none; }
+  /* detail page */
+  .back { display:inline-block; color:var(--text-soft); text-decoration:none; font-size:13px; margin-bottom:18px; }
+  .back:hover { color:var(--accent-strong); }
+  .detail-title { font-size:27px; font-weight:600; line-height:1.25; letter-spacing:-0.01em; margin:6px 0 14px; }
+  .detail-sum { font-size:16px; color:var(--text-muted); line-height:1.6; font-weight:300; margin:0 0 24px; }
+  .players { display:flex; gap:7px; flex-wrap:wrap; margin:18px 0; }
+  .chip { background:var(--bg-muted); border:1px solid var(--border); color:var(--text-muted);
+          padding:3px 11px; border-radius:999px; font-size:12.5px; font-weight:500; }
+  .source-btn { display:inline-block; background:var(--accent-strong); color:#fff; text-decoration:none;
+                font-weight:600; font-size:14px; padding:11px 20px; border-radius:999px; margin-top:8px; }
+  .source-btn:hover { filter:brightness(1.06); }
+  .hero { width:100%; max-height:360px; object-fit:cover; border-radius:var(--radius-md);
+          border:1px solid var(--border); margin:6px 0 20px; display:block; }
+</style></head><body>
+<nav class="nav"><div class="container nav-inner"><a href="https://mmesonero.github.io/" class="brand" aria-label="Manuel Mesonero"><img src="https://mmesonero.github.io/assets/logo.png" alt="Manuel Mesonero" class="brand-mark"></a><div class="nav-links"><a href="https://mmesonero.github.io/#work">Work</a><span class="nav-sep">·</span><a href="https://mmesonero.github.io/#progress">In Progress</a><span class="nav-sep">·</span><a href="https://mmesonero.github.io/#about">About Me</a><span class="nav-sep">·</span><a href="https://mmesonero.github.io/ai-news/" class="nav-accent">AI News</a></div></div></nav>
+<div class="wrap">
+<header>
+  <h1>AI <span class="accent">News</span></h1>
+  <div class="sub"><span id="count">21</span> noticias · actualizado 16/06/2026 12:36 UTC</div>
+</header>
+<div class="controls">
+  <div class="ctrl-row">
+    <select id="range" aria-label="Rango temporal">
+      <option value="24">24h</option>
+      <option value="72">72h</option>
+      <option value="168" selected>Semana</option>
+      <option value="720">Mes</option>
+    </select>
+    <select id="sort" aria-label="Orden">
+      <option value="rel">↓ Relevancia</option>
+      <option value="date">↓ Reciente</option>
+    </select>
+    <label class="switch">
+      <input type="checkbox" id="showlow"><span class="track"></span>
+      <span>Baja relevancia</span>
+    </label>
+  </div>
+  <div class="ctrl-row">
+    <span class="ctrl-label">Tema</span><select id="filter"><option value="all">Todos los temas</option><option value="herramienta_nueva">🛠️ Herramientas</option><option value="nueva_funcionalidad">✨ Funciones</option><option value="movimiento_empresarial">💼 Negocio</option><option value="caso_practico">📈 Casos</option><option value="insight_negocio">💡 Insights</option><option value="noticia_relevante">🌐 Otras</option></select>
+    <span class="ctrl-label">Players</span><select id="player"><option value="all">Todos los players</option><option value="OpenAI">OpenAI (5)</option><option value="Apple">Apple (2)</option><option value="SpaceX">SpaceX (1)</option><option value="Google">Google (1)</option><option value="Mistral">Mistral (1)</option></select>
+  </div>
+</div>
+<div id="list">
+<article class="card" data-theme="movimiento_empresarial" data-rel="98" data-date="20260611" data-ts="1781209990" data-tier="media" data-players="SpaceX"><div class="meta"><span class="tag">💼 Negocio</span><span class="nota">90/100</span><span class="src">📡 2</span><span class="date">11/06</span></div><div class="title"><a href="n/9691490157c1.html">SpaceX fija el precio de sus acciones a 135 dólares en la mayor OPI de la historia</a></div><p class="sum">SpaceX ha confirmado que ha recaudado 75 mil millones de dólares mediante la venta de 555,6 millones de acciones a 135 dólares cada una, convirtiéndose en la mayor OPI de la historia. Este movimiento podría hacer de Elon Musk el primer trillionario del mundo. A pesar de la alta demanda, persisten dudas sobre cómo SpaceX justificará su elevada valoración en el futuro.</p></article>
+<article class="card" data-theme="noticia_relevante" data-rel="90" data-date="20260612" data-ts="1781296689" data-tier="media" data-players="Google"><div class="meta"><span class="tag">🌐 Otras</span><span class="nota">70/100</span><span class="src">📡 6</span><span class="date">12/06</span></div><div class="title"><a href="n/beeabd3f03f0.html">Google demanda a una operación de cibercrimen chino que utilizó IA para estafar a cientos de miles de víctimas</a></div><p class="sum">Google ha presentado una demanda contra Outsider Enterprise, una red de cibercrimen que utiliza IA para enviar mensajes de texto fraudulentos y robar información financiera. Se estima que esta operación ha causado pérdidas de millones de dólares a cientos de miles de víctimas. La demanda busca desmantelar la infraestructura de la red y detener sus actividades delictivas.</p></article>
+<article class="card" data-theme="movimiento_empresarial" data-rel="83" data-date="20260612" data-ts="1781226278" data-tier="alta" data-players=""><div class="meta"><span class="tag">💼 Negocio</span><span class="nota">75/100</span><span class="src">📡 2</span><span class="date">12/06</span></div><div class="title"><a href="n/041ff902bdab.html">Prometheus de Jeff Bezos recauda 12.000 millones para construir un &#x27;ingeniero general artificial&#x27; para el mundo físico</a></div><p class="sum">Prometheus, la startup de IA física cofundada por Jeff Bezos, ha recaudado 12.000 millones de dólares, alcanzando una valoración de 41.000 millones. La empresa busca automatizar el diseño y la fabricación de sistemas físicos complejos, desafiando la visión de que la IA provocará pérdidas masivas de empleo. Bezos argumenta que la productividad aumentada mejorará el nivel de vida.</p></article>
+<article class="card" data-theme="noticia_relevante" data-rel="70" data-date="20260615" data-ts="1781508341" data-tier="media" data-players=""><div class="meta"><span class="tag">🌐 Otras</span><span class="nota">70/100</span><span class="date">15/06</span></div><div class="title"><a href="n/dab97fb78859.html">La ola de despidos en IA se convierte en una bomba de tiempo</a></div><p class="sum">Los despidos en el sector tecnológico alcanzaron su punto más alto en dos años, con casi 40,000 recortes, siendo la IA la razón más citada. Sin embargo, hay escepticismo sobre si la IA es realmente la causa, con voces como la de Marc Andreessen sugiriendo que es una excusa para la mala gestión. Mientras tanto, un pequeño grupo de insiders de IA está acumulando riqueza a un ritmo alarmante.</p></article>
+<article class="card" data-theme="caso_practico" data-rel="70" data-date="20260611" data-ts="1781207464" data-tier="media" data-players="OpenAI"><div class="meta"><span class="tag">📈 Casos</span><span class="nota">70/100</span><span class="date">11/06</span></div><div class="title"><a href="n/ff9b18a6b8ce.html">BBVA y OpenAI: Transformación AI en la Banca</a></div><p class="sum">BBVA está integrando la inteligencia artificial en toda su estructura empresarial, no como un complemento, sino como una capa operativa esencial. Con el despliegue de JBT Enterprise a más de 120,000 empleados, han desarrollado seis robots especializados para optimizar diferentes áreas del negocio, desde la relación con los clientes hasta la gestión de riesgos y operaciones internas.</p></article>
+<article class="card" data-theme="movimiento_empresarial" data-rel="65" data-date="20260615" data-ts="1781531168" data-tier="alta" data-players=""><div class="meta"><span class="tag">💼 Negocio</span><span class="nota">65/100</span><span class="date">15/06</span></div><div class="title"><a href="n/9a32bff36420.html">Sarvam se convierte en el nuevo unicornio de IA de India con una ronda de financiación de 234 millones de dólares liderada por HCLTech</a></div><p class="sum">Sarvam ha alcanzado el estatus de unicornio tras una ronda de financiación de 234 millones de dólares, liderada por HCLTech. La empresa se centra en soluciones de inteligencia artificial y ha mostrado un crecimiento significativo en el sector. Esta inversión resalta el interés creciente en la IA en India.</p></article>
+<article class="card" data-theme="movimiento_empresarial" data-rel="65" data-date="20260615" data-ts="1781528400" data-tier="media" data-players=""><div class="meta"><span class="tag">💼 Negocio</span><span class="nota">65/100</span><span class="date">15/06</span></div><div class="title"><a href="n/bf4c56821442.html">NewCore emerge con 66 millones para dar identidad a los agentes de IA como empleados</a></div><p class="sum">NewCore, una startup de ciberseguridad, ha recaudado 66 millones de dólares para abordar la gestión de identidades de agentes de IA en las empresas. La compañía, valorada en 300 millones, propone un sistema que integra identidades humanas y de IA, anticipando que los agentes digitales superarán en número a los empleados humanos en el futuro. Su enfoque busca resolver las debilidades actuales en las plataformas de identidad existentes.</p></article>
+<article class="card" data-theme="noticia_relevante" data-rel="65" data-date="20260615" data-ts="1781524800" data-tier="media" data-players=""><div class="meta"><span class="tag">🌐 Otras</span><span class="nota">65/100</span><span class="date">15/06</span></div><div class="title"><a href="n/3df362228dbf.html">Un satélite ha aprendido a encontrar cosas por sí mismo: implicaciones</a></div><p class="sum">Por primera vez, un satélite de observación terrestre ha identificado objetivos de interés sin intervención humana, utilizando un modelo de visión-lenguaje. Este avance podría aumentar la utilidad de los sensores espaciales y allanar el camino para infraestructuras de IA a gran escala en el espacio.</p></article>
+<article class="card" data-theme="movimiento_empresarial" data-rel="65" data-date="20260612" data-ts="1781281487" data-tier="media" data-players="OpenAI"><div class="meta"><span class="tag">💼 Negocio</span><span class="nota">65/100</span><span class="date">12/06</span></div><div class="title"><a href="n/ee9a377ec782.html">De datos a decisiones: cómo LSEG está escalando la IA confiable</a></div><p class="sum">LSEG está mejorando su capacidad para ofrecer servicios de datos confiables en los mercados financieros mediante la integración de IA. La empresa colabora estrechamente con OpenAI para acelerar su modelo operativo y reducir el ciclo de lanzamiento de productos a dos semanas. Esto permite una toma de decisiones más rápida y una mayor profundidad en la investigación de los analistas.</p></article>
+<article class="card" data-theme="noticia_relevante" data-rel="65" data-date="20260611" data-ts="1781200816" data-tier="media" data-players=""><div class="meta"><span class="tag">🌐 Otras</span><span class="nota">65/100</span><span class="date">11/06</span></div><div class="title"><a href="n/4cb946190d81.html">Conectando el conocimiento humano a través de modelos avanzados</a></div><p class="sum">El artículo destaca la visión de Elisenda Bow sobre la inteligencia artificial y su evolución hacia la multimodalidad. Bow, cofundadora de una empresa adquirida por Apple, enfatiza la necesidad de un sistema que no solo procese datos, sino que los conecte con fuentes fiables. Se plantea un futuro donde la IA pueda acceder a todo el conocimiento humano para mejorar la toma de decisiones.</p></article>
+<article class="card" data-theme="movimiento_empresarial" data-rel="65" data-date="20260610" data-ts="1781107231" data-tier="media" data-players=""><div class="meta"><span class="tag">💼 Negocio</span><span class="nota">65/100</span><span class="date">10/06</span></div><div class="title"><a href="n/e82cf2ee9a9b.html">Los solucionadores de problemas | Michael Truell en Cursor</a></div><p class="sum">Michael Truell, cofundador de Cursor, destaca cómo la programación permite construir sin barreras. Cursor es una herramienta que acelera el desarrollo de software mediante IA, accesible tanto para ingenieros como para personas sin experiencia técnica. La empresa ha crecido rápidamente, sirviendo a más del 60% de las Fortune 500.</p></article>
+<article class="card" data-theme="insight_negocio" data-rel="55" data-date="20260615" data-ts="1781532000" data-tier="media" data-players=""><div class="meta"><span class="tag">💡 Insights</span><span class="nota">55/100</span><span class="date">15/06</span></div><div class="title"><a href="n/f3e37047d492.html">El CEO de Skydio, Adam Bry, sobre el uso de drones y las líneas rojas en Silicon Valley</a></div><p class="sum">Adam Bry, CEO de Skydio, discute la evolución de los drones autónomos y su enfoque en el mercado empresarial, especialmente en sectores como la seguridad pública y la energía. La prohibición de drones de bajo coste importados de China ha dejado a Skydio como una de las pocas alternativas en el mercado estadounidense. Bry también aborda el uso de inteligencia artificial en sus productos y la importancia de la fabricación nacional.</p></article>
+<article class="card" data-theme="nueva_funcionalidad" data-rel="55" data-date="20260613" data-ts="1781352000" data-tier="media" data-players="Apple"><div class="meta"><span class="tag">✨ Funciones</span><span class="nota">55/100</span><span class="date">13/06</span></div><div class="title"><a href="n/7db5a9c52aa2.html">Las nuevas herramientas de edición de fotos con IA de Apple funcionan en su mayoría, para bien y para mal</a></div><p class="sum">Apple ha introducido herramientas de edición de fotos con IA en iOS 27, marcando un avance significativo para los usuarios de iPhone. Las funciones incluyen &#x27;Clean Up&#x27;, &#x27;Extend&#x27; y &#x27;Spatial Reframing&#x27;, cada una con sus propias capacidades y limitaciones. Aunque estas herramientas mejoran la edición de fotos, también plantean preocupaciones sobre la autenticidad de las imágenes.</p></article>
+<article class="card" data-theme="insight_negocio" data-rel="55" data-date="20260613" data-ts="1781324059" data-tier="media" data-players=""><div class="meta"><span class="tag">💡 Insights</span><span class="nota">55/100</span><span class="date">13/06</span></div><div class="title"><a href="n/d5a167a79f01.html">Andrew Yang considera que la próxima gran oportunidad de startup es reducir el coste de vida</a></div><p class="sum">Andrew Yang propone que la próxima ola de oportunidades para startups radica en modelos de negocio que devuelven dinero a los consumidores en lugar de extraerlo. Inspirado por el enfoque de Cost Plus Drugs de Mark Cuban, Yang ha lanzado Nobile Mobile, un operador de red móvil que ofrece servicios a bajo coste y reembolsa a los usuarios que consumen menos datos. A medida que la IA amenaza con desplazar empleos y reducir salarios, Yang ve una oportunidad de negocio en satisfacer las necesidades básicas de la población de manera más asequible.</p></article>
+<article class="card" data-theme="herramienta_nueva" data-rel="55" data-date="20260612" data-ts="1781296607" data-tier="media" data-players="OpenAI"><div class="meta"><span class="tag">🛠️ Herramientas</span><span class="nota">55/100</span><span class="date">12/06</span></div><div class="title"><a href="n/1b01fac37e63.html">Analiza de ganancias y actualización de tu tesis de inversión con Codex</a></div><p class="sum">El plugin de inversión en acciones de OpenAI ayuda a los equipos de inversión a transformar la investigación en acciones públicas. Facilita la normalización de datos financieros y la comparación de métricas, proporcionando un análisis post-ganancias más estructurado y confiable.</p></article>
+<article class="card" data-theme="movimiento_empresarial" data-rel="55" data-date="20260612" data-ts="1781285891" data-tier="media" data-players="Mistral"><div class="meta"><span class="tag">💼 Negocio</span><span class="nota">55/100</span><span class="date">12/06</span></div><div class="title"><a href="n/9bea8e6d5615.html">Mistral busca recaudar €3B con una valoración de €20B</a></div><p class="sum">El laboratorio de IA francés Mistral AI está en conversaciones para recaudar aproximadamente €3 mil millones, lo que valoraría la empresa en alrededor de €20 mil millones. Mistral, que se lanzó en 2023, se posiciona como una alternativa europea a las empresas de tecnología estadounidenses, ofreciendo modelos de lenguaje con pesos abiertos y colaborando con entidades gubernamentales y empresas en Europa.</p></article>
+<article class="card" data-theme="caso_practico" data-rel="55" data-date="20260612" data-ts="1781258006" data-tier="media" data-players=""><div class="meta"><span class="tag">📈 Casos</span><span class="nota">55/100</span><span class="date">12/06</span></div><div class="title"><a href="n/b485118e337a.html">Cómo Preply combina IA y tutores humanos para personalizar el aprendizaje</a></div><p class="sum">Preply, el mayor mercado de aprendizaje de idiomas, integra inteligencia artificial con tutores humanos para mejorar la experiencia educativa. La IA ayuda a reducir tareas repetitivas y proporciona resúmenes personalizados de las lecciones, lo que permite a los tutores centrarse en motivar a los estudiantes. La adopción de estas herramientas ha sido alta, con un 70% de los estudiantes activos utilizando las funciones de IA más de un año después.</p></article>
+<article class="card" data-theme="movimiento_empresarial" data-rel="55" data-date="20260612" data-ts="1781228887" data-tier="media" data-players=""><div class="meta"><span class="tag">💼 Negocio</span><span class="nota">55/100</span><span class="date">12/06</span></div><div class="title"><a href="n/b612f2b2ad9c.html">Theker recauda 85 millones de dólares para construir un robot de fábrica versátil</a></div><p class="sum">Theker ha conseguido 85 millones de dólares en financiación para desarrollar un robot de fábrica que no se especializa en una única tarea. Este enfoque busca aumentar la flexibilidad en las líneas de producción, permitiendo a las empresas adaptarse rápidamente a diferentes necesidades. La inversión refleja un creciente interés en la automatización industrial y la robótica generalista.</p></article>
+<article class="card" data-theme="herramienta_nueva" data-rel="55" data-date="20260611" data-ts="1781195780" data-tier="media" data-players="Apple"><div class="meta"><span class="tag">🛠️ Herramientas</span><span class="nota">55/100</span><span class="date">11/06</span></div><div class="title"><a href="n/4f9aae068b78.html">La nueva herramienta de Deezer identifica música AI en Spotify, Apple Music y otros</a></div><p class="sum">Deezer ha lanzado una herramienta que permite a los usuarios identificar canciones generadas por IA en sus listas de reproducción de diversas plataformas de streaming. Esta herramienta, que soporta 27 idiomas, busca abordar las preocupaciones sobre el uso de material protegido por derechos de autor en la música generada por IA. A diferencia de sus competidores, Deezer elimina activamente las pistas de IA de sus recomendaciones.</p></article>
+<article class="card" data-theme="nueva_funcionalidad" data-rel="50" data-date="20260612" data-ts="1781223338" data-tier="media" data-players="OpenAI"><div class="meta"><span class="tag">✨ Funciones</span><span class="nota">50/100</span><span class="date">12/06</span></div><div class="title"><a href="n/f0b9849d4151.html">Depuración de aplicaciones web con el uso del navegador en Codex</a></div><p class="sum">Codex ha mejorado su capacidad para depurar y probar aplicaciones web al añadir soporte para el Protocolo de Herramientas de Desarrollo de Chrome (CDP). Esto permite a Codex acceder a funcionalidades avanzadas como el perfilado de rendimiento y la inspección del tráfico de red. Los usuarios deben habilitar el Modo Desarrollador para utilizar estas nuevas capacidades.</p></article>
+<article class="card" data-theme="caso_practico" data-rel="45" data-date="20260614" data-ts="1781477085" data-tier="media" data-players="OpenAI"><div class="meta"><span class="tag">📈 Casos</span><span class="nota">45/100</span><span class="date">14/06</span></div><div class="title"><a href="n/556765397cf3.html">Cómo Payward Acelera sus Envios con Codex</a></div><p class="sum">Payward ha mejorado significativamente su velocidad de envío gracias a Codex, lo que les permite delegar tareas y gestionar múltiples agentes simultáneamente. Esto les ayuda a ofrecer experiencias personalizadas a sus clientes y a mantenerse a la vanguardia en el sector financiero.</p></article>
+</div>
+<footer>Recopilado y clasificado automáticamente · dedup semántico + IA · <a href="https://mmesonero.github.io/">← mmesonero</a></footer>
 </div>
 <script>
-/* ---------- taxonomy ---------- */
-const THEMES = [
-  { key:"all",            label:"All",       em:"" },
-  { key:"nuevo_modelo",   label:"Models",    em:"🧠" },
-  { key:"herramienta",    label:"Tools",     em:"🛠️" },
-  { key:"funcion",        label:"Features",  em:"✨" },
-  { key:"negocio",        label:"Business",  em:"💼" },
-  { key:"caso",           label:"Cases",     em:"📈" },
-  { key:"insight",        label:"Insights",  em:"💡" },
-  { key:"tutorial",       label:"Tutorials", em:"🧪" },
-  { key:"otras",          label:"Other",     em:"🌐" },
-];
-const TLABEL = Object.fromEntries(THEMES.map(t => [t.key, t]));
-
-/* ---------- data (estática, incrustada) ---------- */
-const NOW = 1781593980; // 16 jun 2026 07:33 UTC
-const H = 3600, D = 86400;
-const DATA = [
-  { title:"Anthropic releases Claude Fable 5", url:"#", theme:"nuevo_modelo", score:91, level:"alta", sources:1, players:["Anthropic"], ago:0.9*D,
-    urls:[{label:"TechCrunch",href:"#"}],
-    sum:"Nuevo modelo insignia con mejoras en razonamiento y honestidad. Supera a la generación anterior en benchmarks de código y reduce las alucinaciones en tareas largas." },
-  { title:"SpaceX officially prices shares at $135 in the largest IPO ever", url:"#", theme:"negocio", score:85, level:"alta", sources:2, players:["SpaceX"], ago:5*D,
-    urls:[{label:"TechCrunch",href:"#"},{label:"Reuters",href:"#"}],
-    sum:"SpaceX fija el precio de salida a bolsa en 135 $ por acción y levanta 75.000M, superando el récord de Saudi Aramco. Cotizará bajo el ticker SPCX." },
-  { title:"OpenAI files confidentially for IPO following Anthropic", url:"#", theme:"negocio", score:82, level:"alta", sources:3, players:["OpenAI"], ago:0.4*D,
-    urls:[{label:"TechCrunch",href:"#"},{label:"The Verge",href:"#"},{label:"Bloomberg",href:"#"}],
-    sum:"OpenAI presenta documentación confidencial para salir a bolsa, siguiendo los pasos de Anthropic. La operación podría valorar la compañía por encima de los 500.000M." },
-  { title:"Walmart reduce un 30% los errores de inventario con visión artificial", url:"#", theme:"caso", score:74, level:"media", sources:2, players:["Walmart"], ago:1.6*D,
-    sum:"Caso real desplegado en almacenes: un sistema de visión por IA inspecciona la mercancía en tiempo real y recorta un 30% los errores de inventario frente al conteo manual." },
-  { title:"Meta reportedly moves to unwind $2B Manus deal after Beijing's demand", url:"#", theme:"negocio", score:70, level:"media", sources:2, players:["Meta"], ago:2.1*D,
-    sum:"Meta desmonta su adquisición de Manus por 2.000M tras una orden de desinversión de Pekín por motivos de seguridad nacional, cortando el acceso a sus sistemas internos." },
-  { title:"Google sues AI-powered cybercrime operation behind global scam", url:"#", theme:"otras", score:64, level:"media", sources:6, players:["Google"], ago:4*D,
-    urls:[{label:"TechCrunch",href:"#"},{label:"The Verge",href:"#"},{label:"Ars Technica",href:"#"}],
-    sum:"Google demanda a una red de cibercrimen que usó IA para estafar a cientos de miles de víctimas mediante webs y SMS falsos, con pérdidas estimadas en 1.900M." },
-  { title:"Salesforce acquires AI customer service platform Fin for $3.6B", url:"#", theme:"negocio", score:65, level:"media", sources:1, players:["Salesforce"], ago:1.1*D,
-    sum:"Salesforce compra Fin, plataforma de atención al cliente con IA, por 3.600M. Reforzará Agentforce; la operación se cerraría a principios de 2027." },
-  { title:"Apple bets cheaper AI will woo small developers", url:"#", theme:"negocio", score:55, level:"media", sources:1, players:["Apple"], ago:0.7*D,
-    sum:"Apple apuesta por modelos de IA más baratos y eficientes en dispositivo para atraer a pequeños desarrolladores a su ecosistema frente a las APIs de la nube." },
-  { title:"Meta's new 'AI Mode' on Facebook pulls from public info across its platforms", url:"#", theme:"funcion", score:55, level:"media", sources:2, players:["Meta"], ago:1.3*D,
-    sum:"Meta lanza 'AI Mode' en Facebook: búsquedas en lenguaje natural respondidas con información pública de la plataforma. Crece la duda sobre la fiabilidad de las fuentes." },
-  { title:"Mistral is rumored to be raising €3B at a €20B valuation", url:"#", theme:"negocio", score:56, level:"media", sources:1, players:["Mistral"], ago:4*D,
-    sum:"El laboratorio francés negociaría una ronda de 3.000M que casi duplicaría su valoración hasta los 20.000M, consolidándose como la alternativa europea a OpenAI y Anthropic." },
-  { title:"Apple's new AI photo editing tools mostly work, for better and worse", url:"#", theme:"funcion", score:52, level:"baja", sources:1, players:["Apple"], ago:3*D,
-    sum:"iOS 27 estrena Clean Up, Extend y Spatial Reframing. Clean Up mejora notablemente; el resto reabre el debate sobre la autenticidad de las fotos editadas." },
-  { title:"Avataar's video AI is built for India's scale: cheaper and faster", url:"#", theme:"nuevo_modelo", score:50, level:"baja", sources:1, players:[], ago:4*D,
-    sum:"Avataar presenta Varya, un modelo de vídeo más rápido y barato pensado para el mercado indio, con técnicas de destilación y atención a los matices culturales locales." },
-  { title:"Cómo usar Claude Code como centro de mando", url:"#", theme:"tutorial", score:48, level:"baja", sources:1, players:["Anthropic"], ago:0.6*D,
-    sum:"Workflow práctico para operar Claude Code en el día a día: subagentes, hooks y comandos propios para convertirlo en el centro de mando de tu terminal." },
-  { title:"Deezer's new tool can identify AI music from Spotify, Apple Music and others", url:"#", theme:"herramienta", score:47, level:"baja", sources:1, players:[], ago:5*D,
-    sum:"Deezer lanza un detector de música generada con IA compatible con 27 idiomas. El 44% de la música nueva subida a su plataforma ya es sintética." },
-  { title:"Debug web apps with browser use in Codex", url:"#", theme:"tutorial", score:45, level:"baja", sources:1, players:["OpenAI"], ago:4*D,
-    sum:"Codex integra el Chrome DevTools Protocol: profiling de rendimiento, inspección de red y análisis de logs de consola desde el propio agente al activar el modo desarrollador." },
-];
-
-/* ---------- relative date label ---------- */
-function fmtDate(ago){
-  const d = new Date((NOW - ago) * 1000);
-  return d.toLocaleDateString("en-GB", { day:"numeric", month:"short" });
-}
-
-/* ---------- state ---------- */
-const state = { theme:"all", hours:168, player:"all", sort:"rel", low:false };
-
-const feedEl = document.getElementById("feed");
-const countEl = document.getElementById("count");
-const railEl = document.getElementById("rail");
-
-const PLAYERS = [
-  "OpenAI", "Anthropic", "Google", "Meta", "NVIDIA",
-  "Microsoft", "Amazon", "Apple", "xAI", "Mistral"
-];
-const PLAYER_LOGO = {
-  "OpenAI":    "../assets/players/openai.png",
-  "Anthropic": "../assets/players/anthropic.png",
-  "Google":    "../assets/players/google.jpg",
-  "Meta":      "../assets/players/meta.png",
-  "NVIDIA":    "../assets/players/nvidia.png",
-  "Microsoft": "../assets/players/microsoft.png",
-  "Amazon":    "../assets/players/amazon.png",
-  "Apple":     "../assets/players/apple.jpg",
-  "xAI":       "../assets/players/xai.png",
-  "Mistral":   "../assets/players/mistral.png",
-};
-const PLAYER_COLOR = {
-  "OpenAI":    "#10A37F",
-  "Anthropic": "#CC785C",
-  "Google":    "#4285F4",
-  "Meta":      "#0866FF",
-  "NVIDIA":    "#76B900",
-  "Microsoft": "#00A4EF",
-  "Amazon":    "#FF9900",
-  "Apple":     "#6E6E73",
-  "xAI":       "#AAAAAA",
-  "Mistral":   "#FF7000",
-};
-
-/* ---------- custom dropdown ---------- */
-function buildCsel(id, opts, defaultLabel, onSelect) {
-  const el = document.getElementById(id);
-  const btn = el.querySelector('.csel-btn');
-  const valEl = el.querySelector('.csel-val');
-  const menu = el.querySelector('.csel-menu');
-  menu.innerHTML = opts.map((o, i) =>
-    `<button class="csel-opt${i===0?' active':''}" data-val="${o.val}" data-label="${o.label}" type="button">${o.html != null ? o.html : o.label}</button>`
-  ).join('');
-  btn.addEventListener('click', e => {
-    e.stopPropagation();
-    const wasOpen = el.classList.contains('open');
-    document.querySelectorAll('.csel.open').forEach(c => c.classList.remove('open'));
-    if (!wasOpen) el.classList.add('open');
-  });
-  menu.addEventListener('click', e => {
-    const opt = e.target.closest('.csel-opt'); if (!opt) return;
-    const val = opt.dataset.val;
-    menu.querySelectorAll('.csel-opt').forEach(o => o.classList.toggle('active', o === opt));
-    valEl.textContent = opt.dataset.label;
-    btn.classList.toggle('active-filter', val !== 'all');
-    el.classList.remove('open');
-    onSelect(val);
-  });
-}
-
-const playerCounts = {};
-PLAYERS.forEach(p => { playerCounts[p] = DATA.filter(d => d.players.includes(p)).length; });
-
-buildCsel('playersel',
-  [{val:'all', label:'All', html:'All'},
-   ...PLAYERS.map(p => ({
-     val: p, label: p,
-     html: `${PLAYER_LOGO[p]?`<img class="csel-opt-logo" src="${PLAYER_LOGO[p]}" alt="">`:''}<span>${p}</span><span class="csel-opt-count">${playerCounts[p]||0}</span>`
-   }))],
-  'All',
-  val => { state.player = val; render(); }
-);
-const themeCounts = {};
-DATA.forEach(d => { themeCounts[d.theme] = (themeCounts[d.theme] || 0) + 1; });
-
-buildCsel('themesel',
-  THEMES.map(t => t.key==='all'
-    ? {val:'all', label:'All'}
-    : {val:t.key, label:`${t.label} (${themeCounts[t.key] || 0})`}
-  ),
-  'All',
-  val => { state.theme = val; render(); }
-);
-
-document.addEventListener('click', () => {
-  document.querySelectorAll('.csel.open').forEach(c => c.classList.remove('open'));
-});
-
-/* ---------- icons ---------- */
-const srcIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.9 19.1a10 10 0 0 1 0-14.2"/><path d="M7.8 16.2a6 6 0 0 1 0-8.4"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><path d="M16.2 7.8a6 6 0 0 1 0 8.4"/><path d="M19.1 4.9a10 10 0 0 1 0 14.2"/></svg>';
-
-/* ---------- render feed ---------- */
-function render(){
-  const cutoff = NOW - state.hours * H;
-  let list = DATA.filter(d =>
-    (NOW - d.ago) >= cutoff &&
-    (state.theme === "all" || d.theme === state.theme) &&
-    (state.player === "all" || d.players.includes(state.player)) &&
-    (state.low || d.level !== "baja")
-  );
-  list.sort((a,b) => state.sort === "date" ? a.ago - b.ago : (b.score - a.score) || (a.ago - b.ago));
-
-  countEl.textContent = list.length;
-
-  if (!list.length){
-    feedEl.innerHTML = '<div class="empty"><span class="em">🗞️</span>No stories match your filters.<br>Try expanding the time range or enabling low relevance.</div>';
-    return;
+(function() {
+  var list = document.getElementById('list');
+  var rangeEl = document.getElementById('range');
+  var filterEl = document.getElementById('filter');
+  var playerEl = document.getElementById('player');
+  var sortEl = document.getElementById('sort');
+  var lowEl = document.getElementById('showlow');
+  var countEl = document.getElementById('count');
+  var cards = Array.prototype.slice.call(list.querySelectorAll('.card'));
+  function apply() {
+    var f = filterEl.value, p = playerEl.value, s = sortEl.value, showLow = lowEl.checked;
+    var hours = parseInt(rangeEl.value, 10);
+    var cutoff = (Date.now() / 1000) - hours * 3600;
+    var vis = cards.filter(function(c) {
+      if (f !== 'all' && c.dataset.theme !== f) return false;
+      if (p !== 'all' && ('|' + c.dataset.players + '|').indexOf('|' + p + '|') === -1) return false;
+      if (!showLow && c.dataset.tier === 'baja') return false;
+      var ts = parseInt(c.dataset.ts, 10);
+      return ts >= cutoff;
+    });
+    cards.forEach(function(c) { c.classList.add('hide'); });
+    vis.sort(function(a, b) {
+      if (s === 'date') return parseInt(b.dataset.ts, 10) - parseInt(a.dataset.ts, 10);
+      return parseInt(b.dataset.rel, 10) - parseInt(a.dataset.rel, 10);
+    });
+    vis.forEach(function(c) { c.classList.remove('hide'); list.appendChild(c); });
+    countEl.textContent = vis.length;
   }
-
-  feedEl.innerHTML = list.map((d, i) => {
-    const t = TLABEL[d.theme];
-    const players = d.players.length
-      ? `<span class="s-players">${d.players.map(p => {
-          const logo = PLAYER_LOGO[p]
-            ? `<img class="s-player-logo" src="${PLAYER_LOGO[p]}" alt="${p}">`
-            : `<span class="s-player-dot" style="background:${PLAYER_COLOR[p]||'var(--text-soft)'}"></span>`;
-          return `<span class="s-player">${logo}${p}</span>`;
-        }).join("")}</span>` : "";
-    const src = d.sources > 1
-      ? `<span class="dot"></span><span class="s-src">${srcIcon}${d.sources} sources</span>` : "";
-    const linkIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>';
-    const links = d.urls && d.urls.length > 0
-      ? `<div class="s-links">${d.urls.map(u => `<a class="s-link" href="${u.href}" target="_blank" rel="noopener">${linkIcon}${u.label}</a>`).join("")}</div>`
-      : d.url && d.url !== '#'
-        ? `<div class="s-links"><a class="s-link" href="${d.url}" target="_blank" rel="noopener">${linkIcon}Source</a></div>`
-        : "";
-    return `
-      <article class="story" data-level="${d.level}" style="animation-delay:${Math.min(i,8)*40}ms">
-        <div class="s-head">
-          <div class="s-tags">
-            ${players}
-            <span class="s-theme"><span class="em">${t.em}</span>${t.label}</span>
-          </div>
-          <div class="s-score" style="--v:${d.score}" title="Relevance ${d.score}/100"><b>${d.score}</b></div>
-        </div>
-        <h2 class="s-title">${d.title}</h2>
-        <p class="s-sum">${d.sum}</p>
-        <div class="s-foot">
-          <span>${fmtDate(d.ago)}</span>${src}
-        </div>
-        ${links}
-      </article>`;
-  }).join("");
-
-}
-
-/* ---------- events ---------- */
-document.getElementById("seg").addEventListener("click", e => {
-  const b = e.target.closest("button"); if (!b) return;
-  state.hours = parseInt(b.dataset.h, 10);
-  [...e.currentTarget.children].forEach(c => c.classList.toggle("active", c === b));
-  render();
-});
-document.getElementById("sort").addEventListener("click", e => {
-  const b = e.target.closest("button"); if (!b) return;
-  state.sort = state.sort === "rel" ? "date" : "rel";
-  e.currentTarget.querySelectorAll("button").forEach(c => c.classList.toggle("active", c.dataset.s === state.sort));
-  render();
-});
-const lowtog = document.getElementById("lowtog");
-function toggleLow(){
-  state.low = !state.low;
-  lowtog.classList.toggle("on", state.low);
-  lowtog.setAttribute("aria-checked", state.low);
-  render();
-}
-lowtog.addEventListener("click", toggleLow);
-lowtog.addEventListener("keydown", e => { if (e.key === " " || e.key === "Enter"){ e.preventDefault(); toggleLow(); } });
-
-/* sticky border on scroll */
-const topnavEl = document.getElementById("topnav");
-const onScroll = () => {
-  railEl.classList.toggle("stuck", window.scrollY > railEl.offsetTop + 4);
-  topnavEl.classList.toggle("stuck", window.scrollY > 8);
-};
-window.addEventListener("scroll", onScroll, { passive:true });
-
-render();
+  rangeEl.addEventListener('change', apply);
+  filterEl.addEventListener('change', apply);
+  playerEl.addEventListener('change', apply);
+  sortEl.addEventListener('change', apply);
+  lowEl.addEventListener('change', apply);
+  apply();
+})();
 </script>
 </body></html>
