@@ -267,14 +267,8 @@ const SlideVideo = ({ src, className, poster, alt = "", isActive = true }) => {
   useEffect(() => {
     const v = ref.current;
     if (!v) return;
-    if (isActive && !prefersReducedMotion()) {
+    if (isActive && playing && !prefersReducedMotion()) {
       v.play().catch(() => {});
-    } else {
-      v.pause();
-      v.currentTime = 0;
-      v.muted = true;
-      setMuted(true);
-      setProgress(0);
     }
   }, [isActive]);
   useEffect(() => {
