@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI News — Manuel Mesonero</title>
+<meta name="description" content="Briefing diario de noticias de IA, deduplicado y clasificado automáticamente.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#FAFAF7; --bg-elev:#FFFFFF; --bg-muted:#F2F0E9;
+    --text:#1A1815; --text-muted:#6B655C; --text-soft:#9A938A;
+    --border:rgba(26,24,21,0.10); --border-strong:rgba(26,24,21,0.18);
+    --accent:#C8A864; --accent-soft:rgba(200,168,100,0.14); --accent-strong:#B0904C;
+    --shadow-sm:0 1px 2px rgba(26,24,21,0.04);
+    --shadow-md:0 8px 24px -8px rgba(26,24,21,0.10), 0 2px 6px rgba(26,24,21,0.05);
+    --serif:'Cormorant Garamond',Georgia,serif;
+    --sans:'Outfit','Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    --radius-sm:8px; --radius-md:14px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#1A1A17; --bg-elev:#22221E; --bg-muted:#22221E;
+      --text:#ECEAE3; --text-muted:#9A938A; --text-soft:#6B655C;
+      --border:rgba(236,234,227,0.08); --border-strong:rgba(236,234,227,0.16);
+      --accent:#D4B775; --accent-soft:rgba(212,183,117,0.12); --accent-strong:#E2C589;
+      --shadow-sm:0 1px 2px rgba(0,0,0,0.30);
+      --shadow-md:0 10px 30px -10px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.30);
+    }
+  }
+  * { box-sizing:border-box; }
+  body { font-family:var(--sans); background:var(--bg); color:var(--text);
+         margin:0; padding:48px 22px 64px; font-weight:300; line-height:1.55; }
+  .wrap { max-width:760px; margin:0 auto; }
+  header { margin-bottom:36px; }
+  h1 { font-family:var(--serif); font-weight:500; font-size:42px; letter-spacing:-0.01em;
+       margin:0 0 6px; }
+  .sub { color:var(--text-muted); font-size:14px; }
+  .accent { color:var(--accent-strong); }
+  h2 { font-family:var(--serif); font-weight:600; font-size:25px; margin:38px 0 14px;
+       display:flex; align-items:center; gap:10px; }
+  .card { background:var(--bg-elev); border:1px solid var(--border); border-radius:var(--radius-md);
+          padding:16px 18px; margin-bottom:12px; box-shadow:var(--shadow-sm); transition:box-shadow .2s,border-color .2s; }
+  .card:hover { box-shadow:var(--shadow-md); border-color:var(--border-strong); }
+  .meta { display:flex; gap:10px; align-items:center; margin-bottom:7px; font-size:12px; color:var(--text-soft); }
+  .nota { background:var(--accent-soft); color:var(--accent-strong); padding:2px 9px;
+          border-radius:999px; font-weight:600; letter-spacing:0.01em; }
+  .src { border:1px solid var(--border-strong); padding:2px 9px; border-radius:999px; }
+  .title a { color:var(--text); text-decoration:none; font-weight:500; font-size:17px; line-height:1.35; }
+  .title a:hover { color:var(--accent-strong); }
+  .sum { color:var(--text-muted); font-size:14px; margin:9px 0 0; }
+  .empty { color:var(--text-muted); }
+  footer { color:var(--text-soft); font-size:12.5px; margin-top:44px;
+           border-top:1px solid var(--border); padding-top:16px; }
+  footer a { color:var(--accent-strong); text-decoration:none; }
+</style></head><body>
+<div class="wrap">
+<header>
+  <h1>AI <span class="accent">News</span></h1>
+  <div class="sub">13 noticias · últimos 7 días · actualizado 16/06/2026 06:59 UTC</div>
+</header>
+<h2>✨ Nuevas funcionalidades</h2>
+<div class="card"><div class="meta"><span class="nota">55/100</span><span class="src">📡 2</span><span class="date">15/06</span></div><div class="title"><a href="https://techcrunch.com/2026/06/15/metas-new-ai-mode-on-facebook-pulls-from-public-info-across-its-platforms/" target="_blank" rel="noopener">Meta’s new ‘AI Mode’ on Facebook pulls from public info across its platforms</a></div><p class="sum">Meta has introduced &#x27;AI Mode&#x27; on Facebook, allowing users to search for information using plain language, with answers derived from public posts across the platform. This feature, along with other AI tools, aims to enhance user engagement and diversify revenue streams through subscription plans. However, concerns about the reliability of information generated from unverified public posts have been raised.</p></div>
+<div class="card"><div class="meta"><span class="nota">55/100</span><span class="date">13/06</span></div><div class="title"><a href="https://www.theverge.com/tech/949360/apple-ai-photo-edit-reframe-extend-clean-up-hands-on" target="_blank" rel="noopener">Apple’s new AI photo editing tools mostly work, for better and worse</a></div><p class="sum">Apple has introduced new AI photo editing tools in iOS 27, including Clean Up, Extend, and Spatial Reframing. While Clean Up has improved significantly, the other features raise concerns about the authenticity of edited images. The tools aim to enhance user experience but may lead to trust issues regarding photo integrity.</p></div>
+<h2>💼 Movimientos empresariales</h2>
+<div class="card"><div class="meta"><span class="nota">65/100</span><span class="date">15/06</span></div><div class="title"><a href="https://techcrunch.com/2026/06/15/sarvam-becomes-indias-newest-ai-unicorn-with-234-million-funding-round-led-by-hcltech/" target="_blank" rel="noopener">Sarvam becomes India’s newest AI unicorn with $234 million funding round led by HCLTech</a></div><p class="sum">Sarvam has raised $234 million in funding, achieving a valuation of $1.5 billion and becoming India&#x27;s latest AI unicorn. The round was led by HCLTech, which aims to leverage Sarvam&#x27;s AI models for enterprise applications across various sectors. This investment reflects a growing trend towards developing sovereign AI capabilities in India, amidst concerns over access to advanced AI technologies.</p></div>
+<div class="card"><div class="meta"><span class="nota">70/100</span><span class="src">📡 2</span><span class="date">14/06</span></div><div class="title"><a href="https://techcrunch.com/2026/06/13/meta-reportedly-moves-to-unwind-2b-manus-deal-after-beijings-demand/" target="_blank" rel="noopener">Meta reportedly moves to unwind $2B Manus deal after Beijing’s demand</a></div><p class="sum">Meta is dismantling its $2 billion acquisition of Manus due to a divestiture order from Beijing on national security grounds. This operational separation includes halting data sharing and cutting Manus off from Meta&#x27;s internal systems. The move reflects China&#x27;s tightening control over its AI sector and foreign investments, as the country imposes new restrictions on technology and capital flows.</p></div>
+<div class="card"><div class="meta"><span class="nota">70/100</span><span class="date">15/06</span></div><div class="title"><a href="https://techcrunch.com/2026/06/15/ai-agents-are-becoming-employees-newcore-emerges-with-66m-to-give-them-identities/" target="_blank" rel="noopener">As AI agents become employees, NewCore emerges with $66M to give them identities</a></div><p class="sum">NewCore has raised $66 million to develop a platform that manages identities for both human employees and AI agents, addressing security challenges as companies increasingly integrate AI into their workforce. The startup&#x27;s approach aims to provide a more robust identity management system tailored for the complexities introduced by AI agents, which are expected to outnumber human employees in tech organizations soon.</p></div>
+<div class="card"><div class="meta"><span class="nota">65/100</span><span class="date">15/06</span></div><div class="title"><a href="https://techcrunch.com/2026/06/15/salesforce-acquires-ai-customer-service-platform-fin-for-3-6b/" target="_blank" rel="noopener">Salesforce acquires AI customer service platform Fin for $3.6B</a></div><p class="sum">Salesforce has announced its acquisition of AI customer service platform Fin for $3.6 billion. Fin, which specializes in AI-driven customer query resolution across various channels, will enhance Salesforce&#x27;s existing Agentforce platform. The deal is expected to close in early 2027, with Fin&#x27;s leadership remaining intact post-acquisition.</p></div>
+<div class="card"><div class="meta"><span class="nota">55/100</span><span class="date">12/06</span></div><div class="title"><a href="https://techcrunch.com/2026/06/12/mistral-is-rumored-to-be-raising-e3b-at-e20-valuation/" target="_blank" rel="noopener">Mistral is rumored to be raising €3B at €20B valuation</a></div><p class="sum">Mistral AI, a French AI lab, is reportedly in discussions to raise €3 billion, which would value the company at approximately €20 billion. This funding round would nearly double its previous valuation from last September. Mistral aims to provide accessible frontier AI and has positioned itself as a European alternative to American tech giants, although it still lags significantly in funding and valuation compared to competitors like OpenAI and Anthropic.</p></div>
+<h2>💡 Insights de negocio</h2>
+<div class="card"><div class="meta"><span class="nota">60/100</span><span class="date">13/06</span></div><div class="title"><a href="https://techcrunch.com/2026/06/12/andrew-yang-thinks-the-next-big-startup-opportunity-is-lowering-the-cost-of-living/" target="_blank" rel="noopener">Andrew Yang thinks the next big startup opportunity is lowering the cost of living</a></div><p class="sum">Andrew Yang proposes that the next startup opportunity lies in reducing the cost of living by creating business models that give money back to consumers rather than extracting it. He cites examples like his own Nobile Mobile, which offers affordable cell service and shares profits with customers. Yang argues that as AI threatens jobs and wages, there is a growing market for businesses that address basic needs more affordably.</p></div>
+<div class="card"><div class="meta"><span class="nota">55/100</span><span class="date">15/06</span></div><div class="title"><a href="https://www.theverge.com/podcast/949195/skydio-ceo-adam-bry-autonmous-drones-china-red-lines-military" target="_blank" rel="noopener">Skydio CEO Adam Bry on why Silicon Valley shouldn’t draw red lines for drone use</a></div><p class="sum">Adam Bry, CEO of Skydio, discusses the company&#x27;s focus on the enterprise market for autonomous drones, particularly in public safety and utility sectors. He highlights the impact of recent policy changes that have eliminated cheaper foreign competitors, positioning Skydio as a leading US manufacturer. Bry emphasizes the importance of advanced technology and AI in enhancing drone capabilities and the company&#x27;s commitment to responsible military applications.</p></div>
+<h2>🌐 Otras noticias relevantes</h2>
+<div class="card"><div class="meta"><span class="nota">70/100</span><span class="src">📡 2</span><span class="date">13/06</span></div><div class="title"><a href="https://techcrunch.com/2026/06/12/anthropics-safety-warnings-may-have-just-backfired-the-government-has-pulled-the-plug-on-its-most-powerful-ai/" target="_blank" rel="noopener">Anthropic’s safety warnings may have just backfired — the government has pulled the plug on its most powerful AI</a></div><p class="sum">The U.S. government has ordered Anthropic to shut down access to its powerful AI models, Claude Fable 5 and Claude Mythos 5, due to national security concerns. Anthropic argues that the government&#x27;s actions are based on a narrow potential jailbreak of Fable 5, which they believe is not a valid reason for such drastic measures. This situation highlights the tension between AI safety marketing and regulatory scrutiny, potentially impacting Anthropic&#x27;s upcoming IPO plans.</p></div>
+<div class="card"><div class="meta"><span class="nota">70/100</span><span class="date">15/06</span></div><div class="title"><a href="https://techcrunch.com/2026/06/15/a-satellite-just-learned-to-find-things-on-its-own-heres-what-that-means/" target="_blank" rel="noopener">A satellite just learned to find things on its own — here’s what that means</a></div><p class="sum">A satellite equipped with a vision-language model (VLM) has autonomously identified areas of interest in space, marking a significant advancement in satellite technology. This capability, demonstrated by Loft Orbital&#x27;s YAM-9 satellite, could enhance the efficiency of space-based sensors by reducing the data overload for analysts on Earth. The development indicates a potential shift towards more autonomous operations in space, with implications for future AI infrastructure and applications.</p></div>
+<div class="card"><div class="meta"><span class="nota">70/100</span><span class="date">12/06</span></div><div class="title"><a href="https://techcrunch.com/2026/06/12/chinese-cybercrime-operation-that-used-ai-to-scam-hundreds-of-thousands-of-victims-sued-by-google/" target="_blank" rel="noopener">Chinese cybercrime operation that used AI to scam ‘hundreds of thousands of victims’ sued by Google</a></div><p class="sum">Google has filed a lawsuit against a Chinese cybercrime network named Outsider Enterprise, which allegedly used AI to execute a large-scale scam that affected hundreds of thousands of victims. The operation involved sending fraudulent text messages and creating fake websites to steal sensitive information, resulting in estimated losses of $1.9 billion. Google claims the group utilized AI tools to enhance their phishing capabilities and has collaborated with law enforcement to combat the operation.</p></div>
+<div class="card"><div class="meta"><span class="nota">65/100</span><span class="date">15/06</span></div><div class="title"><a href="https://techcrunch.com/2026/06/15/the-ai-layoff-wave-is-becoming-a-powder-keg/" target="_blank" rel="noopener">The AI layoff wave is becoming a powder keg</a></div><p class="sum">Tech layoffs reached a two-year high, with AI cited as the primary reason for job cuts across various industries. However, skepticism is growing regarding AI&#x27;s role, with some industry leaders suggesting that mismanagement and overstaffing are more significant factors. The disparity between the wealth generated by AI insiders and the struggles of laid-off workers raises concerns about economic inequality and public backlash, reminiscent of the 2008 financial crisis.</p></div>
+<footer>Recopilado y clasificado automáticamente · dedup semántico + IA · <a href="/">← mmesonero</a></footer>
+</div>
+</body></html>
