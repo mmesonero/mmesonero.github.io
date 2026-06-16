@@ -734,6 +734,11 @@ body::after {
 .wip:has(> :nth-child(2):last-child) {
   grid-template-columns: repeat(2, calc((100% - 48px) / 3));
 }
+.wip > :last-child:nth-child(3n+1):not(:only-child) {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: calc((100% - 48px) / 3);
+}
 @media (max-width: 1024px) {
   .wip { grid-template-columns: 1fr 1fr; }
   .wip:has(> :only-child) { grid-template-columns: minmax(0, 480px); }

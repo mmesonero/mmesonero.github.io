@@ -140,12 +140,6 @@ const PROJECTS = [
 
 const IN_PROGRESS = [
   {
-    name: "AI News Scraper",
-    tagline: "Pulls the day's AI news from YouTube channels and the web, condenses it into a single brief.",
-    tags: ["Python", "AI"],
-    progress: 0.4,
-  },
-  {
     name: "Clinical AI Assistant",
     tagline: "Records the consultation, transcribes it, and returns a structured clinical note, so the doctor stops typing.",
     tags: ["Next.js", "FastAPI", "AI"],
