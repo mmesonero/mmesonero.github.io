@@ -112,9 +112,8 @@ const PROJECTS = [
   {
     name: "3 Agents",
     category: "AI Projects",
-    tagline: "Three AI agents, each with its own avatar, connected to GPT-4o mini.",
+    tagline: <span>Three AI agents, each with its own avatar, connected to GPT-4o mini. Done with <strong>Rafael Moreno Escamilla</strong>.</span>,
     tags: ["AI", "Agents", "Avatar"],
-    credit: "Done with Rafael Moreno Escamilla.",
     description:
       "3 agents with its own avatar connected to GPT-4o mini. Done with Rafael Moreno Escamilla.",
     status: "complete",
@@ -543,6 +542,8 @@ function Nav() {
           <a href="#progress" className="reveal-soft" style={{ '--d': '240ms' }}>In Progress</a>
           <span className="nav-sep">&middot;</span>
           <a href="#about" className="reveal-soft" style={{ '--d': '300ms' }}>About Me</a>
+          <span className="nav-sep">&middot;</span>
+          <a href="ai-news/" className="reveal-soft nav-accent" style={{ '--d': '360ms' }}>AI News</a>
         </div>
       </div>
     </nav>
@@ -557,6 +558,7 @@ function Hero() {
         <span className="reveal" style={{ '--d': '180ms', display: 'inline-block' }}>Manuel</span>{' '}
         <span className="italic reveal" style={{ '--d': '260ms', display: 'inline-block' }}>Mesonero</span>
       </h1>
+      <p className="subtitle reveal-soft" style={{ '--d': '380ms' }}>Digital Transformation Consultant · Vibecoding</p>
     </header>
   );
 }
@@ -717,13 +719,6 @@ function ProjectCard({ p, idx, onOpen }) {
             ))}
           </div>
           {p.credit && <div className="card-credit">{p.credit}</div>}
-          {p.githubUrl && (
-            <div className="card-inline-link">
-              <a href={p.githubUrl} target="_blank" rel="noopener noreferrer" className="btn ghost">
-                <Icon name="github" size={14} /> View on GitHub
-              </a>
-            </div>
-          )}
         </div>
       </div>
     );
@@ -827,13 +822,7 @@ function Modal({ project, onClose }) {
             ))}
           </div>
 
-          {project.githubUrl && (
-            <div className="modal-actions">
-              <a className="btn ghost" href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                <Icon name="github" size={15} /> View on GitHub
-              </a>
-            </div>
-          )}
+
         </div>
       </div>
     </div>
@@ -846,7 +835,7 @@ function InProgress() {
     <section className="section container" id="progress">
       <div className="section-head">
         <h2 className="reveal" style={{ '--d': '120ms' }}>
-          What I'm <span className="italic">working on</span>
+          <span className="italic">What I'm working on</span>
         </h2>
       </div>
       <div className="wip">
@@ -854,14 +843,14 @@ function InProgress() {
           <div className="wip-card reveal" key={w.name} style={{ '--d': `${240 + i * 140}ms` }}>
             <div className="wip-head">
               <span className="wip-dot"></span>
-              In progress &middot; {Math.round(w.progress * 100)}%
+              In progress
             </div>
             <div className="wip-title">{w.name}</div>
             <div className="wip-desc">{w.tagline}</div>
-            <div className="pills">
-              {w.tags.map((t) => <span className="pill-sm" key={t}>{t}</span>)}
+            <div className="wip-progress" style={{ '--p': w.progress }}>
+              <span className="wip-marker">{Math.round(w.progress * 100)}%</span>
+              <div className="wip-progress-track"><div className="wip-progress-fill"></div></div>
             </div>
-            <div className="wip-progress"><span style={{ '--p': w.progress }}></span></div>
           </div>
         ))}
       </div>
@@ -871,6 +860,8 @@ function InProgress() {
 
 /* ---------- about ---------- */
 function About() {
+  const [sent, setSent] = useState(false);
+  const onSubmit = (e) => { e.preventDefault(); setSent(true); };
   return (
     <section className="about container" id="about">
       <div className="category-head reveal-soft" style={{ '--d': '60ms' }}>
@@ -886,18 +877,46 @@ function About() {
             free time, as a <span className="gold-word">hobby</span>.
           </p>
           <div className="about-buttons">
-            <a className="btn primary reveal-soft" style={{ '--d': '260ms' }} href="https://www.linkedin.com/in/mesonero/" target="_blank" rel="noopener noreferrer">
+            <a className="btn btn-linkedin reveal-soft" style={{ '--d': '260ms' }} href="https://www.linkedin.com/in/mesonero/" target="_blank" rel="noopener noreferrer">
               <Icon name="linkedin" size={15} /> LinkedIn
             </a>
-            <a className="btn ghost reveal-soft" style={{ '--d': '320ms' }} href="https://github.com/mmesonero" target="_blank" rel="noopener noreferrer">
-              <Icon name="github" size={15} /> GitHub
+            <a className="btn btn-telegram reveal-soft" style={{ '--d': '320ms' }} href="https://t.me/+PLACEHOLDER" target="_blank" rel="noopener noreferrer">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M21.2 4.4L2.4 10.8c-.6.2-.6.6 0 .8l4.6 1.4 1.8 5.6c.2.4.6.4.8.2l2.6-2.2 4.8 3.6c.4.2.8 0 1-.4L21.8 5.2c.2-.6-.2-1-.6-.8z"/></svg>
+              {' '}Telegram
             </a>
           </div>
+          <form className="about-subscribe reveal-soft" style={{ '--d': '380ms' }} onSubmit={onSubmit}>
+            <input type="email" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="Briefing IA semanal · tu@email.com" required disabled={sent} title="Introduce un email válido" />
+            <button type="submit">{sent ? '✓' : 'Suscribir'}</button>
+          </form>
         </div>
         <div className="about-photos">
           <img src="assets/manuel-1.png" alt="" loading="lazy" decoding="async" className="about-photo reveal-soft" style={{ '--d': '180ms' }} />
           <img src="assets/manuel-2.png" alt="" loading="lazy" decoding="async" className="about-photo reveal-soft" style={{ '--d': '260ms' }} />
         </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- subscribe ---------- */
+function Subscribe() {
+  const [sent, setSent] = useState(false);
+  const onSubmit = (e) => { e.preventDefault(); setSent(true); };
+  return (
+    <section className="subscribe container">
+      <div className="sub-panel">
+        <div className="sub-label">Mantente al día</div>
+        <p className="sub-copy">Recibe el briefing en tu correo, 1 vez a la semana.</p>
+        <form className="sub-form" onSubmit={onSubmit}>
+          <input type="email" placeholder="tu@email.com" required disabled={sent} />
+          <button type="submit">{sent ? '✓ Suscrito' : 'Suscribir'}</button>
+        </form>
+        <div className="sub-divider">o</div>
+        <a className="sub-tg" href="https://t.me/+PLACEHOLDER" target="_blank" rel="noopener noreferrer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M21.2 4.4L2.4 10.8c-.6.2-.6.6 0 .8l4.6 1.4 1.8 5.6c.2.4.6.4.8.2l2.6-2.2 4.8 3.6c.4.2.8 0 1-.4L21.8 5.2c.2-.6-.2-1-.6-.8z"/><path d="M9 13.6l8.4-6.4"/></svg>
+          Únete al canal de Telegram
+        </a>
       </div>
     </section>
   );
@@ -955,7 +974,7 @@ function App() {
       </main>
       <footer className="foot container">
         <img src="assets/logo.png" alt="" className="foot-mark" />
-        <span>&copy; 2026 &middot; Manuel Mesonero</span>
+        <span>&copy; 2026 &middot; Manuel Mesonero &middot; <a href="ai-news/">AI News</a> &middot; <a className="foot-li" href="https://www.linkedin.com/in/mesonero/" target="_blank" rel="noopener noreferrer">LinkedIn</a> &middot; <a className="foot-tg" href="https://t.me/+PLACEHOLDER" target="_blank" rel="noopener noreferrer">Telegram</a></span>
         <span>Madrid &middot; Vibe coded</span>
       </footer>
       {open && <Modal project={open} onClose={() => setOpen(null)} />}
