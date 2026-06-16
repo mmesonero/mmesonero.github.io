@@ -57,9 +57,9 @@ body::before{
 @media (max-width:560px){ body{font-size:16px;} }
 
 /* ============ masthead ============ */
-.masthead{ text-align:center; padding:0 0 10px; }
-@media (max-width:768px){ .masthead{ padding:0 0 8px; } }
-@media (max-width:560px){ .masthead{ padding:0 0 6px; } }
+.masthead{ text-align:center; padding:28px 0 4px; }
+@media (max-width:768px){ .masthead{ padding:22px 0 3px; } }
+@media (max-width:560px){ .masthead{ padding:18px 0 2px; } }
 .kicker{
   display:inline-flex; align-items:center; gap:10px;
   font-size:10px; font-weight:500; letter-spacing:0.28em; text-transform:uppercase;
@@ -188,7 +188,7 @@ body::before{
 .tog.on .sw::after{ transform:translateX(13px); background:var(--accent); }
 
 /* ============ feed ============ */
-.feed{ padding:8px 0 40px; }
+.feed{ padding:4px 0 40px; }
 .story{
   position:relative; padding:20px 0;
   border-top:1px solid var(--border);
@@ -217,6 +217,14 @@ body::before{
 .s-player-dot{
   width:7px; height:7px; border-radius:50%; flex-shrink:0; display:inline-block;
 }
+.s-player-logo{
+  width:14px; height:14px; border-radius:3px; object-fit:contain; flex-shrink:0; display:inline-block;
+}
+.csel-opt-logo{
+  width:16px; height:16px; border-radius:3px; object-fit:contain; vertical-align:middle; margin-right:4px; flex-shrink:0;
+}
+.csel-opt{ display:flex; align-items:center; }
+.csel-opt-count{ color:var(--text-soft); font-size:11.5px; margin-left:auto; padding-left:8px; }
 .s-player + .s-player::before{ content:'·'; margin-right:6px; color:var(--text-soft); }
 
 /* score dial */
@@ -422,7 +430,7 @@ body::before{
           </span>
         </span>
         <span class="sep-dot"></span>
-        <span class="grp sort-grp" id="sort" title="Cambiar orden">
+        <span class="grp sort-grp" id="sort" title="Toggle sort order">
           <button data-s="rel" class="active">↓ Relevance</button>
           <button data-s="date">↓ Recent</button>
         </span>
@@ -528,7 +536,7 @@ const DATA = [
 /* ---------- relative date label ---------- */
 function fmtDate(ago){
   const d = new Date((NOW - ago) * 1000);
-  return d.toLocaleDateString("es-ES", { day:"numeric", month:"short" });
+  return d.toLocaleDateString("en-GB", { day:"numeric", month:"short" });
 }
 
 /* ---------- state ---------- */
@@ -542,6 +550,18 @@ const PLAYERS = [
   "OpenAI", "Anthropic", "Google", "Meta", "NVIDIA",
   "Microsoft", "Amazon", "Apple", "xAI", "Mistral"
 ];
+const PLAYER_LOGO = {
+  "OpenAI":    "../assets/players/openai.png",
+  "Anthropic": "../assets/players/anthropic.png",
+  "Google":    "../assets/players/google.jpg",
+  "Meta":      "../assets/players/meta.png",
+  "NVIDIA":    "../assets/players/nvidia.png",
+  "Microsoft": "../assets/players/microsoft.png",
+  "Amazon":    "../assets/players/amazon.png",
+  "Apple":     "../assets/players/apple.jpg",
+  "xAI":       "../assets/players/xai.png",
+  "Mistral":   "../assets/players/mistral.png",
+};
 const PLAYER_COLOR = {
   "OpenAI":    "#10A37F",
   "Anthropic": "#CC785C",
@@ -562,7 +582,7 @@ function buildCsel(id, opts, defaultLabel, onSelect) {
   const valEl = el.querySelector('.csel-val');
   const menu = el.querySelector('.csel-menu');
   menu.innerHTML = opts.map((o, i) =>
-    `<button class="csel-opt${i===0?' active':''}" data-val="${o.val}" type="button">${o.label}</button>`
+    `<button class="csel-opt${i===0?' active':''}" data-val="${o.val}" data-label="${o.label}" type="button">${o.html != null ? o.html : o.label}</button>`
   ).join('');
   btn.addEventListener('click', e => {
     e.stopPropagation();
@@ -574,7 +594,7 @@ function buildCsel(id, opts, defaultLabel, onSelect) {
     const opt = e.target.closest('.csel-opt'); if (!opt) return;
     const val = opt.dataset.val;
     menu.querySelectorAll('.csel-opt').forEach(o => o.classList.toggle('active', o === opt));
-    valEl.textContent = opt.textContent;
+    valEl.textContent = opt.dataset.label;
     btn.classList.toggle('active-filter', val !== 'all');
     el.classList.remove('open');
     onSelect(val);
@@ -585,12 +605,22 @@ const playerCounts = {};
 PLAYERS.forEach(p => { playerCounts[p] = DATA.filter(d => d.players.includes(p)).length; });
 
 buildCsel('playersel',
-  [{val:'all', label:'All'}, ...PLAYERS.map(p => ({val:p, label:`${p} (${playerCounts[p] || 0})`}))],
+  [{val:'all', label:'All', html:'All'},
+   ...PLAYERS.map(p => ({
+     val: p, label: p,
+     html: `${PLAYER_LOGO[p]?`<img class="csel-opt-logo" src="${PLAYER_LOGO[p]}" alt="">`:''}<span>${p}</span><span class="csel-opt-count">${playerCounts[p]||0}</span>`
+   }))],
   'All',
   val => { state.player = val; render(); }
 );
+const themeCounts = {};
+DATA.forEach(d => { themeCounts[d.theme] = (themeCounts[d.theme] || 0) + 1; });
+
 buildCsel('themesel',
-  THEMES.map(t => ({val:t.key, label:t.key==='all'?'All':t.label})),
+  THEMES.map(t => t.key==='all'
+    ? {val:'all', label:'All'}
+    : {val:t.key, label:`${t.label} (${themeCounts[t.key] || 0})`}
+  ),
   'All',
   val => { state.theme = val; render(); }
 );
@@ -624,16 +654,18 @@ function render(){
     const t = TLABEL[d.theme];
     const players = d.players.length
       ? `<span class="s-players">${d.players.map(p => {
-          const c = PLAYER_COLOR[p] || 'var(--text-soft)';
-          return `<span class="s-player"><span class="s-player-dot" style="background:${c}"></span>${p}</span>`;
+          const logo = PLAYER_LOGO[p]
+            ? `<img class="s-player-logo" src="${PLAYER_LOGO[p]}" alt="${p}">`
+            : `<span class="s-player-dot" style="background:${PLAYER_COLOR[p]||'var(--text-soft)'}"></span>`;
+          return `<span class="s-player">${logo}${p}</span>`;
         }).join("")}</span>` : "";
     const src = d.sources > 1
-      ? `<span class="dot"></span><span class="s-src">${srcIcon}${d.sources} fuentes</span>` : "";
+      ? `<span class="dot"></span><span class="s-src">${srcIcon}${d.sources} sources</span>` : "";
     const linkIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>';
     const links = d.urls && d.urls.length > 0
       ? `<div class="s-links">${d.urls.map(u => `<a class="s-link" href="${u.href}" target="_blank" rel="noopener">${linkIcon}${u.label}</a>`).join("")}</div>`
       : d.url && d.url !== '#'
-        ? `<div class="s-links"><a class="s-link" href="${d.url}" target="_blank" rel="noopener">${linkIcon}Fuente</a></div>`
+        ? `<div class="s-links"><a class="s-link" href="${d.url}" target="_blank" rel="noopener">${linkIcon}Source</a></div>`
         : "";
     return `
       <article class="story" data-level="${d.level}" style="animation-delay:${Math.min(i,8)*40}ms">
