@@ -457,7 +457,7 @@ body::after{
   <header class="masthead container">
     <h1>AI <span class="g">News</span></h1>
     <div class="dateline">
-      <span class="live"><b id="count">—</b> stories</span>
+      <span class="live"><b id="count">—</b> news</span>
       <span class="dot"></span>
       <span>updated <b>Jun 16, 2026, 07:33 UTC</b></span>
       <span class="dot"></span>
@@ -658,7 +658,7 @@ function render(){
   countEl.textContent = list.length;
 
   if (!list.length){
-    feedEl.innerHTML = '<div class="empty"><span class="em">🗞️</span>No stories match your filters.<br>Try expanding the time range or enabling low relevance.</div>';
+    feedEl.innerHTML = '<div class="empty"><span class="em">🗞️</span>No news matches your filters.<br>Try expanding the time range or enabling low relevance.</div>';
     return;
   }
 
