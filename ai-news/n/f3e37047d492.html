@@ -98,6 +98,13 @@
   .source-btn:hover { filter:brightness(1.06); }
   .hero { width:100%; max-height:360px; object-fit:cover; border-radius:var(--radius-md);
           border:1px solid var(--border); margin:6px 0 20px; display:block; }
+  .sources-label { font-size:12px; font-weight:600; color:var(--text-soft); text-transform:uppercase;
+                   letter-spacing:0.04em; margin:24px 0 8px; }
+  .sources-row { display:flex; gap:8px; flex-wrap:wrap; }
+  .source-chip { display:inline-flex; align-items:center; gap:5px; text-decoration:none;
+                 background:var(--bg-elev); border:1px solid var(--border-strong); color:var(--text);
+                 font-size:13px; font-weight:500; padding:7px 13px; border-radius:999px; transition:border-color .2s,color .2s; }
+  .source-chip:hover { border-color:var(--accent-strong); color:var(--accent-strong); }
 </style></head><body>
 <nav class="nav"><div class="container nav-inner"><a href="https://mmesonero.github.io/" class="brand" aria-label="Manuel Mesonero"><img src="https://mmesonero.github.io/assets/logo.png" alt="Manuel Mesonero" class="brand-mark"></a><div class="nav-links"><a href="https://mmesonero.github.io/#work">Work</a><span class="nav-sep">·</span><a href="https://mmesonero.github.io/#progress">In Progress</a><span class="nav-sep">·</span><a href="https://mmesonero.github.io/#about">About Me</a><span class="nav-sep">·</span><a href="https://mmesonero.github.io/ai-news/" class="nav-accent">AI News</a></div></div></nav>
 <div class="wrap">
@@ -107,7 +114,7 @@
   <h1 class="detail-title">El CEO de Skydio, Adam Bry, sobre el uso de drones y las líneas rojas en Silicon Valley</h1>
   <p class="detail-sum">Adam Bry, CEO de Skydio, discute la evolución de los drones autónomos y su enfoque en el mercado empresarial, especialmente en sectores como la seguridad pública y la energía. La prohibición de drones de bajo coste importados de China ha dejado a Skydio como una de las pocas alternativas en el mercado estadounidense. Bry también aborda el uso de inteligencia artificial en sus productos y la importancia de la fabricación nacional.</p>
   
-  <a class="source-btn" href="https://www.theverge.com/podcast/949195/skydio-ceo-adam-bry-autonmous-drones-china-red-lines-military" target="_blank" rel="noopener">Ver fuente original →</a>
+  <div class="sources-label">Fuentes (1)</div><div class="sources-row"><a class="source-chip" href="https://www.theverge.com/podcast/949195/skydio-ceo-adam-bry-autonmous-drones-china-red-lines-military" target="_blank" rel="noopener">↗ The Verge AI</a></div>
   <footer>Resumen y clasificación automáticos · <a href="../index.html">← AI News</a></footer>
 </div>
 </body></html>
