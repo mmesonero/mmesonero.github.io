@@ -118,16 +118,37 @@
                  background:var(--bg-elev); border:1px solid var(--border-strong); color:var(--text);
                  font-size:13px; font-weight:500; padding:7px 13px; border-radius:999px; transition:border-color .2s,color .2s; }
   .source-chip:hover { border-color:var(--accent-strong); color:var(--accent-strong); }
+  /* index-style header chrome (matches the listing cards) */
+  .s-tags { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:2px 0 6px; }
+  .s-theme { display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:500; color:var(--text-muted); }
+  .s-theme .em { font-size:12px; }
+  .s-players { display:inline-flex; align-items:center; gap:6px; }
+  .s-player { font-size:11.5px; font-weight:500; color:var(--accent-strong); display:inline-flex; align-items:center; gap:5px; }
+  .s-player-logo { width:14px; height:14px; border-radius:3px; object-fit:contain; flex-shrink:0; }
+  .s-player-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; display:inline-block; }
+  .s-player + .s-player::before { content:'·'; margin-right:6px; color:var(--text-soft); }
+  .s-score { flex:0 0 auto; width:40px; height:40px; border-radius:50%; display:grid; place-items:center;
+             position:relative; margin-left:auto;
+             background:conic-gradient(var(--ring) calc(var(--v)*1%), var(--track) 0); --track:var(--border); --ring:var(--accent); }
+  .s-score::before { content:''; position:absolute; inset:3px; border-radius:50%; background:var(--bg); }
+  .s-score b { position:relative; font-size:12px; font-weight:600; color:var(--text); letter-spacing:-0.02em; }
+  .s-tags[data-level="alta"] .s-score { --ring:var(--accent-strong); }
+  .s-tags[data-level="media"] .s-score { --ring:var(--accent); }
+  .s-tags[data-level="baja"] .s-score { --ring:var(--text-soft); }
+  .s-foot { display:flex; align-items:center; gap:10px; margin:16px 0 0; font-size:12.5px; color:var(--text-soft); flex-wrap:wrap; }
+  .s-foot .dot { width:2.5px; height:2.5px; border-radius:50%; background:var(--text-soft); opacity:.7; }
+  .s-foot .s-src { display:inline-flex; align-items:center; gap:6px; }
+  .s-foot .s-src svg { width:12px; height:12px; opacity:.8; }
 </style></head><body>
 <nav class="nav"><div class="container nav-inner"><a href="https://mmesonero.github.io/" class="brand" aria-label="Manuel Mesonero"><img src="https://mmesonero.github.io/assets/logo.png" alt="MM" class="brand-mark"></a><div class="nav-links"><a href="https://mmesonero.github.io/">Portfolio</a><span class="nav-sep">·</span><a href="https://mmesonero.github.io/ai-news/" class="nav-accent">AI News</a></div></div></nav>
 <div class="wrap">
-  <a class="back" href="../index.html">← Volver a AI News</a>
+  <a class="back" href="../index.html">← Back to AI News</a>
   <img class="hero" src="https://techcrunch.com/wp-content/uploads/2026/06/GettyImages-1487822193.jpg?resize=1200,800" alt="" loading="lazy">
-  <div class="meta"><span class="tag">💡 Insights</span><span class="nota">55/100</span><span class="date">13/06/2026</span></div>
+  <div class="s-tags" data-level="media"><span class="s-theme"><span class="em">💡</span>Insights</span><span class="s-score" style="--v:55"><b>55</b></span></div>
   <h1 class="detail-title">Andrew Yang considera que la próxima gran oportunidad de startup es reducir el coste de vida</h1>
   <p class="detail-sum">Andrew Yang propone que la próxima ola de oportunidades para startups radica en modelos de negocio que devuelven dinero a los consumidores en lugar de extraerlo. Inspirado por el enfoque de Cost Plus Drugs de Mark Cuban, Yang ha lanzado Nobile Mobile, un operador de red móvil que ofrece servicios a bajo coste y reembolsa a los usuarios que consumen menos datos. A medida que la IA amenaza con desplazar empleos y reducir salarios, Yang ve una oportunidad de negocio en satisfacer las necesidades básicas de la población de manera más asequible.</p>
-  
-  <div class="sources-label">Fuentes (1)</div><div class="sources-row"><a class="source-chip" href="https://techcrunch.com/2026/06/12/andrew-yang-thinks-the-next-big-startup-opportunity-is-lowering-the-cost-of-living/" target="_blank" rel="noopener">↗ TechCrunch AI</a></div>
-  <footer>Resumen y clasificación automáticos · <a href="../index.html">← AI News</a></footer>
+  <div class="s-foot"><span>13 Jun 2026</span></div>
+  <div class="sources-label">Sources (1)</div><div class="sources-row"><a class="source-chip" href="https://techcrunch.com/2026/06/12/andrew-yang-thinks-the-next-big-startup-opportunity-is-lowering-the-cost-of-living/" target="_blank" rel="noopener">↗ TechCrunch AI</a></div>
+  <footer>Auto-summarized &amp; classified · <a href="../index.html">← AI News</a></footer>
 </div>
 </body></html>

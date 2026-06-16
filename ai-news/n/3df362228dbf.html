@@ -118,16 +118,37 @@
                  background:var(--bg-elev); border:1px solid var(--border-strong); color:var(--text);
                  font-size:13px; font-weight:500; padding:7px 13px; border-radius:999px; transition:border-color .2s,color .2s; }
   .source-chip:hover { border-color:var(--accent-strong); color:var(--accent-strong); }
+  /* index-style header chrome (matches the listing cards) */
+  .s-tags { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:2px 0 6px; }
+  .s-theme { display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:500; color:var(--text-muted); }
+  .s-theme .em { font-size:12px; }
+  .s-players { display:inline-flex; align-items:center; gap:6px; }
+  .s-player { font-size:11.5px; font-weight:500; color:var(--accent-strong); display:inline-flex; align-items:center; gap:5px; }
+  .s-player-logo { width:14px; height:14px; border-radius:3px; object-fit:contain; flex-shrink:0; }
+  .s-player-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; display:inline-block; }
+  .s-player + .s-player::before { content:'·'; margin-right:6px; color:var(--text-soft); }
+  .s-score { flex:0 0 auto; width:40px; height:40px; border-radius:50%; display:grid; place-items:center;
+             position:relative; margin-left:auto;
+             background:conic-gradient(var(--ring) calc(var(--v)*1%), var(--track) 0); --track:var(--border); --ring:var(--accent); }
+  .s-score::before { content:''; position:absolute; inset:3px; border-radius:50%; background:var(--bg); }
+  .s-score b { position:relative; font-size:12px; font-weight:600; color:var(--text); letter-spacing:-0.02em; }
+  .s-tags[data-level="alta"] .s-score { --ring:var(--accent-strong); }
+  .s-tags[data-level="media"] .s-score { --ring:var(--accent); }
+  .s-tags[data-level="baja"] .s-score { --ring:var(--text-soft); }
+  .s-foot { display:flex; align-items:center; gap:10px; margin:16px 0 0; font-size:12.5px; color:var(--text-soft); flex-wrap:wrap; }
+  .s-foot .dot { width:2.5px; height:2.5px; border-radius:50%; background:var(--text-soft); opacity:.7; }
+  .s-foot .s-src { display:inline-flex; align-items:center; gap:6px; }
+  .s-foot .s-src svg { width:12px; height:12px; opacity:.8; }
 </style></head><body>
 <nav class="nav"><div class="container nav-inner"><a href="https://mmesonero.github.io/" class="brand" aria-label="Manuel Mesonero"><img src="https://mmesonero.github.io/assets/logo.png" alt="MM" class="brand-mark"></a><div class="nav-links"><a href="https://mmesonero.github.io/">Portfolio</a><span class="nav-sep">·</span><a href="https://mmesonero.github.io/ai-news/" class="nav-accent">AI News</a></div></div></nav>
 <div class="wrap">
-  <a class="back" href="../index.html">← Volver a AI News</a>
+  <a class="back" href="../index.html">← Back to AI News</a>
   <img class="hero" src="https://techcrunch.com/wp-content/uploads/2026/06/coast_ground_postprocess.png?resize=1200,900" alt="" loading="lazy">
-  <div class="meta"><span class="tag">🌐 Otras</span><span class="nota">65/100</span><span class="date">15/06/2026</span></div>
+  <div class="s-tags" data-level="media"><span class="s-theme"><span class="em">🌐</span>Other</span><span class="s-score" style="--v:65"><b>65</b></span></div>
   <h1 class="detail-title">Un satélite ha aprendido a encontrar cosas por sí mismo: implicaciones</h1>
   <p class="detail-sum">Por primera vez, un satélite de observación terrestre ha identificado objetivos de interés sin intervención humana, utilizando un modelo de visión-lenguaje. Este avance podría aumentar la utilidad de los sensores espaciales y allanar el camino para infraestructuras de IA a gran escala en el espacio.</p>
-  
-  <div class="sources-label">Fuentes (1)</div><div class="sources-row"><a class="source-chip" href="https://techcrunch.com/2026/06/15/a-satellite-just-learned-to-find-things-on-its-own-heres-what-that-means/" target="_blank" rel="noopener">↗ TechCrunch AI</a></div>
-  <footer>Resumen y clasificación automáticos · <a href="../index.html">← AI News</a></footer>
+  <div class="s-foot"><span>15 Jun 2026</span></div>
+  <div class="sources-label">Sources (1)</div><div class="sources-row"><a class="source-chip" href="https://techcrunch.com/2026/06/15/a-satellite-just-learned-to-find-things-on-its-own-heres-what-that-means/" target="_blank" rel="noopener">↗ TechCrunch AI</a></div>
+  <footer>Auto-summarized &amp; classified · <a href="../index.html">← AI News</a></footer>
 </div>
 </body></html>

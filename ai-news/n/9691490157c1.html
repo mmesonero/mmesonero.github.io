@@ -118,16 +118,37 @@
                  background:var(--bg-elev); border:1px solid var(--border-strong); color:var(--text);
                  font-size:13px; font-weight:500; padding:7px 13px; border-radius:999px; transition:border-color .2s,color .2s; }
   .source-chip:hover { border-color:var(--accent-strong); color:var(--accent-strong); }
+  /* index-style header chrome (matches the listing cards) */
+  .s-tags { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:2px 0 6px; }
+  .s-theme { display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:500; color:var(--text-muted); }
+  .s-theme .em { font-size:12px; }
+  .s-players { display:inline-flex; align-items:center; gap:6px; }
+  .s-player { font-size:11.5px; font-weight:500; color:var(--accent-strong); display:inline-flex; align-items:center; gap:5px; }
+  .s-player-logo { width:14px; height:14px; border-radius:3px; object-fit:contain; flex-shrink:0; }
+  .s-player-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; display:inline-block; }
+  .s-player + .s-player::before { content:'·'; margin-right:6px; color:var(--text-soft); }
+  .s-score { flex:0 0 auto; width:40px; height:40px; border-radius:50%; display:grid; place-items:center;
+             position:relative; margin-left:auto;
+             background:conic-gradient(var(--ring) calc(var(--v)*1%), var(--track) 0); --track:var(--border); --ring:var(--accent); }
+  .s-score::before { content:''; position:absolute; inset:3px; border-radius:50%; background:var(--bg); }
+  .s-score b { position:relative; font-size:12px; font-weight:600; color:var(--text); letter-spacing:-0.02em; }
+  .s-tags[data-level="alta"] .s-score { --ring:var(--accent-strong); }
+  .s-tags[data-level="media"] .s-score { --ring:var(--accent); }
+  .s-tags[data-level="baja"] .s-score { --ring:var(--text-soft); }
+  .s-foot { display:flex; align-items:center; gap:10px; margin:16px 0 0; font-size:12.5px; color:var(--text-soft); flex-wrap:wrap; }
+  .s-foot .dot { width:2.5px; height:2.5px; border-radius:50%; background:var(--text-soft); opacity:.7; }
+  .s-foot .s-src { display:inline-flex; align-items:center; gap:6px; }
+  .s-foot .s-src svg { width:12px; height:12px; opacity:.8; }
 </style></head><body>
 <nav class="nav"><div class="container nav-inner"><a href="https://mmesonero.github.io/" class="brand" aria-label="Manuel Mesonero"><img src="https://mmesonero.github.io/assets/logo.png" alt="MM" class="brand-mark"></a><div class="nav-links"><a href="https://mmesonero.github.io/">Portfolio</a><span class="nav-sep">·</span><a href="https://mmesonero.github.io/ai-news/" class="nav-accent">AI News</a></div></div></nav>
 <div class="wrap">
-  <a class="back" href="../index.html">← Volver a AI News</a>
+  <a class="back" href="../index.html">← Back to AI News</a>
   <img class="hero" src="https://techcrunch.com/wp-content/uploads/2022/07/spacex-falcon-9.jpeg?resize=1200,675" alt="" loading="lazy">
-  <div class="meta"><span class="tag">💼 Negocio</span><span class="nota">90/100</span><span class="src">📡 2 fuentes</span><span class="date">11/06/2026</span></div>
+  <div class="s-tags" data-level="media"><span class="s-players"><span class="s-player"><img class="s-player-logo" src="https://mmesonero.github.io/assets/players/spacex.png" alt="SpaceX">SpaceX</span></span><span class="s-theme"><span class="em">💼</span>Business</span><span class="s-score" style="--v:98"><b>98</b></span></div>
   <h1 class="detail-title">SpaceX fija el precio de sus acciones a 135 dólares en la mayor OPI de la historia</h1>
   <p class="detail-sum">SpaceX ha confirmado que ha recaudado 75 mil millones de dólares mediante la venta de 555,6 millones de acciones a 135 dólares cada una, convirtiéndose en la mayor OPI de la historia. Este movimiento podría hacer de Elon Musk el primer trillionario del mundo. A pesar de la alta demanda, persisten dudas sobre cómo SpaceX justificará su elevada valoración en el futuro.</p>
-  <div class="players"><span class="chip">SpaceX</span></div>
-  <div class="sources-label">Fuentes (2)</div><div class="sources-row"><a class="source-chip" href="https://techcrunch.com/2026/06/15/metas-new-ai-mode-on-facebook-pulls-from-public-info-across-its-platforms/" target="_blank" rel="noopener">↗ TechCrunch AI</a><a class="source-chip" href="https://www.theverge.com/tech/950264/meta-ai-mode-search-facebook" target="_blank" rel="noopener">↗ The Verge AI</a></div>
-  <footer>Resumen y clasificación automáticos · <a href="../index.html">← AI News</a></footer>
+  <div class="s-foot"><span>11 Jun 2026</span><span class="dot"></span><span class="s-src"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.9 19.1a10 10 0 0 1 0-14.2"/><path d="M7.8 16.2a6 6 0 0 1 0-8.4"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><path d="M16.2 7.8a6 6 0 0 1 0 8.4"/><path d="M19.1 4.9a10 10 0 0 1 0 14.2"/></svg>2 sources</span></div>
+  <div class="sources-label">Sources (2)</div><div class="sources-row"><a class="source-chip" href="https://techcrunch.com/2026/06/15/metas-new-ai-mode-on-facebook-pulls-from-public-info-across-its-platforms/" target="_blank" rel="noopener">↗ TechCrunch AI</a><a class="source-chip" href="https://www.theverge.com/tech/950264/meta-ai-mode-search-facebook" target="_blank" rel="noopener">↗ The Verge AI</a></div>
+  <footer>Auto-summarized &amp; classified · <a href="../index.html">← AI News</a></footer>
 </div>
 </body></html>
