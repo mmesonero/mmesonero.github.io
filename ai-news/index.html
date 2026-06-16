@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI News — Manuel Mesonero</title>
-<meta name="description" content="Briefing diario de noticias de IA: deduplicado por significado, clasificado con IA y publicado dos veces al día.">
+<meta name="description" content="Daily AI news briefing: deduplicated by meaning, AI-classified and published twice a day.">
 <style>
 @font-face {
   font-family: 'Outfit';
-  src: url('fonts/Outfit-Variable.ttf') format('truetype');
+  src: url('../fonts/Outfit-Variable.ttf') format('truetype');
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -26,10 +26,10 @@
 }
 @media (prefers-color-scheme: dark){
   :root{
-    --bg:#1A1A17; --bg-elev:#22221E; --bg-muted:#262621;
+    --bg:#0D0D0D; --bg-elev:#1A1A17; --bg-muted:#242420;
     --text:#ECEAE3; --text-muted:#9A938A; --text-soft:#6B655C;
     --border:rgba(236,234,227,0.08); --border-strong:rgba(236,234,227,0.16);
-    --accent:#D4B775; --accent-soft:rgba(212,183,117,0.12); --accent-strong:#E2C589;
+    --accent:#e2ba6b; --accent-soft:rgba(226,186,107,0.12); --accent-strong:#f0cc88;
     --shadow-sm:0 1px 2px rgba(0,0,0,0.30);
     --shadow-md:0 14px 34px -16px rgba(0,0,0,0.6), 0 2px 6px rgba(0,0,0,0.30);
   }
@@ -69,7 +69,7 @@ body::before{
   content:''; width:26px; height:1px; background:var(--border-strong);
 }
 .masthead h1{
-  font-family:var(--sans); font-weight:600; font-size:clamp(28px,6vw,44px);
+  font-family:var(--sans); font-weight:600; font-size:clamp(22px,4vw,32px);
   letter-spacing:-0.04em; line-height:0.96; margin:0;
 }
 .masthead h1 .g{ color:var(--accent); }
@@ -125,19 +125,48 @@ body::before{
 .seg button:hover{ color:var(--text); }
 .seg button.active{ color:var(--accent-strong); background:var(--accent-soft); }
 
-/* ghost select (player) */
-.gsel{ position:relative; display:inline-flex; align-items:center; }
-.gsel select{
-  appearance:none; -webkit-appearance:none; font-family:inherit; font-size:12.5px; font-weight:500;
+/* custom dropdown */
+.csel{ position:relative; display:inline-flex; }
+.csel-btn{
+  font-family:inherit; font-size:12.5px; font-weight:500;
   color:var(--text-muted); background:none; border:none; cursor:pointer;
-  padding:2px 18px 2px 2px; border-radius:6px; transition:color .18s ease;
+  display:inline-flex; align-items:center; gap:5px;
+  padding:3px 6px; border-radius:6px;
+  transition:color .18s ease, background .18s ease;
 }
-.gsel select:hover{ color:var(--text); }
-.gsel::after{
-  content:''; position:absolute; right:4px; top:50%; width:7px; height:7px;
-  border-right:1.4px solid currentColor; border-bottom:1.4px solid currentColor;
-  transform:translateY(-65%) rotate(45deg); color:var(--text-soft); pointer-events:none;
+.csel-btn:hover,.csel.open .csel-btn{ color:var(--text); }
+.csel-btn.active-filter{ color:var(--accent); }
+.csel-chev{
+  width:9px; height:9px; flex-shrink:0; opacity:.55;
+  transition:transform .2s cubic-bezier(.2,.7,.2,1);
 }
+.csel.open .csel-chev{ transform:rotate(180deg); }
+.csel-menu{
+  position:absolute; top:calc(100% + 10px); left:50%;
+  transform:translateX(-50%) translateY(-6px);
+  background:var(--bg-elev); border:1px solid var(--border-strong);
+  border-radius:var(--r-md); padding:5px;
+  box-shadow:var(--shadow-md);
+  min-width:140px;
+  opacity:0; pointer-events:none;
+  transition:opacity .16s ease, transform .18s cubic-bezier(.2,.7,.2,1);
+  z-index:200;
+}
+.csel.open .csel-menu{
+  opacity:1; pointer-events:all;
+  transform:translateX(-50%) translateY(0);
+}
+.csel-opt{
+  display:block; width:100%;
+  font-family:inherit; font-size:12.5px; font-weight:400;
+  color:var(--text-muted); background:none; border:none;
+  text-align:left; cursor:pointer;
+  padding:7px 12px; border-radius:8px;
+  transition:color .14s ease, background .14s ease;
+  white-space:nowrap;
+}
+.csel-opt:hover{ color:var(--text); background:var(--accent-soft); }
+.csel-opt.active{ color:var(--accent); font-weight:500; }
 
 /* sort toggle (compact, single active button visible) */
 .sort-grp{ display:inline-flex; align-items:center; }
@@ -183,6 +212,10 @@ body::before{
 .s-player{
   font-size:11.5px; font-weight:500; color:var(--accent-strong);
   letter-spacing:0.01em;
+  display:inline-flex; align-items:center; gap:5px;
+}
+.s-player-dot{
+  width:7px; height:7px; border-radius:50%; flex-shrink:0; display:inline-block;
 }
 .s-player + .s-player::before{ content:'·'; margin-right:6px; color:var(--text-soft); }
 
@@ -320,12 +353,12 @@ body::before{
 }
 .topnav.stuck{ border-bottom-color:var(--border); }
 .topnav-inner{
-  max-width:var(--measure); margin:0 auto;
+  max-width:1200px; margin:0 auto;
   display:flex; align-items:center; justify-content:center;
   height:72px; gap:32px;
 }
 .topnav-brand{ display:flex; align-items:center; }
-.topnav-brand img{ height:42px; width:auto; opacity:.85; transition:transform .4s cubic-bezier(.2,.7,.2,1), opacity .3s ease; }
+.topnav-brand img{ height:36px; width:auto; opacity:.85; transition:transform .4s cubic-bezier(.2,.7,.2,1), opacity .3s ease; }
 .topnav-brand:hover img{ transform:scale(1.04); opacity:1; }
 .topnav-links{
   display:flex; gap:18px; align-items:center;
@@ -348,7 +381,7 @@ body::before{
 <div class="app">
   <nav class="topnav" id="topnav">
     <div class="topnav-inner">
-      <a href="https://mmesonero.github.io/" class="topnav-brand"><img src="assets/logo.png" alt="MM"></a>
+      <a href="https://mmesonero.github.io/" class="topnav-brand"><img src="../assets/logo.png" alt="MM"></a>
       <div class="topnav-links">
         <a href="https://mmesonero.github.io/">Portfolio</a>
         <span class="topnav-sep">&middot;</span>
@@ -357,33 +390,45 @@ body::before{
     </div>
   </nav>
 
-  <nav class="rail" id="rail" aria-label="Filtros">
+  <nav class="rail" id="rail" aria-label="Filters">
     <div class="rail-inner">
       <div class="filters">
         <span class="grp">
-          <span class="gsel"><select id="playersel" aria-label="Filtrar por empresa"><option value="all">Players</option></select></span>
+          <div class="csel" id="playersel" aria-label="Filter by company">
+            <button class="csel-btn" type="button">
+              <span class="csel-val">All</span>
+              <svg class="csel-chev" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 1 5 5 9 1"/></svg>
+            </button>
+            <div class="csel-menu"></div>
+          </div>
         </span>
         <span class="sep-dot"></span>
         <span class="grp">
-          <span class="gsel"><select id="themesel" aria-label="Filtrar por tema"><option value="all">Temas</option></select></span>
+          <div class="csel" id="themesel" aria-label="Filter by topic">
+            <button class="csel-btn" type="button">
+              <span class="csel-val">All</span>
+              <svg class="csel-chev" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 1 5 5 9 1"/></svg>
+            </button>
+            <div class="csel-menu"></div>
+          </div>
         </span>
         <span class="sep-dot"></span>
         <span class="grp">
           <span class="seg" id="seg">
             <button data-h="24">24h</button>
             <button data-h="72">72h</button>
-            <button data-h="168" class="active">Semana</button>
-            <button data-h="99999">Mes</button>
+            <button data-h="168" class="active">Week</button>
+            <button data-h="99999">Month</button>
           </span>
         </span>
         <span class="sep-dot"></span>
         <span class="grp sort-grp" id="sort" title="Cambiar orden">
-          <button data-s="rel" class="active">↓ Relevancia</button>
-          <button data-s="date">↓ Reciente</button>
+          <button data-s="rel" class="active">↓ Relevance</button>
+          <button data-s="date">↓ Recent</button>
         </span>
         <span class="sep-dot"></span>
         <span class="tog" id="lowtog" role="switch" aria-checked="false" tabindex="0">
-          <span class="sw"></span> Baja relevancia
+          <span class="sw"></span> Low relevance
         </span>
       </div>
     </div>
@@ -392,11 +437,11 @@ body::before{
   <header class="masthead container">
     <h1>AI <span class="g">News</span></h1>
     <div class="dateline">
-      <span class="live"><b id="count">—</b> noticias</span>
+      <span class="live"><b id="count">—</b> stories</span>
       <span class="dot"></span>
-      <span>actualizado <b>16 jun 2026, 07:33 UTC</b></span>
+      <span>updated <b>Jun 16, 2026, 07:33 UTC</b></span>
       <span class="dot"></span>
-      <span>2× al día</span>
+      <span>2× daily</span>
     </div>
   </header>
 
@@ -404,23 +449,23 @@ body::before{
 
   <section class="subscribe container">
     <div class="sub-panel">
-      <div class="sub-label">Mantente al día</div>
-      <p class="sub-copy">Recibe el briefing en tu correo, 1 vez a la semana.</p>
-      <form class="sub-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='✓ Suscrito'; this.querySelector('input').disabled=true;">
-        <input type="email" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="tu@email.com" required title="Introduce un email válido">
-        <button type="submit">Suscribir</button>
+      <div class="sub-label">Stay up to date</div>
+      <p class="sub-copy">Get the briefing in your inbox, once a week.</p>
+      <form class="sub-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='✓ Subscribed'; this.querySelector('input').disabled=true;">
+        <input type="email" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="your@email.com" required title="Enter a valid email">
+        <button type="submit">Subscribe</button>
       </form>
-      <div class="sub-divider">o</div>
-      <a class="sub-tg" href="https://t.me/+PLACEHOLDER" target="_blank" rel="noopener">
+      <div class="sub-divider">or</div>
+      <a class="sub-tg" href="https://t.me/+FH63pWEy9acxMmM8" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="white" stroke="none"><path d="M21.2 4.4L2.4 10.8c-.6.2-.6.6 0 .8l4.6 1.4 1.8 5.6c.2.4.6.4.8.2l2.6-2.2 4.8 3.6c.4.2.8 0 1-.4L21.8 5.2c.2-.6-.2-1-.6-.8z"/></svg>
-        Únete al canal de Telegram
+        Join the Telegram channel
       </a>
     </div>
   </section>
 
   <footer class="foot container">
-    <a href="https://mmesonero.github.io/"><img src="assets/logo.png" alt="MM" class="foot-mark"></a>
-    <span>&copy; 2026 &middot; Manuel Mesonero &middot; <a href="https://mmesonero.github.io/">Portfolio</a> &middot; <a class="foot-li" href="https://www.linkedin.com/in/mesonero/" target="_blank" rel="noopener">LinkedIn</a> &middot; <a class="foot-tg" href="https://t.me/+PLACEHOLDER" target="_blank" rel="noopener">Telegram</a></span>
+    <a href="https://mmesonero.github.io/"><img src="../assets/logo.png" alt="MM" class="foot-mark"></a>
+    <span>&copy; 2026 &middot; Manuel Mesonero &middot; <a href="https://mmesonero.github.io/">Portfolio</a> &middot; <a class="foot-li" href="https://www.linkedin.com/in/mesonero/" target="_blank" rel="noopener">LinkedIn</a> &middot; <a class="foot-tg" href="https://t.me/+FH63pWEy9acxMmM8" target="_blank" rel="noopener">Telegram</a></span>
     <span>Madrid &middot; Vibe coded</span>
   </footer>
 </div>
@@ -428,15 +473,15 @@ body::before{
 <script>
 /* ---------- taxonomy ---------- */
 const THEMES = [
-  { key:"all",            label:"Todos",        em:"" },
-  { key:"nuevo_modelo",   label:"Modelos",      em:"🧠" },
-  { key:"herramienta",    label:"Herramientas", em:"🛠️" },
-  { key:"funcion",        label:"Funciones",    em:"✨" },
-  { key:"negocio",        label:"Negocio",      em:"💼" },
-  { key:"caso",           label:"Casos",        em:"📈" },
-  { key:"insight",        label:"Insights",     em:"💡" },
-  { key:"tutorial",       label:"Tutoriales",   em:"🧪" },
-  { key:"otras",          label:"Otras",        em:"🌐" },
+  { key:"all",            label:"All",       em:"" },
+  { key:"nuevo_modelo",   label:"Models",    em:"🧠" },
+  { key:"herramienta",    label:"Tools",     em:"🛠️" },
+  { key:"funcion",        label:"Features",  em:"✨" },
+  { key:"negocio",        label:"Business",  em:"💼" },
+  { key:"caso",           label:"Cases",     em:"📈" },
+  { key:"insight",        label:"Insights",  em:"💡" },
+  { key:"tutorial",       label:"Tutorials", em:"🧪" },
+  { key:"otras",          label:"Other",     em:"🌐" },
 ];
 const TLABEL = Object.fromEntries(THEMES.map(t => [t.key, t]));
 
@@ -490,28 +535,69 @@ function fmtDate(ago){
 const state = { theme:"all", hours:168, player:"all", sort:"rel", low:false };
 
 const feedEl = document.getElementById("feed");
-const playerSelEl = document.getElementById("playersel");
-const themeSelEl = document.getElementById("themesel");
 const countEl = document.getElementById("count");
 const railEl = document.getElementById("rail");
-
-/* ---------- build theme dropdown ---------- */
-(function(){
-  themeSelEl.innerHTML = '<option value="all">Temas</option>' + THEMES.filter(t=>t.key!=='all').map(t =>
-    `<option value="${t.key}">${t.label}</option>`
-  ).join("");
-})();
 
 const PLAYERS = [
   "OpenAI", "Anthropic", "Google", "Meta", "NVIDIA",
   "Microsoft", "Amazon", "Apple", "xAI", "Mistral"
 ];
+const PLAYER_COLOR = {
+  "OpenAI":    "#10A37F",
+  "Anthropic": "#CC785C",
+  "Google":    "#4285F4",
+  "Meta":      "#0866FF",
+  "NVIDIA":    "#76B900",
+  "Microsoft": "#00A4EF",
+  "Amazon":    "#FF9900",
+  "Apple":     "#6E6E73",
+  "xAI":       "#AAAAAA",
+  "Mistral":   "#FF7000",
+};
 
-/* ---------- build player dropdown ---------- */
-(function(){
-  playerSelEl.innerHTML = '<option value="all">Players</option>' +
-    PLAYERS.map(p => `<option value="${p}">${p}</option>`).join("");
-})();
+/* ---------- custom dropdown ---------- */
+function buildCsel(id, opts, defaultLabel, onSelect) {
+  const el = document.getElementById(id);
+  const btn = el.querySelector('.csel-btn');
+  const valEl = el.querySelector('.csel-val');
+  const menu = el.querySelector('.csel-menu');
+  menu.innerHTML = opts.map((o, i) =>
+    `<button class="csel-opt${i===0?' active':''}" data-val="${o.val}" type="button">${o.label}</button>`
+  ).join('');
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    const wasOpen = el.classList.contains('open');
+    document.querySelectorAll('.csel.open').forEach(c => c.classList.remove('open'));
+    if (!wasOpen) el.classList.add('open');
+  });
+  menu.addEventListener('click', e => {
+    const opt = e.target.closest('.csel-opt'); if (!opt) return;
+    const val = opt.dataset.val;
+    menu.querySelectorAll('.csel-opt').forEach(o => o.classList.toggle('active', o === opt));
+    valEl.textContent = opt.textContent;
+    btn.classList.toggle('active-filter', val !== 'all');
+    el.classList.remove('open');
+    onSelect(val);
+  });
+}
+
+const playerCounts = {};
+PLAYERS.forEach(p => { playerCounts[p] = DATA.filter(d => d.players.includes(p)).length; });
+
+buildCsel('playersel',
+  [{val:'all', label:'All'}, ...PLAYERS.map(p => ({val:p, label:`${p} (${playerCounts[p] || 0})`}))],
+  'All',
+  val => { state.player = val; render(); }
+);
+buildCsel('themesel',
+  THEMES.map(t => ({val:t.key, label:t.key==='all'?'All':t.label})),
+  'All',
+  val => { state.theme = val; render(); }
+);
+
+document.addEventListener('click', () => {
+  document.querySelectorAll('.csel.open').forEach(c => c.classList.remove('open'));
+});
 
 /* ---------- icons ---------- */
 const srcIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.9 19.1a10 10 0 0 1 0-14.2"/><path d="M7.8 16.2a6 6 0 0 1 0-8.4"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><path d="M16.2 7.8a6 6 0 0 1 0 8.4"/><path d="M19.1 4.9a10 10 0 0 1 0 14.2"/></svg>';
@@ -530,14 +616,17 @@ function render(){
   countEl.textContent = list.length;
 
   if (!list.length){
-    feedEl.innerHTML = '<div class="empty"><span class="em">🗞️</span>No hay noticias con estos filtros.<br>Prueba a ampliar el rango temporal o a activar la baja relevancia.</div>';
+    feedEl.innerHTML = '<div class="empty"><span class="em">🗞️</span>No stories match your filters.<br>Try expanding the time range or enabling low relevance.</div>';
     return;
   }
 
   feedEl.innerHTML = list.map((d, i) => {
     const t = TLABEL[d.theme];
     const players = d.players.length
-      ? `<span class="s-players">${d.players.map(p => `<span class="s-player">${p}</span>`).join("")}</span>` : "";
+      ? `<span class="s-players">${d.players.map(p => {
+          const c = PLAYER_COLOR[p] || 'var(--text-soft)';
+          return `<span class="s-player"><span class="s-player-dot" style="background:${c}"></span>${p}</span>`;
+        }).join("")}</span>` : "";
     const src = d.sources > 1
       ? `<span class="dot"></span><span class="s-src">${srcIcon}${d.sources} fuentes</span>` : "";
     const linkIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>';
@@ -550,10 +639,10 @@ function render(){
       <article class="story" data-level="${d.level}" style="animation-delay:${Math.min(i,8)*40}ms">
         <div class="s-head">
           <div class="s-tags">
-            <span class="s-theme"><span class="em">${t.em}</span>${t.label}</span>
             ${players}
+            <span class="s-theme"><span class="em">${t.em}</span>${t.label}</span>
           </div>
-          <div class="s-score" style="--v:${d.score}" title="Relevancia ${d.score}/100"><b>${d.score}</b></div>
+          <div class="s-score" style="--v:${d.score}" title="Relevance ${d.score}/100"><b>${d.score}</b></div>
         </div>
         <h2 class="s-title">${d.title}</h2>
         <p class="s-sum">${d.sum}</p>
@@ -567,8 +656,6 @@ function render(){
 }
 
 /* ---------- events ---------- */
-playerSelEl.addEventListener("change", e => { state.player = e.target.value; render(); });
-themeSelEl.addEventListener("change", e => { state.theme = e.target.value; render(); });
 document.getElementById("seg").addEventListener("click", e => {
   const b = e.target.closest("button"); if (!b) return;
   state.hours = parseInt(b.dataset.h, 10);

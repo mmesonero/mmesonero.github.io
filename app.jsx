@@ -880,14 +880,14 @@ function About() {
             <a className="btn btn-linkedin reveal-soft" style={{ '--d': '260ms' }} href="https://www.linkedin.com/in/mesonero/" target="_blank" rel="noopener noreferrer">
               <Icon name="linkedin" size={15} /> LinkedIn
             </a>
-            <a className="btn btn-telegram reveal-soft" style={{ '--d': '320ms' }} href="https://t.me/+PLACEHOLDER" target="_blank" rel="noopener noreferrer">
+            <a className="btn btn-telegram reveal-soft" style={{ '--d': '320ms' }} href="https://t.me/+FH63pWEy9acxMmM8" target="_blank" rel="noopener noreferrer">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M21.2 4.4L2.4 10.8c-.6.2-.6.6 0 .8l4.6 1.4 1.8 5.6c.2.4.6.4.8.2l2.6-2.2 4.8 3.6c.4.2.8 0 1-.4L21.8 5.2c.2-.6-.2-1-.6-.8z"/></svg>
               {' '}Telegram
             </a>
           </div>
           <form className="about-subscribe reveal-soft" style={{ '--d': '380ms' }} onSubmit={onSubmit}>
-            <input type="email" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="Briefing IA semanal · tu@email.com" required disabled={sent} title="Introduce un email válido" />
-            <button type="submit">{sent ? '✓' : 'Suscribir'}</button>
+            <input type="email" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="Weekly AI briefing · your@email.com" required disabled={sent} title="Enter a valid email" />
+            <button type="submit">{sent ? '✓' : 'Subscribe'}</button>
           </form>
         </div>
         <div className="about-photos">
@@ -906,16 +906,16 @@ function Subscribe() {
   return (
     <section className="subscribe container">
       <div className="sub-panel">
-        <div className="sub-label">Mantente al día</div>
-        <p className="sub-copy">Recibe el briefing en tu correo, 1 vez a la semana.</p>
+        <div className="sub-label">Stay up to date</div>
+        <p className="sub-copy">Get the briefing in your inbox, once a week.</p>
         <form className="sub-form" onSubmit={onSubmit}>
-          <input type="email" placeholder="tu@email.com" required disabled={sent} />
-          <button type="submit">{sent ? '✓ Suscrito' : 'Suscribir'}</button>
+          <input type="email" placeholder="your@email.com" required disabled={sent} />
+          <button type="submit">{sent ? '✓ Subscribed' : 'Subscribe'}</button>
         </form>
-        <div className="sub-divider">o</div>
-        <a className="sub-tg" href="https://t.me/+PLACEHOLDER" target="_blank" rel="noopener noreferrer">
+        <div className="sub-divider">or</div>
+        <a className="sub-tg" href="https://t.me/+FH63pWEy9acxMmM8" target="_blank" rel="noopener noreferrer">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M21.2 4.4L2.4 10.8c-.6.2-.6.6 0 .8l4.6 1.4 1.8 5.6c.2.4.6.4.8.2l2.6-2.2 4.8 3.6c.4.2.8 0 1-.4L21.8 5.2c.2-.6-.2-1-.6-.8z"/><path d="M9 13.6l8.4-6.4"/></svg>
-          Únete al canal de Telegram
+          Join the Telegram channel
         </a>
       </div>
     </section>
@@ -974,7 +974,7 @@ function App() {
       </main>
       <footer className="foot container">
         <img src="assets/logo.png" alt="" className="foot-mark" />
-        <span>&copy; 2026 &middot; Manuel Mesonero &middot; <a href="ai-news/">AI News</a> &middot; <a className="foot-li" href="https://www.linkedin.com/in/mesonero/" target="_blank" rel="noopener noreferrer">LinkedIn</a> &middot; <a className="foot-tg" href="https://t.me/+PLACEHOLDER" target="_blank" rel="noopener noreferrer">Telegram</a></span>
+        <span>&copy; 2026 &middot; Manuel Mesonero &middot; <a href="ai-news/">AI News</a> &middot; <a className="foot-li" href="https://www.linkedin.com/in/mesonero/" target="_blank" rel="noopener noreferrer">LinkedIn</a> &middot; <a className="foot-tg" href="https://t.me/+FH63pWEy9acxMmM8" target="_blank" rel="noopener noreferrer">Telegram</a></span>
         <span>Madrid &middot; Vibe coded</span>
       </footer>
       {open && <Modal project={open} onClose={() => setOpen(null)} />}
