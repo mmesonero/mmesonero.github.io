@@ -16,7 +16,16 @@
     --mono:'Outfit','Inter',-apple-system,BlinkMacSystemFont,sans-serif;
     --radius-sm:8px; --radius-md:14px; --container:1180px;
   }
-}
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0D0D0D; --bg-elev:#1A1A17; --bg-muted:#242420;
+      --text:#ECEAE3; --text-muted:#9A938A; --text-soft:#6B655C;
+      --border:rgba(236,234,227,0.08); --border-strong:rgba(236,234,227,0.16);
+      --accent:#e2ba6b; --accent-soft:rgba(226,186,107,0.12); --accent-strong:#f0cc88;
+      --shadow-sm:0 1px 2px rgba(0,0,0,0.30);
+      --shadow-md:0 14px 34px -16px rgba(0,0,0,0.6), 0 2px 6px rgba(0,0,0,0.30);
+    }
+  }
 *,*::before,*::after{box-sizing:border-box;}
 html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth;}
 body{
