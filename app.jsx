@@ -125,6 +125,17 @@ const PROJECTS = [
       { src: "assets/agent-2.mp4", poster: "assets/agent-2-poster.png" },
     ],
   },
+  {
+    name: "AI News",
+    category: "AI Projects",
+    tagline: "Daily AI news briefing — deduplicated by meaning, AI-classified and published twice a day.",
+    tags: ["AI", "Python", "Claude"],
+    description: "Daily AI news briefing — deduplicated by meaning, AI-classified and published twice a day.",
+    status: "complete",
+    accent: "labeler",
+    inline: true,
+    liveUrl: "ai-news/",
+  },
 ];
 
 const IN_PROGRESS = [
@@ -697,8 +708,10 @@ function ProjectCard({ p, idx, onOpen }) {
 
   /* Inline card: <div> so <a> children are valid HTML, no modal */
   if (p.inline) {
+    const Tag = p.liveUrl ? 'a' : 'div';
+    const linkProps = p.liveUrl ? { href: p.liveUrl } : {};
     return (
-      <div className="card card-inline reveal" style={{ '--d': `${600 + idx * 120}ms` }}>
+      <Tag className="card card-inline reveal" style={{ '--d': `${600 + idx * 120}ms` }} {...linkProps}>
         <div className={`thumb thumb-carousel ${hasSlides ? 'has-image' : ''}`}>
           {hasSlides
             ? <InlineCarousel slides={p.slides} projectName={p.name} />
@@ -720,7 +733,7 @@ function ProjectCard({ p, idx, onOpen }) {
           </div>
           {p.credit && <div className="card-credit">{p.credit}</div>}
         </div>
-      </div>
+      </Tag>
     );
   }
 
