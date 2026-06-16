@@ -654,6 +654,15 @@ body::after {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
+.slide-play-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 4;
+}
 .thumb.has-image::after {
   content: "";
   position: absolute;

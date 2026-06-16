@@ -262,6 +262,7 @@ const SlideVideo = ({ src, className, poster, alt = "", isActive = true }) => {
   const wrapRef = useRef(null);
   const barRef = useRef(null);
   const [muted, setMuted] = useState(true);
+  const [playing, setPlaying] = useState(true);
   const [progress, setProgress] = useState(0);
   useEffect(() => {
     const v = ref.current;
@@ -292,7 +293,15 @@ const SlideVideo = ({ src, className, poster, alt = "", isActive = true }) => {
     if (!v) return;
     v.muted = !v.muted;
     setMuted(v.muted);
-    if (v.paused) v.play().catch(() => {});
+    if (v.paused) { v.play().catch(() => {}); setPlaying(true); }
+  };
+  const togglePlay = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const v = ref.current;
+    if (!v) return;
+    if (v.paused) { v.play().catch(() => {}); setPlaying(true); }
+    else { v.pause(); setPlaying(false); }
   };
   const seek = (e) => {
     e.stopPropagation();
@@ -319,7 +328,16 @@ const SlideVideo = ({ src, className, poster, alt = "", isActive = true }) => {
         loop
         playsInline
         preload={isActive ? "auto" : "metadata"}
+        onClick={togglePlay}
+        style={{cursor:'pointer'}}
       />
+      {!playing && (
+        <div className="slide-play-icon" aria-hidden="true">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="white" opacity="0.85">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+        </div>
+      )}
       <button
         type="button"
         className="slide-audio-btn"
