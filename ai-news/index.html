@@ -1,37 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI News — Manuel Mesonero</title>
-<meta name="description" content="Daily AI news briefing: deduplicated by meaning, AI-classified and published twice a day.">
+<meta name="description" content="Briefing diario de noticias de IA, deduplicado y clasificado automáticamente.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-@font-face {
-  font-family: 'Outfit';
-  src: url('../fonts/Outfit-Variable.ttf') format('truetype');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-:root{
-  --bg:#FAFAF7; --bg-elev:#FFFFFF; --bg-muted:#F2F0E9;
-  --text:#1A1815; --text-muted:#6B655C; --text-soft:#9A938A;
-  --border:rgba(26,24,21,0.10); --border-strong:rgba(26,24,21,0.18);
-  --accent:#C8A864; --accent-soft:rgba(200,168,100,0.12); --accent-strong:#B0904C;
-  --shadow-sm:0 1px 2px rgba(26,24,21,0.04);
-  --shadow-md:0 10px 30px -14px rgba(26,24,21,0.14), 0 2px 6px rgba(26,24,21,0.05);
-  --sans:'Outfit','Inter',-apple-system,BlinkMacSystemFont,sans-serif;
-  --r-sm:8px; --r-md:14px;
-  --measure:720px;
-}
-@media (prefers-color-scheme: dark){
-  :root{
-    --bg:#0D0D0D; --bg-elev:#1A1A17; --bg-muted:#242420;
-    --text:#ECEAE3; --text-muted:#9A938A; --text-soft:#6B655C;
-    --border:rgba(236,234,227,0.08); --border-strong:rgba(236,234,227,0.16);
-    --accent:#e2ba6b; --accent-soft:rgba(226,186,107,0.12); --accent-strong:#f0cc88;
-    --shadow-sm:0 1px 2px rgba(0,0,0,0.30);
-    --shadow-md:0 14px 34px -16px rgba(0,0,0,0.6), 0 2px 6px rgba(0,0,0,0.30);
+  :root {
+    --bg:#FAFAF7; --bg-elev:#FFFFFF; --bg-muted:#F2F0E9;
+    --text:#1A1815; --text-muted:#6B655C; --text-soft:#9A938A;
+    --border:rgba(26,24,21,0.10); --border-strong:rgba(26,24,21,0.18);
+    --accent:#C8A864; --accent-soft:rgba(200,168,100,0.14); --accent-strong:#B0904C;
+    --shadow-sm:0 1px 2px rgba(26,24,21,0.04);
+    --shadow-md:0 8px 24px -8px rgba(26,24,21,0.10), 0 2px 6px rgba(26,24,21,0.05);
+    --sans:'Outfit','Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    --mono:'Outfit','Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    --radius-sm:8px; --radius-md:14px; --container:1180px;
   }
 }
 *,*::before,*::after{box-sizing:border-box;}
@@ -477,7 +460,6 @@ body::before{
     <span>Madrid &middot; Vibe coded</span>
   </footer>
 </div>
-
 <script>
 /* ---------- taxonomy ---------- */
 const THEMES = [
@@ -720,5 +702,4 @@ window.addEventListener("scroll", onScroll, { passive:true });
 
 render();
 </script>
-</body>
-</html>
+</body></html>
