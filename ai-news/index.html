@@ -13,7 +13,8 @@
     --shadow-sm:0 1px 2px rgba(26,24,21,0.04);
     --shadow-md:0 8px 24px -8px rgba(26,24,21,0.10), 0 2px 6px rgba(26,24,21,0.05);
     --sans:'Outfit','Inter',-apple-system,BlinkMacSystemFont,sans-serif;
-    --radius-sm:8px; --radius-md:14px;
+    --mono:'Outfit','Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    --radius-sm:8px; --radius-md:14px; --container:1180px;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -27,9 +28,27 @@
   }
   * { box-sizing:border-box; }
   body { font-family:var(--sans); background:var(--bg); color:var(--text);
-         margin:0; padding:48px 22px 64px; font-weight:400; line-height:1.55;
+         margin:0; padding:0; font-weight:400; line-height:1.55;
          -webkit-font-smoothing:antialiased; }
-  .wrap { max-width:760px; margin:0 auto; }
+  .wrap { max-width:760px; margin:0 auto; padding:40px 22px 64px; }
+  /* nav (matches mmesonero.github.io) */
+  .container { max-width:var(--container); margin:0 auto; padding:0 32px; }
+  .nav { position:sticky; top:0; z-index:50; backdrop-filter:blur(14px) saturate(1.2);
+         -webkit-backdrop-filter:blur(14px) saturate(1.2);
+         background:color-mix(in oklab, var(--bg) 78%, transparent);
+         border-bottom:1px solid transparent; }
+  .nav-inner { display:flex; align-items:center; justify-content:center; height:72px; gap:32px; }
+  .brand { display:flex; align-items:center; }
+  .brand-mark { height:42px; width:auto; display:block; transition:transform .4s; }
+  .brand:hover .brand-mark { transform:scale(1.04); }
+  .nav-links { display:flex; gap:18px; font-size:12px; font-weight:400; font-family:var(--mono);
+               letter-spacing:0.22em; text-transform:uppercase; color:var(--text-muted); align-items:center; }
+  .nav-links a { position:relative; text-decoration:none; color:var(--text-muted); white-space:nowrap; transition:color .2s ease; }
+  .nav-links a:hover { color:var(--text); }
+  .nav-sep { color:var(--text-soft); font-family:var(--mono); font-size:11px; }
+  .nav-accent { color:var(--accent) !important; }
+  .nav-accent:hover { color:var(--accent-strong) !important; }
+  @media (max-width:640px) { .nav-links { gap:10px; font-size:10px; letter-spacing:0.16em; } .nav-sep { font-size:9px; } .brand-mark { height:34px; } .container { padding:0 22px; } }
   header { margin-bottom:22px; }
   h1 { font-family:var(--sans); font-weight:600; font-size:34px; letter-spacing:-0.02em; margin:0 0 6px; }
   .sub { color:var(--text-muted); font-size:14px; }
@@ -77,10 +96,11 @@
                 font-weight:600; font-size:14px; padding:11px 20px; border-radius:999px; margin-top:8px; }
   .source-btn:hover { filter:brightness(1.06); }
 </style></head><body>
+<nav class="nav"><div class="container nav-inner"><a href="https://mmesonero.github.io/" class="brand" aria-label="Manuel Mesonero"><img src="https://mmesonero.github.io/assets/logo.png" alt="Manuel Mesonero" class="brand-mark"></a><div class="nav-links"><a href="https://mmesonero.github.io/#work">Work</a><span class="nav-sep">·</span><a href="https://mmesonero.github.io/#progress">In Progress</a><span class="nav-sep">·</span><a href="https://mmesonero.github.io/#about">About Me</a><span class="nav-sep">·</span><a href="https://mmesonero.github.io/ai-news/" class="nav-accent">AI News</a></div></div></nav>
 <div class="wrap">
 <header>
   <h1>AI <span class="accent">News</span></h1>
-  <div class="sub"><span id="count">23</span> noticias · actualizado 16/06/2026 11:46 UTC</div>
+  <div class="sub"><span id="count">23</span> noticias · actualizado 16/06/2026 11:59 UTC</div>
 </header>
 <div class="controls">
   <div class="ctrl-row">
@@ -129,7 +149,7 @@
 <article class="card" data-theme="herramienta_nueva" data-rel="45" data-date="20260612" data-ts="1781296607" data-tier="media" data-players="OpenAI"><div class="meta"><span class="tag">🛠️ Herramientas</span><span class="nota">45/100</span><span class="date">12/06</span></div><div class="title"><a href="n/1b01fac37e63.html">Analyze earnings and update your investment thesis with Codex</a></div><p class="sum">The OpenAI public equity investing plugin aims to enhance the workflow of investing teams by consolidating disparate data sources into a cohesive investment analysis tool. It facilitates post-earnings analysis by normalizing financials, updating models, and integrating trusted third-party data. The plugin&#x27;s interactive dashboard provides structured outputs to support decision-making, replacing traditional manual research processes.</p></article>
 <article class="card" data-theme="nueva_funcionalidad" data-rel="45" data-date="20260612" data-ts="1781223338" data-tier="media" data-players="OpenAI"><div class="meta"><span class="tag">✨ Funciones</span><span class="nota">45/100</span><span class="date">12/06</span></div><div class="title"><a href="n/f0b9849d4151.html">Debug web apps with browser use in Codex</a></div><p class="sum">Codex has integrated support for the Chrome DevTools Protocol (CDP), enhancing its ability to debug and test web applications. This update allows Codex to perform advanced functions such as performance profiling, inspecting network traffic, and analyzing console logs. Users must enable Developer Mode to utilize these features, which provide deeper insights into application performance and bottlenecks.</p></article>
 </div>
-<footer>Recopilado y clasificado automáticamente · dedup semántico + IA · <a href="/">← mmesonero</a></footer>
+<footer>Recopilado y clasificado automáticamente · dedup semántico + IA · <a href="https://mmesonero.github.io/">← mmesonero</a></footer>
 </div>
 <script>
 (function() {
