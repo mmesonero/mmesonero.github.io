@@ -719,10 +719,8 @@ function ProjectCard({ p, idx, onOpen }) {
 
   /* Inline card: <div> so <a> children are valid HTML, no modal */
   if (p.inline) {
-    const Tag = p.liveUrl ? 'a' : 'div';
-    const linkProps = p.liveUrl ? { href: p.liveUrl } : {};
     return (
-      <Tag className="card card-inline reveal" style={{ '--d': `${600 + idx * 120}ms` }} {...linkProps}>
+      <div className="card card-inline reveal" style={{ '--d': `${600 + idx * 120}ms` }}>
         <div className={`thumb thumb-carousel ${hasSlides ? 'has-image' : ''}`}>
           {hasSlides
             ? <InlineCarousel slides={p.slides} projectName={p.name} />
@@ -731,6 +729,16 @@ function ProjectCard({ p, idx, onOpen }) {
                 : <Glyph kind={p.accent} />}
               </div>
           }
+          {p.liveUrl && (
+            <a href={p.liveUrl} className="card-live-btn" aria-label={`Open ${p.name}`}>
+              <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M5 2H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1V9"/>
+                <path d="M8 1h5v5"/>
+                <line x1="13" y1="1" x2="6" y2="8"/>
+              </svg>
+              Open
+            </a>
+          )}
         </div>
         <div className="card-body">
           <div className="card-title-row">
@@ -744,7 +752,7 @@ function ProjectCard({ p, idx, onOpen }) {
           </div>
           {p.credit && <div className="card-credit">{p.credit}</div>}
         </div>
-      </Tag>
+      </div>
     );
   }
 
