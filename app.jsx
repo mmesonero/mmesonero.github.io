@@ -93,6 +93,23 @@ const PROJECTS = [
     ],
   },
   {
+    name: "AI News",
+    category: "AI Projects",
+    tagline: "Daily AI news briefing — deduplicated by meaning, AI-classified and published twice a day.",
+    tags: ["AI", "Python", "Claude"],
+    description: "Daily AI news briefing — deduplicated by meaning, AI-classified and published twice a day.",
+    status: "complete",
+    accent: "labeler",
+    inline: true,
+    liveUrl: "ai-news/",
+    cardImage: "assets/ai-news-hero.png",
+    slides: [
+      { src: "assets/ai-news-hero.png", caption: "" },
+      { src: "assets/ai-news-features-hero.png", caption: "" },
+      { src: "assets/ai-news-slide3.png", caption: "" },
+    ],
+  },
+  {
     name: "Gmail Auto-Labeler",
     category: "AI Projects",
     tagline: "A GitHub Action that reads my inbox every hour and files every email under one of the labels.",
@@ -123,23 +140,6 @@ const PROJECTS = [
     slides: [
       { src: "assets/agent-1.png" },
       { src: "assets/agent-2.mp4", poster: "assets/agent-2-poster.png" },
-    ],
-  },
-  {
-    name: "AI News",
-    category: "AI Projects",
-    tagline: "Daily AI news briefing — deduplicated by meaning, AI-classified and published twice a day.",
-    tags: ["AI", "Python", "Claude"],
-    description: "Daily AI news briefing — deduplicated by meaning, AI-classified and published twice a day.",
-    status: "complete",
-    accent: "labeler",
-    inline: true,
-    liveUrl: "ai-news/",
-    cardImage: "assets/ai-news-hero.png",
-    slides: [
-      { src: "assets/ai-news-hero.png", caption: "" },
-      { src: "assets/ai-news-features-hero.png", caption: "" },
-      { src: "assets/ai-news-slide3.png", caption: "" },
     ],
   },
 ];
