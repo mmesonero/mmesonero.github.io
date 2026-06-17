@@ -375,14 +375,31 @@ $bmp.Dispose()
 
 ## Project list (current)
 
-### AI Projects (1 project)
+### AI Projects (3 projects, order: AI News → Gmail Auto-Labeler → 3 Agents)
+
+#### AI News — 3 slides
+
+| # | Slide | Mode |
+|---|---|---|
+| 1 | `ai-news-hero.png` | plain image — "AI Briefing / No Spam" (humanoid + RSS feeds → Telegram/Web/Mail) |
+| 2 | `ai-news-features-hero.png` | plain image — 4-icon: Hosted on GitHub / Semantic Dedup / AI-Powered / X2 Day Execution |
+| 3 | `ai-news-slide3.png` | plain image — 4-icon: Cross-source scoring / Injection-proof AI / Neon Postgres / Multi-channel |
+
+Card has **Open button** (top-right corner, `liveUrl: "ai-news/"`) — links to the live AI News web. Card itself is NOT a link.
 
 #### Gmail Auto-Labeler — 2 slides
 
 | # | Slide | Mode |
 |---|---|---|
-| 1 | `gmail-hero.png` | plain image (Canva "From chaos to clarity") |
-| 2 | `gmail-features-hero.png` | plain image (Canva 4-icon: Hosted on GitHub / Uses GitHub Secrets / Every 1 hour / Smart & Secure) |
+| 1 | `gmail-hero.png` | plain image — "From chaos to clarity" (humanoid + email chaos → labeled categories) |
+| 2 | `gmail-features-hero.png` | plain image — 4-icon: Hosted on GitHub / Uses GitHub Secrets / Every 1 hour / Smart & Secure |
+
+#### 3 Agents — 2 slides
+
+| # | Slide | Mode |
+|---|---|---|
+| 1 | `agent-1.png` | plain image |
+| 2 | `agent-2.mp4` | video (poster: `agent-2-poster.png`) — click to pause/play; overlay shows dark bg + play circle when paused |
 
 ### Projects (2 projects)
 
@@ -405,11 +422,12 @@ $bmp.Dispose()
 | 2 | `ctt-widget-demo.html` | overlay-iframe — "Below every claude.ai *chat box.*" |
 | 3 | `ctt-dashboard-demo.html` | **split** — "Extension. One click *to track the usage.*" |
 
-### In Progress (3 cards, 3-col grid)
+### In Progress (2 cards, 3-col grid)
 
 - **AIO Sync** — Electron / Windows — 70%
-- **AI News Scraper** — Python / AI — 30%
 - **Clinical AI Assistant** — Next.js / FastAPI / AI — 10%
+
+AI News Scraper removed (now shipped as AI News in AI Projects). Last odd card auto-centers via CSS `:last-child:nth-child(3n+1)` on `.wip`.
 
 ---
 
@@ -466,6 +484,10 @@ Descriptions are **2-3 short sentences max**. Current targets:
 11. **`.composed-title` typography is locked to hero h1.** `font-weight: 700`, `letter-spacing: -0.035em`, `color: var(--text)`. **Don't** drift back to weight 600 / no spacing — the slide title stops reading as "the same voice as the hero" and the eye sees two different typesetters.
 12. **`.composed-gold` MUST be `var(--accent)` (`#D4B775`)**, never `#d4a84b`. Same gold across hero italic, category headers, gold pills, and slide gold accents. A 2-3 hue drift in gold is enough that the page reads as inconsistent even if you can't name why.
 13. **All carousel slide assets are exactly 1440×900.** This was violated by `aio-dashboard.png` (1373×821) which letterboxed under `object-fit: cover` and shifted layout. Fixed by re-rendering onto a 1440×900 `#0D0D0D` canvas. Audit with `System.Drawing.Image::FromFile` whenever a slide looks "off."
+14. **Engine (ai-news-engine) owns ONLY `ai-news/data.js` + `ai-news/n/`.** It must NEVER touch `ai-news/index.html`. The workflow was fixed to only cp data.js + n/ — never rm -rf the whole ai-news/ dir. The portfolio owns the UI.
+15. **`liveUrl` on an inline card adds an Open button (top-right corner), NOT a full-card link.** The card is a `<div>`, the button is an `<a>` with class `card-live-btn`. Do NOT make the whole card an `<a>` — it breaks nested carousel interaction.
+16. **Video inline cards: click to pause/play.** `SlideVideo` has `togglePlay` on `onClick`. When paused shows `.slide-play-icon` overlay (dark bg + `.slide-play-circle`). The `isActive` effect no longer pauses on slide change — video loops continuously regardless of active slide.
+17. **WIP last odd card centers automatically.** `.wip > :last-child:nth-child(3n+1):not(:only-child)` in styles.css. Do not remove.
 
 ---
 
@@ -486,10 +508,21 @@ Descriptions are **2-3 short sentences max**. Current targets:
 - Card source: `ctt-hero-card.html`
 - Modal slides: `ctt-hero-demo.html`, `ctt-widget-demo.html`, `ctt-dashboard-demo.html`
 
+### AI News
+- `ai-news-hero.png` — hero image 1440×900 ("AI Briefing / No Spam")
+- `ai-news-features-hero.png` — features 1440×900 (4-icon: GitHub / Semantic Dedup / AI-Powered / X2 Day)
+- `ai-news-slide3.png` — slide 3 1440×900 (4-icon: Cross-source / Injection-proof / Neon / Multi-channel)
+- Player logos: `assets/players/` — openai, anthropic, google, meta, nvidia, microsoft, amazon, apple, xai, mistral
+
 ### Gmail Auto-Labeler
-- `gmail-hero.png` — Canva hero (1440×900, cropped from original)
-- `gmail-features-hero.png` — Canva 4-icon (1440×900)
+- `gmail-hero.png` — "From chaos to clarity" 1440×900 (AI-generated, humanoid figure)
+- `gmail-features-hero.png` — 4-icon features 1440×900
 - Standalone demos (not currently in slides but kept): `features-demo.html`, `labels-demo.html`, `security-demo.html`, `gmail-workflow-demo.html`, `gmail-hero-demo.html`, `gmail-hero-card.html`
+
+### 3 Agents
+- `agent-1.png` — hero still
+- `agent-2.mp4` — demo video (autoplay, loop, muted; click to pause/play)
+- `agent-2-poster.png` — video poster frame
 
 ---
 
