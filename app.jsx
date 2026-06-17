@@ -333,9 +333,11 @@ const SlideVideo = ({ src, className, poster, alt = "", isActive = true }) => {
       />
       {!playing && (
         <div className="slide-play-icon" aria-hidden="true">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="white" opacity="0.85">
-            <polygon points="5 3 19 12 5 21 5 3"/>
-          </svg>
+          <div className="slide-play-circle">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
+              <polygon points="6 3 20 12 6 21 6 3"/>
+            </svg>
+          </div>
         </div>
       )}
       <button
