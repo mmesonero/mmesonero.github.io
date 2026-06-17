@@ -139,6 +139,7 @@ const PROJECTS = [
     slides: [
       { src: "assets/ai-news-hero.png", caption: "" },
       { src: "assets/ai-news-features-hero.png", caption: "" },
+      { src: "assets/ai-news-slide3.png", caption: "" },
     ],
   },
 ];
