@@ -135,6 +135,11 @@ const PROJECTS = [
     accent: "labeler",
     inline: true,
     liveUrl: "ai-news/",
+    cardImage: "assets/ai-news-hero.png",
+    slides: [
+      { src: "assets/ai-news-hero.png", caption: "" },
+      { src: "assets/ai-news-features-hero.png", caption: "" },
+    ],
   },
 ];
 
