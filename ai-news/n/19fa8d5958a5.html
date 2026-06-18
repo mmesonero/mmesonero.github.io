@@ -137,9 +137,9 @@
              background:conic-gradient(var(--ring) calc(var(--v)*1%), var(--track) 0); --track:var(--border); --ring:var(--accent); }
   .s-score::before { content:''; position:absolute; inset:3px; border-radius:50%; background:var(--bg); }
   .s-score b { position:relative; font-size:12px; font-weight:600; color:var(--text); letter-spacing:-0.02em; }
-  .s-tags[data-level="alta"] .s-score { --ring:var(--accent-strong); }
-  .s-tags[data-level="media"] .s-score { --ring:var(--accent); }
-  .s-tags[data-level="baja"] .s-score { --ring:var(--text-soft); }
+  .s-tags[data-level="high"] .s-score { --ring:var(--accent-strong); }
+  .s-tags[data-level="medium"] .s-score { --ring:var(--accent); }
+  .s-tags[data-level="low"] .s-score { --ring:var(--text-soft); }
   .s-foot { display:flex; align-items:center; gap:10px; margin:16px 0 0; font-size:12.5px; color:var(--text-soft); flex-wrap:wrap; }
   .s-foot .dot { width:2.5px; height:2.5px; border-radius:50%; background:var(--text-soft); opacity:.7; }
   .s-foot .s-src { display:inline-flex; align-items:center; gap:6px; }
@@ -149,7 +149,7 @@
 <div class="wrap">
   <a class="back" href="../index.html">← Back to AI News</a>
   <img class="hero" src="https://techcrunch.com/wp-content/uploads/2026/06/Screenshot-2026-06-17-at-9.53.46-AM.jpg?resize=1200,560" alt="" loading="lazy">
-  <div class="s-tags" data-level="media"><span class="s-theme"><span class="em">💼</span>Business</span><span class="s-score" style="--v:65"><b>65</b></span></div>
+  <div class="s-tags" data-level="medium"><span class="s-theme"><span class="em">💼</span>Business</span><span class="s-score" style="--v:65"><b>65</b></span></div>
   <h1 class="detail-title">Pramaana Labs raises $27M seed round from Khosla Ventures to bring formal verification to AI</h1>
   <p class="detail-sum">Pramaana Labs has secured $27 million in seed funding led by Khosla Ventures to enhance AI reliability through formal verification. This approach is critical for sectors like law and drug discovery, where errors can have severe consequences. By integrating a deterministic layer over conventional LLMs, Pramaana aims to ensure that AI outputs are accurate and trustworthy, addressing a significant gap in current AI applications.</p>
   <div class="s-foot"><span>17 Jun 2026</span></div>
