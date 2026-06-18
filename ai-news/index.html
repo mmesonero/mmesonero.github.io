@@ -246,10 +246,10 @@ body::after{
 }
 .s-score::before{ content:''; position:absolute; inset:3px; border-radius:50%; background:var(--bg); }
 .s-score b{ position:relative; font-size:11.5px; font-weight:600; color:var(--text); letter-spacing:-0.02em; }
-.story[data-level="alta"] .s-score{ --ring:var(--accent-strong); }
-.story[data-level="media"] .s-score{ --ring:var(--accent); }
-.story[data-level="baja"] .s-score{ --ring:var(--text-soft); }
-.story[data-level="baja"] .s-score b{ color:var(--text-muted); }
+.story[data-level="high"] .s-score{ --ring:var(--accent-strong); }
+.story[data-level="medium"] .s-score{ --ring:var(--accent); }
+.story[data-level="low"] .s-score{ --ring:var(--text-soft); }
+.story[data-level="low"] .s-score b{ color:var(--text-muted); }
 
 .s-title{ margin:0; font-weight:500; font-size:19px; line-height:1.32; letter-spacing:-0.02em; color:var(--text); }
 .s-title a{ color:inherit; text-decoration:none; transition:color .15s; }
@@ -261,7 +261,7 @@ body::after{
 .s-src{ display:inline-flex; align-items:center; gap:6px; white-space:nowrap; }
 .s-src svg{ width:12px; height:12px; opacity:.8; }
 .s-level{ text-transform:uppercase; letter-spacing:0.12em; font-size:10px; font-weight:500; }
-.story[data-level="alta"] .s-level{ color:var(--accent-strong); }
+.story[data-level="high"] .s-level{ color:var(--accent-strong); }
 
 /* source links row */
 .s-links{ display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
@@ -495,14 +495,14 @@ body::after{
 /* ---------- taxonomy ---------- */
 const THEMES = [
   { key:"all",            label:"All",       em:"" },
-  { key:"nuevo_modelo",   label:"Models",    em:"🧠" },
-  { key:"herramienta",    label:"Tools",     em:"🛠️" },
-  { key:"funcion",        label:"Features",  em:"✨" },
-  { key:"negocio",        label:"Business",  em:"💼" },
-  { key:"caso",           label:"Cases",     em:"📈" },
-  { key:"insight",        label:"Insights",  em:"💡" },
-  { key:"tutorial",       label:"Tutorials", em:"🧪" },
-  { key:"otras",          label:"Other",     em:"🌐" },
+  { key:"models",   label:"Models",    em:"🧠" },
+  { key:"tools",    label:"Tools",     em:"🛠️" },
+  { key:"features",        label:"Features",  em:"✨" },
+  { key:"business",        label:"Business",  em:"💼" },
+  { key:"cases",           label:"Cases",     em:"📈" },
+  { key:"insights",        label:"Insights",  em:"💡" },
+  { key:"tutorials",       label:"Tutorials", em:"🧪" },
+  { key:"other",          label:"Other",     em:"🌐" },
 ];
 const TLABEL = Object.fromEntries(THEMES.map(t => [t.key, t]));
 
@@ -510,39 +510,39 @@ const TLABEL = Object.fromEntries(THEMES.map(t => [t.key, t]));
 const NOW = (window.__NEWS && window.__NEWS.now) || 1781593980; // engine data, fallback to sample
 const H = 3600, D = 86400;
 let DATA = (window.__NEWS && window.__NEWS.data) || [
-  { title:"Anthropic releases Claude Fable 5", url:"#", theme:"nuevo_modelo", score:91, level:"alta", sources:1, players:["Anthropic"], ago:0.9*D,
+  { title:"Anthropic releases Claude Fable 5", url:"#", theme:"models", score:91, level:"high", sources:1, players:["Anthropic"], ago:0.9*D,
     urls:[{label:"TechCrunch",href:"#"}],
     sum:"New flagship model with gains in reasoning and honesty. It beats the previous generation on coding benchmarks and cuts hallucinations on long tasks." },
-  { title:"SpaceX officially prices shares at $135 in the largest IPO ever", url:"#", theme:"negocio", score:85, level:"alta", sources:2, players:["SpaceX"], ago:5*D,
+  { title:"SpaceX officially prices shares at $135 in the largest IPO ever", url:"#", theme:"business", score:85, level:"high", sources:2, players:["SpaceX"], ago:5*D,
     urls:[{label:"TechCrunch",href:"#"},{label:"Reuters",href:"#"}],
     sum:"SpaceX prices its IPO at $135 per share, raising $75B and topping Saudi Aramco's record. It will trade under the ticker SPCX." },
-  { title:"OpenAI files confidentially for IPO following Anthropic", url:"#", theme:"negocio", score:82, level:"alta", sources:3, players:["OpenAI"], ago:0.4*D,
+  { title:"OpenAI files confidentially for IPO following Anthropic", url:"#", theme:"business", score:82, level:"high", sources:3, players:["OpenAI"], ago:0.4*D,
     urls:[{label:"TechCrunch",href:"#"},{label:"The Verge",href:"#"},{label:"Bloomberg",href:"#"}],
     sum:"OpenAI files confidential paperwork to go public, following Anthropic. The deal could value the company above $500B." },
-  { title:"Walmart cuts inventory errors 30% with computer vision", url:"#", theme:"caso", score:74, level:"media", sources:2, players:["Walmart"], ago:1.6*D,
+  { title:"Walmart cuts inventory errors 30% with computer vision", url:"#", theme:"cases", score:74, level:"medium", sources:2, players:["Walmart"], ago:1.6*D,
     sum:"A real warehouse deployment: an AI vision system inspects goods in real time and cuts inventory errors by 30% versus manual counting." },
-  { title:"Meta reportedly moves to unwind $2B Manus deal after Beijing's demand", url:"#", theme:"negocio", score:70, level:"media", sources:2, players:["Meta"], ago:2.1*D,
+  { title:"Meta reportedly moves to unwind $2B Manus deal after Beijing's demand", url:"#", theme:"business", score:70, level:"medium", sources:2, players:["Meta"], ago:2.1*D,
     sum:"Meta unwinds its $2B Manus acquisition after a divestment order from Beijing on national-security grounds, cutting access to its internal systems." },
-  { title:"Google sues AI-powered cybercrime operation behind global scam", url:"#", theme:"otras", score:64, level:"media", sources:6, players:["Google"], ago:4*D,
+  { title:"Google sues AI-powered cybercrime operation behind global scam", url:"#", theme:"other", score:64, level:"medium", sources:6, players:["Google"], ago:4*D,
     urls:[{label:"TechCrunch",href:"#"},{label:"The Verge",href:"#"},{label:"Ars Technica",href:"#"}],
     sum:"Google sues a cybercrime ring that used AI to scam hundreds of thousands of victims via fake sites and SMS, with estimated losses of $1.9B." },
-  { title:"Salesforce acquires AI customer service platform Fin for $3.6B", url:"#", theme:"negocio", score:65, level:"media", sources:1, players:["Salesforce"], ago:1.1*D,
+  { title:"Salesforce acquires AI customer service platform Fin for $3.6B", url:"#", theme:"business", score:65, level:"medium", sources:1, players:["Salesforce"], ago:1.1*D,
     sum:"Salesforce buys Fin, an AI customer-service platform, for $3.6B. It will strengthen Agentforce; the deal would close in early 2027." },
-  { title:"Apple bets cheaper AI will woo small developers", url:"#", theme:"negocio", score:55, level:"media", sources:1, players:["Apple"], ago:0.7*D,
+  { title:"Apple bets cheaper AI will woo small developers", url:"#", theme:"business", score:55, level:"medium", sources:1, players:["Apple"], ago:0.7*D,
     sum:"Apple bets on cheaper, more efficient on-device AI models to draw small developers to its ecosystem over cloud APIs." },
-  { title:"Meta's new 'AI Mode' on Facebook pulls from public info across its platforms", url:"#", theme:"funcion", score:55, level:"media", sources:2, players:["Meta"], ago:1.3*D,
+  { title:"Meta's new 'AI Mode' on Facebook pulls from public info across its platforms", url:"#", theme:"features", score:55, level:"medium", sources:2, players:["Meta"], ago:1.3*D,
     sum:"Meta launches 'AI Mode' on Facebook: natural-language search answered with public info from the platform. Doubts grow over source reliability." },
-  { title:"Mistral is rumored to be raising €3B at a €20B valuation", url:"#", theme:"negocio", score:56, level:"media", sources:1, players:["Mistral"], ago:4*D,
+  { title:"Mistral is rumored to be raising €3B at a €20B valuation", url:"#", theme:"business", score:56, level:"medium", sources:1, players:["Mistral"], ago:4*D,
     sum:"The French lab is reportedly negotiating a $3B round that would nearly double its valuation to $20B, cementing it as Europe's alternative to OpenAI and Anthropic." },
-  { title:"Apple's new AI photo editing tools mostly work, for better and worse", url:"#", theme:"funcion", score:52, level:"baja", sources:1, players:["Apple"], ago:3*D,
+  { title:"Apple's new AI photo editing tools mostly work, for better and worse", url:"#", theme:"features", score:52, level:"low", sources:1, players:["Apple"], ago:3*D,
     sum:"iOS 27 debuts Clean Up, Extend and Spatial Reframing. Clean Up improves notably; the rest reopen the debate over edited-photo authenticity." },
-  { title:"Avataar's video AI is built for India's scale: cheaper and faster", url:"#", theme:"nuevo_modelo", score:50, level:"baja", sources:1, players:[], ago:4*D,
+  { title:"Avataar's video AI is built for India's scale: cheaper and faster", url:"#", theme:"models", score:50, level:"low", sources:1, players:[], ago:4*D,
     sum:"Avataar unveils Varya, a faster and cheaper video model built for the Indian market, using distillation and attention to local cultural nuance." },
-  { title:"How to use Claude Code as your command center", url:"#", theme:"tutorial", score:48, level:"baja", sources:1, players:["Anthropic"], ago:0.6*D,
+  { title:"How to use Claude Code as your command center", url:"#", theme:"tutorials", score:48, level:"low", sources:1, players:["Anthropic"], ago:0.6*D,
     sum:"A practical workflow to run Claude Code day to day: subagents, hooks and custom commands to turn it into your terminal's command center." },
-  { title:"Deezer's new tool can identify AI music from Spotify, Apple Music and others", url:"#", theme:"herramienta", score:47, level:"baja", sources:1, players:[], ago:5*D,
+  { title:"Deezer's new tool can identify AI music from Spotify, Apple Music and others", url:"#", theme:"tools", score:47, level:"low", sources:1, players:[], ago:5*D,
     sum:"Deezer launches an AI-music detector supporting 27 languages. 44% of new music uploaded to its platform is already synthetic." },
-  { title:"Debug web apps with browser use in Codex", url:"#", theme:"tutorial", score:45, level:"baja", sources:1, players:["OpenAI"], ago:4*D,
+  { title:"Debug web apps with browser use in Codex", url:"#", theme:"tutorials", score:45, level:"low", sources:1, players:["OpenAI"], ago:4*D,
     sum:"Codex integrates the Chrome DevTools Protocol: performance profiling, network inspection and console-log analysis from the agent itself in developer mode." },
 ];
 
@@ -662,7 +662,7 @@ function render(){
     (NOW - d.ago) >= cutoff &&
     (state.theme === "all" || d.theme === state.theme) &&
     (state.player === "all" || d.players.includes(state.player)) &&
-    (state.low || d.level !== "baja")
+    (state.low || d.level !== "low")
   );
   list.sort((a,b) => state.sort === "date" ? a.ago - b.ago : (b.score - a.score) || (a.ago - b.ago));
 
