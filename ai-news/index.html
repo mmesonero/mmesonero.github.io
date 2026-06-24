@@ -852,7 +852,7 @@ render();
 
   // Observe after render completes
   setTimeout(function(){
-    const cards = document.querySelectorAll('.s-card');
+    const cards = document.querySelectorAll('.story');
     if (cards.length) cards.forEach(c => observer.observe(c));
   }, 400);
 })();
