@@ -506,8 +506,11 @@ body::after{
       <button class="popup-close" id="popup-close" aria-label="Close">&#x2715;</button>
       <div class="sub-label" style="position:relative;">Stay up to date</div>
       <p class="sub-copy" style="position:relative;">Get the briefing in your inbox, once a week.</p>
-      <form class="sub-form" id="popup-form" style="position:relative;" onsubmit="event.preventDefault(); this.querySelector('button').textContent='✓ Subscribed'; this.querySelector('input').disabled=true; setTimeout(closePopup, 1200);">
-        <input type="email" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="your@email.com" required title="Enter a valid email">
+      <form class="sub-form" id="popup-form" style="position:relative;" action="https://b58361b1.sibforms.com/serve/MUIFAO952zzR1Xye2QcMXscQh4t4ChyCcRlLCjbLcz4sn4Unz44H0z38aL_iZxJXW2zFoZE1ny2w42jM32SZwc4ktsR7V1EEqZQECTpeE6LW8MihVYixT-p26W3w6wb5iuc8TOmnlGmQZBTu7mPPjNLVOFI3wnupxHgE1DoN-y3W6Fpj1jmRF0uFVSomvyf3ADDTsqPlieTmjC18zA==" method="POST" target="brevo-sink" onsubmit="this.querySelector('button').textContent='✓ Subscribed'; this.querySelector('input[type=email]').readOnly=true; setTimeout(closePopup, 1600);">
+        <input type="email" name="EMAIL" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="your@email.com" required title="Enter a valid email">
+        <input type="text" name="email_address_check" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;">
+        <input type="hidden" name="locale" value="es">
+        <input type="hidden" name="html_type" value="simple">
         <button type="submit">Subscribe</button>
       </form>
       <div class="sub-divider" style="position:relative;">or</div>
@@ -522,8 +525,11 @@ body::after{
     <div class="sub-panel">
       <div class="sub-label">Stay up to date</div>
       <p class="sub-copy">Get the briefing in your inbox, once a week.</p>
-      <form class="sub-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='✓ Subscribed'; this.querySelector('input').disabled=true;">
-        <input type="email" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="your@email.com" required title="Enter a valid email">
+      <form class="sub-form" action="https://b58361b1.sibforms.com/serve/MUIFAO952zzR1Xye2QcMXscQh4t4ChyCcRlLCjbLcz4sn4Unz44H0z38aL_iZxJXW2zFoZE1ny2w42jM32SZwc4ktsR7V1EEqZQECTpeE6LW8MihVYixT-p26W3w6wb5iuc8TOmnlGmQZBTu7mPPjNLVOFI3wnupxHgE1DoN-y3W6Fpj1jmRF0uFVSomvyf3ADDTsqPlieTmjC18zA==" method="POST" target="brevo-sink" onsubmit="this.querySelector('button').textContent='✓ Subscribed'; this.querySelector('input[type=email]').readOnly=true;">
+        <input type="email" name="EMAIL" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="your@email.com" required title="Enter a valid email">
+        <input type="text" name="email_address_check" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;">
+        <input type="hidden" name="locale" value="es">
+        <input type="hidden" name="html_type" value="simple">
         <button type="submit">Subscribe</button>
       </form>
       <div class="sub-divider">or</div>
@@ -540,6 +546,8 @@ body::after{
     <span>Madrid &middot; Vibe coded</span>
   </footer>
 </div>
+<!-- hidden sink: Brevo form POSTs here so the page never reloads -->
+<iframe name="brevo-sink" title="subscribe" aria-hidden="true" tabindex="-1" style="position:absolute;width:0;height:0;border:0;left:-9999px;"></iframe>
 <script src="data.js"></script>
 <script>
 /* ---------- taxonomy ---------- */
