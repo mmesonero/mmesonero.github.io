@@ -110,6 +110,22 @@ const PROJECTS = [
     ],
   },
   {
+    name: "3 Agents",
+    category: "AI Projects",
+    tagline: <span>Three AI agents, each with its own avatar, connected to GPT-4o mini. Done with <strong>Rafael Moreno Escamilla</strong>.</span>,
+    tags: ["AI", "Agents", "Avatar"],
+    description:
+      "3 agents with its own avatar connected to GPT-4o mini. Done with Rafael Moreno Escamilla.",
+    status: "complete",
+    accent: "labeler",
+    inline: true,
+    cardImage: "assets/agent-1.png",
+    slides: [
+      { src: "assets/agent-1.png" },
+      { src: "assets/agent-2.mp4", poster: "assets/agent-2-poster.png" },
+    ],
+  },
+  {
     name: "Gmail Auto-Labeler",
     category: "AI Projects",
     tagline: "A GitHub Action that reads my inbox every hour and files every email under one of the labels.",
@@ -124,22 +140,6 @@ const PROJECTS = [
     slides: [
       { src: "assets/gmail-hero.png" },
       { src: "assets/gmail-features-hero.png" },
-    ],
-  },
-  {
-    name: "3 Agents",
-    category: "AI Projects",
-    tagline: <span>Three AI agents, each with its own avatar, connected to GPT-4o mini. Done with <strong>Rafael Moreno Escamilla</strong>.</span>,
-    tags: ["AI", "Agents", "Avatar"],
-    description:
-      "3 agents with its own avatar connected to GPT-4o mini. Done with Rafael Moreno Escamilla.",
-    status: "complete",
-    accent: "labeler",
-    inline: true,
-    cardImage: "assets/agent-1.png",
-    slides: [
-      { src: "assets/agent-1.png" },
-      { src: "assets/agent-2.mp4", poster: "assets/agent-2-poster.png" },
     ],
   },
 ];
