@@ -96,7 +96,7 @@ const PROJECTS = [
     name: "AI News",
     category: "AI Projects",
     tagline: "Daily AI news briefing — deduplicated by meaning, AI-classified and published twice a day.",
-    tags: ["AI", "Python", "Claude"],
+    tags: ["AI", "Python", "Postgres"],
     description: "Daily AI news briefing — deduplicated by meaning, AI-classified and published twice a day.",
     status: "complete",
     accent: "labeler",
@@ -113,7 +113,7 @@ const PROJECTS = [
     name: "3 Agents",
     category: "AI Projects",
     tagline: <span>Three AI agents, each with its own avatar, connected to GPT-4o mini. Done with <strong>Rafael Moreno Escamilla</strong>.</span>,
-    tags: ["AI", "Agents", "Avatar"],
+    tags: ["AI", "Agents", "Avatars"],
     description:
       "3 agents with its own avatar connected to GPT-4o mini. Done with Rafael Moreno Escamilla.",
     status: "complete",
@@ -129,7 +129,7 @@ const PROJECTS = [
     name: "Gmail Auto-Labeler",
     category: "AI Projects",
     tagline: "A GitHub Action that reads my inbox every hour and files every email under one of the labels.",
-    tags: ["Python", "AI", "GitHub Actions"],
+    tags: ["AI", "Python", "Automation"],
     description:
       "Runs every hour on GitHub Actions, hands each new email to a small language model, and files it under one of the labels, no server, no laptop, no manual sorting.",
     status: "complete",
