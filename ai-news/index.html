@@ -822,8 +822,10 @@ render();
 
 /* ---------- popup ---------- */
 (function(){
-  const STORAGE_KEY = 'ainews_popup_dismissed';
-  if (localStorage.getItem(STORAGE_KEY)) return;
+  const STORAGE_KEY = 'ainews_popup_ts';
+  const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
+  const last = parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10);
+  if (Date.now() - last < THIRTY_DAYS) return;
 
   const backdrop = document.getElementById('popup');
   const closeBtn = document.getElementById('popup-close');
@@ -831,7 +833,7 @@ render();
 
   window.closePopup = function(){
     backdrop.classList.remove('visible');
-    localStorage.setItem(STORAGE_KEY, '1');
+    localStorage.setItem(STORAGE_KEY, String(Date.now()));
   };
 
   closeBtn.addEventListener('click', closePopup);
