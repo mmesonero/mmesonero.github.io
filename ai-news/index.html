@@ -837,7 +837,9 @@ render();
   };
 
   closeBtn.addEventListener('click', closePopup);
-  // click outside does NOT close — only X or Telegram button
+  backdrop.addEventListener('click', function(e){
+    if (e.target === backdrop) closePopup();
+  });
   document.addEventListener('keydown', function(e){
     if (e.key === 'Escape') closePopup();
   });
