@@ -279,6 +279,38 @@ body::after{
 .empty{ padding:60px 0; text-align:center; color:var(--text-muted); }
 .empty .em{ font-size:30px; display:block; margin-bottom:12px; opacity:.5; }
 
+/* ============ popup ============ */
+.popup-backdrop{
+  position:fixed; inset:0; z-index:200;
+  background:rgba(0,0,0,0.55); backdrop-filter:blur(4px);
+  display:flex; align-items:center; justify-content:center;
+  padding:16px;
+  opacity:0; pointer-events:none;
+  transition:opacity .25s ease;
+}
+.popup-backdrop.visible{ opacity:1; pointer-events:auto; }
+.popup-box{
+  position:relative; width:100%; max-width:440px;
+  background:var(--bg-elev); border:1px solid var(--border-strong);
+  border-radius:var(--r-md); padding:36px 32px 28px;
+  text-align:center; overflow:hidden;
+  transform:translateY(12px); transition:transform .25s ease;
+  box-shadow:0 24px 64px rgba(0,0,0,0.5);
+}
+.popup-backdrop.visible .popup-box{ transform:translateY(0); }
+.popup-box::before{
+  content:''; position:absolute; inset:-1px; border-radius:var(--r-md);
+  background:radial-gradient(ellipse at top, var(--accent-soft), transparent 55%);
+  pointer-events:none; z-index:0;
+}
+.popup-close{
+  position:absolute; top:12px; right:12px; z-index:2;
+  background:none; border:none; cursor:pointer;
+  color:var(--text-muted); padding:6px; border-radius:6px;
+  line-height:1; font-size:20px; transition:color .15s;
+}
+.popup-close:hover{ color:var(--text); }
+
 /* ============ subscribe ============ */
 .subscribe{
   border-top:1px solid var(--border); margin-top:8px;
@@ -467,6 +499,24 @@ body::after{
   </header>
 
   <main class="feed container" id="feed"></main>
+
+  <!-- popup -->
+  <div class="popup-backdrop" id="popup" role="dialog" aria-modal="true" aria-label="Stay up to date">
+    <div class="popup-box">
+      <button class="popup-close" id="popup-close" aria-label="Close">&#x2715;</button>
+      <div class="sub-label" style="position:relative;">Stay up to date</div>
+      <p class="sub-copy" style="position:relative;">Get the briefing in your inbox, once a week.</p>
+      <form class="sub-form" id="popup-form" style="position:relative;" onsubmit="event.preventDefault(); this.querySelector('button').textContent='✓ Subscribed'; this.querySelector('input').disabled=true; setTimeout(closePopup, 1200);">
+        <input type="email" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="your@email.com" required title="Enter a valid email">
+        <button type="submit">Subscribe</button>
+      </form>
+      <div class="sub-divider" style="position:relative;">or</div>
+      <a class="sub-tg" style="position:relative;" href="https://t.me/+ImA4ksuUUbMzMzFk" target="_blank" rel="noopener" onclick="closePopup()">
+        <svg viewBox="0 0 24 24" fill="white" stroke="none"><path d="M21.2 4.4L2.4 10.8c-.6.2-.6.6 0 .8l4.6 1.4 1.8 5.6c.2.4.6.4.8.2l2.6-2.2 4.8 3.6c.4.2.8 0 1-.4L21.8 5.2c.2-.6-.2-1-.6-.8z"/></svg>
+        Join the Telegram channel
+      </a>
+    </div>
+  </div>
 
   <section class="subscribe container">
     <div class="sub-panel">
@@ -761,5 +811,42 @@ const onScroll = () => {
 window.addEventListener("scroll", onScroll, { passive:true });
 
 render();
+
+/* ---------- popup ---------- */
+(function(){
+  const STORAGE_KEY = 'ainews_popup_dismissed';
+  if (localStorage.getItem(STORAGE_KEY)) return;
+
+  const backdrop = document.getElementById('popup');
+  const closeBtn = document.getElementById('popup-close');
+  if (!backdrop) return;
+
+  window.closePopup = function(){
+    backdrop.classList.remove('visible');
+    localStorage.setItem(STORAGE_KEY, '1');
+  };
+
+  closeBtn.addEventListener('click', closePopup);
+  backdrop.addEventListener('click', function(e){
+    if (e.target === backdrop) closePopup();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') closePopup();
+  });
+
+  // Show when first news card scrolls into view
+  const observer = new IntersectionObserver(function(entries){
+    if (entries.some(e => e.isIntersecting)){
+      observer.disconnect();
+      setTimeout(function(){ backdrop.classList.add('visible'); }, 600);
+    }
+  }, { threshold: 0.3 });
+
+  // Observe after render completes
+  setTimeout(function(){
+    const cards = document.querySelectorAll('.s-card');
+    if (cards.length) cards.forEach(c => observer.observe(c));
+  }, 400);
+})();
 </script>
 </body></html>
