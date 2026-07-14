@@ -1,1 +1,1 @@
-window.__NEWS_ARCHIVE = {"now": 1784007918, "data": []};
+window.__NEWS_ARCHIVE = {"now": 1784045791, "data": []};
