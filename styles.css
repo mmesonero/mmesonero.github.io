@@ -786,9 +786,11 @@ body::after {
   width: calc((100% - 48px) / 3);
 }
 @media (max-width: 1024px) {
-  .wip { grid-template-columns: 1fr 1fr; }
+  .wip { gap: 16px; }
   .wip:has(> :only-child) { grid-template-columns: minmax(0, 480px); }
   .wip:has(> :nth-child(2):last-child) { grid-template-columns: repeat(2, 1fr); }
+  .wip > :last-child:nth-child(3n+1):not(:only-child) { width: calc((100% - 32px) / 3); }
+  .wip-card { padding: 22px; min-height: 0; }
 }
 @media (max-width: 820px) {
   .wip { grid-template-columns: 1fr; }
@@ -843,15 +845,24 @@ body::after {
   letter-spacing: -0.025em;
   line-height: 1.15;
   color: var(--text);
+  text-wrap: balance;
 }
 .wip-desc {
   color: var(--text-muted);
   font-size: 15px;
   line-height: 1.55;
 }
+.wip-pills {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin-top: auto;
+  padding-top: 4px;
+}
+.wip-pills .pill-sm {
+  font-size: 10px;
+  padding: 5px 9px;
+}
 .wip-progress {
   width: 100%;
-  margin-top: auto;
   padding-top: 20px;
   position: relative;
 }

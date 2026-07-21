@@ -154,7 +154,13 @@ const IN_PROGRESS = [
   {
     name: "WhatsApp Automation",
     tagline: "Watches my WhatsApp inbox and routes, tags, or auto-replies by rule, pure logic for now, AI hooks coming later.",
-    tags: ["Node.js", "WhatsApp", "Automation"],
+    tags: ["Node.js", "Automation"],
+    progress: 0.1,
+  },
+  {
+    name: "Janus",
+    tagline: "Calendar and tasks in one place. Named after the god who faces both ways: it looks back at what I finished and forward at what's due.",
+    tags: ["AI", "Calendar", "Tasks"],
     progress: 0.1,
   },
 ];
@@ -882,6 +888,11 @@ function InProgress() {
             </div>
             <div className="wip-title">{w.name}</div>
             <div className="wip-desc">{w.tagline}</div>
+            <div className="wip-pills">
+              {w.tags.map((t) => (
+                <span className="pill-sm" key={t}>{t}</span>
+              ))}
+            </div>
             <div className="wip-progress" style={{ '--p': w.progress }}>
               <span className="wip-marker">{Math.round(w.progress * 100)}%</span>
               <div className="wip-progress-track"><div className="wip-progress-fill"></div></div>

@@ -422,10 +422,11 @@ Card has **Open button** (top-right corner, `liveUrl: "ai-news/"`) — links to 
 | 2 | `ctt-widget-demo.html` | overlay-iframe — "Below every claude.ai *chat box.*" |
 | 3 | `ctt-dashboard-demo.html` | **split** — "Extension. One click *to track the usage.*" |
 
-### In Progress (2 cards, 3-col grid)
+### In Progress (3 cards, 3-col grid — one full row at desktop)
 
-- **AIO Sync** — Electron / Windows — 70%
-- **Clinical AI Assistant** — Next.js / FastAPI / AI — 10%
+- **Clinical AI Assistant** — Next.js / FastAPI / AI — 30%
+- **WhatsApp Automation** — Node.js / WhatsApp / Automation — 10%
+- **Janus** — AI / Calendar / Tasks — 10% (calendar + task manager; name = the two-faced god, looks back at what's done and forward at what's due)
 
 AI News Scraper removed (now shipped as AI News in AI Projects). Last odd card auto-centers via CSS `:last-child:nth-child(3n+1)` on `.wip`.
 
