@@ -656,6 +656,29 @@ const PLAYER_COLOR = {
   "DeepSeek":  "#4D6BFE",
 };
 
+/* ---------- untrusted-value helpers ----------
+   Everything in window.__NEWS comes from the news engine, and the engine builds it
+   from third-party feeds and from LLM output derived from those feeds. None of it
+   is ours. Since this file renders it via innerHTML, every interpolated value must
+   be escaped here — this is the sink, so this is where escaping has to happen. */
+function esc(v) {
+  return String(v == null ? "" : v)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+/* Escaping does not neutralize `javascript:`/`data:` inside an href — the scheme has
+   to be checked separately. Relative paths (the engine's n/<slug>.html) stay as-is. */
+function safeUrl(v) {
+  const u = String(v == null ? "" : v).trim();
+  if (/^https?:\/\//i.test(u)) return esc(u);
+  if (/^(javascript|data|vbscript|file):/i.test(u) || u.startsWith("//")) return "#";
+  if (u.split("/")[0].includes(":")) return "#";
+  return esc(u);
+}
+/* Numeric values land in CSS (--v:) and in attributes; coerce so a string can't
+   inject a declaration. */
+function num(v) { const n = Number(v); return Number.isFinite(n) ? n : 0; }
+
 /* ---------- custom dropdown ---------- */
 function buildCsel(id, opts, defaultLabel, onSelect) {
   const el = document.getElementById(id);
@@ -732,33 +755,35 @@ function render(){
   }
 
   feedEl.innerHTML = list.map((d, i) => {
-    const t = TLABEL[d.theme];
+    // Fallback: an unknown theme key must not blow up the whole feed render.
+    const t = TLABEL[d.theme] || TLABEL.other || {em: "🌐", label: "Other"};
     const players = d.players.length
       ? `<span class="s-players">${d.players.map(p => {
           const logo = PLAYER_LOGO[p]
-            ? `<img class="s-player-logo" src="${PLAYER_LOGO[p]}" alt="${p}">`
+            ? `<img class="s-player-logo" src="${PLAYER_LOGO[p]}" alt="${esc(p)}">`
             : `<span class="s-player-dot" style="background:${PLAYER_COLOR[p]||'var(--text-soft)'}"></span>`;
-          return `<span class="s-player">${logo}${p}</span>`;
+          return `<span class="s-player">${logo}${esc(p)}</span>`;
         }).join("")}</span>` : "";
     const src = d.sources > 1
       ? `<span class="dot"></span><span class="s-src">${srcIcon}${d.sources} sources</span>` : "";
     const linkIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>';
     const links = d.urls && d.urls.length > 0
-      ? `<div class="s-links">${d.urls.map(u => `<a class="s-link" href="${u.href}" target="_blank" rel="noopener">${linkIcon}${u.label}</a>`).join("")}</div>`
+      ? `<div class="s-links">${d.urls.map(u => `<a class="s-link" href="${safeUrl(u.href)}" target="_blank" rel="noopener">${linkIcon}${esc(u.label)}</a>`).join("")}</div>`
       : d.url && d.url !== '#'
-        ? `<div class="s-links"><a class="s-link" href="${d.url}" target="_blank" rel="noopener">${linkIcon}Source</a></div>`
+        ? `<div class="s-links"><a class="s-link" href="${safeUrl(d.url)}" target="_blank" rel="noopener">${linkIcon}Source</a></div>`
         : "";
+    const score = num(d.score);
     return `
-      <article class="story" data-level="${d.level}" style="animation-delay:${Math.min(i,8)*40}ms">
+      <article class="story" data-level="${esc(d.level)}" style="animation-delay:${Math.min(i,8)*40}ms">
         <div class="s-head">
           <div class="s-tags">
             ${players}
             <span class="s-theme"><span class="em">${t.em}</span>${t.label}</span>
           </div>
-          <div class="s-score" style="--v:${d.score}" title="Relevance ${d.score}/100"><b>${d.score}</b></div>
+          <div class="s-score" style="--v:${score}" title="Relevance ${score}/100"><b>${score}</b></div>
         </div>
-        <h2 class="s-title">${d.detail ? `<a href="${d.detail}">${d.title}</a>` : d.title}</h2>
-        <p class="s-sum">${d.sum}</p>
+        <h2 class="s-title">${d.detail ? `<a href="${safeUrl(d.detail)}">${esc(d.title)}</a>` : esc(d.title)}</h2>
+        <p class="s-sum">${esc(d.sum)}</p>
         <div class="s-foot">
           <span>${fmtDate(d.ago)}</span>${src}
         </div>
