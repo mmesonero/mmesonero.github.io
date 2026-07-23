@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Improved Techniques for Training Consistency Models — AI News</title>
+<meta name="description" content="OpenAI has introduced enhanced methods for training consistency models, which are a new type of generative model capable of producing high-quality dat">
+<meta property="og:title" content="Improved Techniques for Training Consistency Models">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#FAFAF7; --bg-elev:#FFFFFF; --bg-muted:#F2F0E9;
+    --text:#1A1815; --text-muted:#6B655C; --text-soft:#9A938A;
+    --border:rgba(26,24,21,0.10); --border-strong:rgba(26,24,21,0.18);
+    --accent:#C8A864; --accent-soft:rgba(200,168,100,0.14); --accent-strong:#B0904C;
+    --shadow-sm:0 1px 2px rgba(26,24,21,0.04);
+    --shadow-md:0 8px 24px -8px rgba(26,24,21,0.10), 0 2px 6px rgba(26,24,21,0.05);
+    --sans:'Outfit','Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    --mono:'Outfit','Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    --radius-sm:8px; --radius-md:14px; --container:1180px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0D0D0D; --bg-elev:#1A1A17; --bg-muted:#242420;
+      --text:#ECEAE3; --text-muted:#9A938A; --text-soft:#6B655C;
+      --border:rgba(236,234,227,0.08); --border-strong:rgba(236,234,227,0.16);
+      --accent:#e2ba6b; --accent-soft:rgba(226,186,107,0.12); --accent-strong:#f0cc88;
+      --shadow-sm:0 1px 2px rgba(0,0,0,0.30);
+      --shadow-md:0 14px 34px -16px rgba(0,0,0,0.6), 0 2px 6px rgba(0,0,0,0.30);
+    }
+  }
+  * { box-sizing:border-box; }
+  body { font-family:var(--sans); background:var(--bg); color:var(--text);
+         margin:0; padding:0; font-weight:400; line-height:1.55;
+         -webkit-font-smoothing:antialiased; min-height:100vh; }
+  /* background — copied verbatim from the AI News index (glows + vignette + grain) */
+  body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+    background-image:
+      radial-gradient(ellipse 900px 700px at 12% 8%, rgba(200,168,100,0.07), transparent 60%),
+      radial-gradient(ellipse 800px 600px at 88% 82%, rgba(200,168,100,0.06), transparent 60%),
+      radial-gradient(ellipse 1400px 900px at 50% 50%, transparent 0%, rgba(26,24,21,0.03) 80%); }
+  body::after { content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+    opacity:0.45; mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.10  0 0 0 0 0.09  0 0 0 0 0.08  0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.30'/></svg>");
+    background-size:240px 240px; }
+  @media (prefers-color-scheme: dark) {
+    body::before { background-image:
+      radial-gradient(ellipse 900px 700px at 12% 8%, rgba(226,186,107,0.06), transparent 60%),
+      radial-gradient(ellipse 800px 600px at 88% 82%, rgba(226,186,107,0.05), transparent 60%),
+      radial-gradient(ellipse 1400px 900px at 50% 50%, transparent 0%, rgba(0,0,0,0.35) 90%); }
+    body::after { opacity:0.55; mix-blend-mode:screen;
+      background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95  0 0 0 0 0.93  0 0 0 0 0.88  0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.16'/></svg>"); }
+  }
+  .topnav, .wrap { position:relative; z-index:1; }
+  .wrap { max-width:760px; margin:0 auto; padding:40px 22px 64px; }
+  /* top nav — copied verbatim from the AI News index */
+  .topnav { position:sticky; top:0; z-index:50;
+    backdrop-filter:blur(14px) saturate(1.2); -webkit-backdrop-filter:blur(14px) saturate(1.2);
+    background:color-mix(in oklab, var(--bg) 78%, transparent);
+    border-bottom:1px solid transparent; transition:border-color .25s ease;
+    padding:0 clamp(24px, 6vw, 160px); }
+  .topnav-inner { max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:center; height:72px; gap:32px; }
+  .topnav-brand { display:flex; align-items:center; }
+  .topnav-brand img { height:36px; width:auto; opacity:.85; transition:transform .4s cubic-bezier(.2,.7,.2,1), opacity .3s ease; }
+  .topnav-brand:hover img { transform:scale(1.04); opacity:1; }
+  .topnav-links { display:flex; gap:18px; align-items:center; font-size:12px; font-weight:400; letter-spacing:0.22em; text-transform:uppercase; color:var(--text-muted); }
+  .topnav-links a { color:var(--text-muted); text-decoration:none; transition:color .2s ease; position:relative; }
+  .topnav-links a:hover { color:var(--text); }
+  .topnav-links a::after { content:''; position:absolute; left:0; right:0; bottom:-6px; height:1px; background:var(--accent); transform:scaleX(0); transform-origin:left; transition:transform .35s cubic-bezier(.2,.7,.2,1); }
+  .topnav-links a:hover::after { transform:scaleX(1); }
+  .topnav-links .active { color:var(--accent); }
+  .topnav-sep { color:var(--text-soft); font-size:11px; }
+  header { margin-bottom:22px; }
+  h1 { font-family:var(--sans); font-weight:600; font-size:34px; letter-spacing:-0.02em; margin:0 0 6px; }
+  .sub { color:var(--text-muted); font-size:14px; }
+  .accent { color:var(--accent-strong); }
+  .controls { display:flex; flex-direction:column; gap:10px; margin:22px 0 26px; }
+  .ctrl-row { display:flex; gap:9px; flex-wrap:wrap; align-items:center; }
+  .ctrl-label { font-size:12px; font-weight:600; color:var(--text-soft); text-transform:uppercase; letter-spacing:0.04em; }
+  select { font-family:var(--sans); font-size:13px; font-weight:500; color:var(--text);
+           background:var(--bg-elev); border:1px solid var(--border-strong); border-radius:999px;
+           padding:7px 13px; cursor:pointer; }
+  select:hover { border-color:var(--accent-strong); }
+  .switch { display:inline-flex; align-items:center; gap:8px; cursor:pointer;
+            font-size:13px; font-weight:500; color:var(--text-muted); margin-left:auto; user-select:none; }
+  .switch input { position:absolute; opacity:0; pointer-events:none; }
+  .switch .track { width:40px; height:23px; border-radius:999px; background:var(--border-strong);
+                   position:relative; transition:background .2s; flex:none; }
+  .switch .track::after { content:""; position:absolute; top:2.5px; left:2.5px; width:18px; height:18px;
+                          border-radius:50%; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,0.3); transition:transform .2s; }
+  .switch input:checked + .track { background:var(--accent-strong); }
+  .switch input:checked + .track::after { transform:translateX(17px); }
+  .card { background:var(--bg-elev); border:1px solid var(--border); border-radius:var(--radius-md);
+          padding:16px 18px; margin-bottom:12px; box-shadow:var(--shadow-sm); transition:box-shadow .2s,border-color .2s; }
+  .card:hover { box-shadow:var(--shadow-md); border-color:var(--border-strong); }
+  .card.hide { display:none; }
+  .meta { display:flex; gap:9px; align-items:center; margin-bottom:8px; font-size:12px; color:var(--text-soft); flex-wrap:wrap; }
+  .tag { font-weight:500; color:var(--text-muted); }
+  .nota { background:var(--accent-soft); color:var(--accent-strong); padding:2px 9px; border-radius:999px; font-weight:600; }
+  .src { border:1px solid var(--border-strong); padding:2px 9px; border-radius:999px; }
+  .date { margin-left:auto; }
+  .title a { color:var(--text); text-decoration:none; font-weight:500; font-size:17px; line-height:1.35; }
+  .title a:hover { color:var(--accent-strong); }
+  .sum { color:var(--text-muted); font-size:14px; margin:9px 0 0; font-weight:300; }
+  .empty { color:var(--text-muted); }
+  footer { color:var(--text-soft); font-size:12.5px; margin-top:44px; border-top:1px solid var(--border); padding-top:16px; }
+  footer a { color:var(--accent-strong); text-decoration:none; }
+  /* detail page */
+  .back { display:inline-block; color:var(--text-soft); text-decoration:none; font-size:13px; margin-bottom:18px; }
+  .back:hover { color:var(--accent-strong); }
+  .detail-title { font-size:27px; font-weight:600; line-height:1.25; letter-spacing:-0.01em; margin:6px 0 14px; }
+  .detail-sum { font-size:16px; color:var(--text-muted); line-height:1.6; font-weight:300; margin:0 0 24px; }
+  .players { display:flex; gap:7px; flex-wrap:wrap; margin:18px 0; }
+  .chip { background:var(--bg-muted); border:1px solid var(--border); color:var(--text-muted);
+          padding:3px 11px; border-radius:999px; font-size:12.5px; font-weight:500; }
+  .source-btn { display:inline-block; background:var(--accent-strong); color:#fff; text-decoration:none;
+                font-weight:600; font-size:14px; padding:11px 20px; border-radius:999px; margin-top:8px; }
+  .source-btn:hover { filter:brightness(1.06); }
+  .hero { width:100%; max-height:360px; object-fit:cover; border-radius:var(--radius-md);
+          border:1px solid var(--border); margin:6px 0 20px; display:block; }
+  .sources-label { font-size:12px; font-weight:600; color:var(--text-soft); text-transform:uppercase;
+                   letter-spacing:0.04em; margin:24px 0 8px; }
+  .sources-row { display:flex; gap:8px; flex-wrap:wrap; }
+  .source-chip { display:inline-flex; align-items:center; gap:5px; text-decoration:none;
+                 background:var(--bg-elev); border:1px solid var(--border-strong); color:var(--text);
+                 font-size:13px; font-weight:500; padding:7px 13px; border-radius:999px; transition:border-color .2s,color .2s; }
+  .source-chip:hover { border-color:var(--accent-strong); color:var(--accent-strong); }
+  /* index-style header chrome (matches the listing cards) */
+  .s-tags { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:2px 0 6px; }
+  .s-theme { display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:500; color:var(--text-muted); }
+  .s-theme .em { font-size:12px; }
+  .s-players { display:inline-flex; align-items:center; gap:6px; }
+  .s-player { font-size:11.5px; font-weight:500; color:var(--accent-strong); display:inline-flex; align-items:center; gap:5px; }
+  .s-player-logo { width:14px; height:14px; border-radius:3px; object-fit:contain; flex-shrink:0; }
+  .s-player-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; display:inline-block; }
+  .s-player + .s-player::before { content:'·'; margin-right:6px; color:var(--text-soft); }
+  .s-score { flex:0 0 auto; width:40px; height:40px; border-radius:50%; display:grid; place-items:center;
+             position:relative; margin-left:auto;
+             background:conic-gradient(var(--ring) calc(var(--v)*1%), var(--track) 0); --track:var(--border); --ring:var(--accent); }
+  .s-score::before { content:''; position:absolute; inset:3px; border-radius:50%; background:var(--bg); }
+  .s-score b { position:relative; font-size:12px; font-weight:600; color:var(--text); letter-spacing:-0.02em; }
+  .s-tags[data-level="high"] .s-score { --ring:var(--accent-strong); }
+  .s-tags[data-level="medium"] .s-score { --ring:var(--accent); }
+  .s-tags[data-level="low"] .s-score { --ring:var(--text-soft); }
+  .s-foot { display:flex; align-items:center; gap:10px; margin:16px 0 0; font-size:12.5px; color:var(--text-soft); flex-wrap:wrap; }
+  .s-foot .dot { width:2.5px; height:2.5px; border-radius:50%; background:var(--text-soft); opacity:.7; }
+  .s-foot .s-src { display:inline-flex; align-items:center; gap:6px; }
+  .s-foot .s-src svg { width:12px; height:12px; opacity:.8; }
+</style></head><body>
+<nav class="topnav"><div class="topnav-inner"><a href="https://mmesonero.github.io/" class="topnav-brand"><img src="https://mmesonero.github.io/assets/logo.png" alt="MM"></a><div class="topnav-links"><a href="https://mmesonero.github.io/">Portfolio</a><span class="topnav-sep">·</span><a class="active">AI News</a></div></div></nav>
+<div class="wrap">
+  <a class="back" href="../index.html">← Back to AI News</a>
+  
+  <div class="s-tags" data-level="medium"><span class="s-theme"><span class="em">🧠</span>Models</span><span class="s-score" style="--v:45"><b>45</b></span></div>
+  <h1 class="detail-title">Improved Techniques for Training Consistency Models</h1>
+  <p class="detail-sum">OpenAI has introduced enhanced methods for training consistency models, which are a new type of generative model capable of producing high-quality data in a single step. This advancement eliminates the need for adversarial training, potentially streamlining the model training process. The implications for developers and researchers include reduced complexity and improved efficiency in generating data, which could lead to faster innovation in AI applications.</p>
+  <div class="s-foot"><span>20 Jun 2024</span></div>
+  <div class="sources-label">Sources (1)</div><div class="sources-row"><a class="source-chip" href="https://openai.com/index/improved-techniques-for-training-consistency-models" target="_blank" rel="noopener">↗ OpenAI</a></div>
+  <footer>Auto-summarized &amp; classified · <a href="../index.html">← AI News</a></footer>
+</div>
+</body></html>
