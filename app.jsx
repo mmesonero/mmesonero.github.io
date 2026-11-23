@@ -16,7 +16,6 @@ const PROJECTS = [
     description:
       "Armoury Crate, iCUE, LGHUB, MSI Center — each one fighting for the same devices. AIO Sync talks to all of them through their native protocols and syncs every LED at once. Set a scene, pick an animated wallpaper, or kill every light with one click. A floating bubble keeps CPU, GPU, RAM, and AIO temps on screen without opening Task Manager.",
     status: "complete",
-    githubUrl: "https://github.com/mmesonero/aio-sync",
     accent: "lattice",
     cardImage: "assets/aio-hero.png",
     logo: "assets/aio-logo.png",
@@ -44,7 +43,6 @@ const PROJECTS = [
     description:
       "YouTube was built so you'd choose what you watch. Now an algorithm chooses for you, and most of what it pushes is vertical: Shorts, Reels, TikTok-shaped slop designed to keep your thumb moving, not your mind. CleanFeed strips that out. Hide Shorts and Reels, kill the recommendations sidebar, drop the For You tab. Toggle each filter per platform, or hard-block a site when you need to focus. The content you actually follow, the way you meant to watch it.",
     status: "complete",
-    githubUrl: "https://github.com/mmesonero/cleanfeed",
     accent: "cleanfeed",
     cardImage: "assets/cf-1.png",
     logo: "assets/cf-logo.png",
@@ -83,7 +81,6 @@ const PROJECTS = [
     description:
       "Anthropic hides your real token consumption, you have to dig in to find it. This extension surfaces it in real time: live 5h and weekly limits pinned under the chat box, plus a full dashboard with tokens per day, cost, model breakdown, top projects, and cache efficiency. Local-only, no third-party servers.",
     status: "complete",
-    githubUrl: "https://github.com/mmesonero/claude-token-tracker",
     accent: "ctt",
     cardImage: "assets/ctt-1.png",
     logo: "assets/ctt-icon-large.png",
@@ -137,7 +134,6 @@ const PROJECTS = [
     description:
       "Runs every hour on GitHub Actions, hands each new email to a small language model, and files it under one of the labels, no server, no laptop, no manual sorting.",
     status: "complete",
-    githubUrl: "https://github.com/mmesonero/gmail-labeler",
     accent: "labeler",
     inline: true,
     cardImage: "assets/gmail-hero.png",
