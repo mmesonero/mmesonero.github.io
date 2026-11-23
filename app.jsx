@@ -107,6 +107,7 @@ const PROJECTS = [
     cardImage: "assets/ai-news-hero.png",
     slides: [
       { src: "assets/ai-news-hero.png", caption: "" },
+      { src: "assets/ai-news-demo.mp4", poster: "assets/ai-news-demo-poster.jpg" },
       { src: "assets/ai-news-features-hero.png", caption: "" },
       { src: "assets/ai-news-slide3.png", caption: "" },
     ],
