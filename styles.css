@@ -1,4 +1,4 @@
-﻿/* =========================================================
+/* =========================================================
    Manuel Mesonero, Personal Portfolio
    Soft luxury aesthetic. Cormorant Garamond + Outfit.
    ========================================================= */
@@ -601,12 +601,8 @@ body::after {
   position: absolute;
   inset: 0;
 }
-/* 16:9 demo videos inside the 1.6 card slide: show the whole frame instead of cropping the sides */
+/* Demo videos are rendered 1440x900, the same 1.6 shape as the card slide, so they fill it edge to edge */
 .slide-video-wrap { background: #0D0D0D; }
-.slide-video-wrap > video.thumb-cover {
-  object-fit: contain;
-  object-position: center;
-}
 .slide-audio-btn {
   position: absolute;
   top: 10px;

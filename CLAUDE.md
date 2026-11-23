@@ -218,7 +218,7 @@ The card thumb is shown with `object-fit: cover` and `object-position: top cente
 
 ### Inline carousel slide layout — SAFE ZONE rules
 
-Every PNG thumbnail rendered in the **InlineCarousel** (`.inline-carousel` on cards) must be **1440×810** (16:9, matches `.thumb { aspect-ratio: 16/9 }`). Inside that frame the panel/content MUST stay inside the SAFE ZONE so it never collides with the carousel chrome:
+Every PNG thumbnail rendered in the **InlineCarousel** (`.inline-carousel` on cards) must be **1440×900** (16:9, matches `.thumb { aspect-ratio: 16/9 }`). Inside that frame the panel/content MUST stay inside the SAFE ZONE so it never collides with the carousel chrome:
 
 | Edge | Reserved by | Safe min/max |
 |------|-------------|--------------|
@@ -250,7 +250,7 @@ For CleanFeed-style thumbnails (panel + baked title text), the script does:
 1. **mask** the baked title region with bg (`#0D0D0D`).
 2. **crop** EXACTLY the panel content range (drops the empty internal padding inside the panel box). For 2x2-grid cards (cf-dashboard), this is the full content row block instead of a single panel.
 3. **extend** the canvas to 16:9 with bg (`#0D0D0D`) so the panel lands inside the safe zone after resize. `extendLeft/Right` shrink the panel horizontally so it clears the `<>` buttons; `extendTop/Bottom` position it vertically (and shift it down to clear top-center title when needed).
-4. **resize** to 1440×810.
+4. **resize** to 1440×900.
 
 After each script run, verify the output panel bbox sits inside the safe zone with a raw-pixel bbox scan (threshold >60 for content, >14 for full panel box). All five CleanFeed thumbs currently pass.
 
@@ -332,13 +332,13 @@ Append to the `slides:` array. Three common patterns:
 
 ### Add a project demo video
 
-Demo videos (`assets/<project>-demo.mp4`, 1440×810, no audio, with `assets/<project>-demo-poster.jpg`) **always go in slide position 2**. Insert them there and shift the existing slides back one place — never delete or replace the slide that was in position 2.
+Demo videos (`assets/<project>-demo.mp4`, 1440×900, no audio, with `assets/<project>-demo-poster.jpg`) **always go in slide position 2**. Insert them there and shift the existing slides back one place — never delete or replace the slide that was in position 2.
 
 ```js
 { src: "assets/foo-demo.mp4", poster: "assets/foo-demo-poster.jpg" }
 ```
 
-Video slide rules: the mute button only renders when the slide has `audio: true` (demo videos are silent); the progress bar sits flush on the bottom edge of the slide, below the dots; 16:9 videos use `object-fit: contain` in card slides; while a video slide is active the card link button collapses to its icon (`.inline-carousel.on-video`). Video text must stay readable at card size (~330px wide on mobile): nothing meaningful under 30px in the 1920px source.
+Video slide rules: the mute button only renders when the slide has `audio: true` (demo videos are silent); the progress bar sits flush on the bottom edge of the slide, below the dots; videos are 1440×900 (1.6, the slide shape) so they fill the slide with no bands or cropping; while a video slide is active the card link button collapses to its icon (`.inline-carousel.on-video`). Video text must stay readable at card size (~330px wide on mobile): nothing meaningful under 30px in the 1920px source.
 
 Current: Claude Token Tracker (`ctt-demo.mp4`), Gmail Auto-Labeler (`gmail-demo.mp4`), Apple Health Logger (`health-demo.mp4`), AI News (`ai-news-demo.mp4`), CleanFeed (`cf-demo.mp4`).
 
