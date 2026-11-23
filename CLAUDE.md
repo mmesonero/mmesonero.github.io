@@ -338,7 +338,7 @@ Demo videos (`assets/<project>-demo.mp4`, 1440×810, no audio, with `assets/<pro
 { src: "assets/foo-demo.mp4", poster: "assets/foo-demo-poster.jpg" }
 ```
 
-Current: Claude Token Tracker (`ctt-demo.mp4`), Gmail Auto-Labeler (`gmail-demo.mp4`), Apple Health Logger (`health-demo.mp4`), AI News (`ai-news-demo.mp4`).
+Current: Claude Token Tracker (`ctt-demo.mp4`), Gmail Auto-Labeler (`gmail-demo.mp4`), Apple Health Logger (`health-demo.mp4`), AI News (`ai-news-demo.mp4`), CleanFeed (`cf-demo.mp4`).
 
 ### Add a "What I'm working on" entry
 

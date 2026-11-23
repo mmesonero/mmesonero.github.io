@@ -50,6 +50,7 @@ const PROJECTS = [
     logo: "assets/cf-logo.png",
     slides: [
       { src: "assets/cf-1.png" },
+      { src: "assets/cf-demo.mp4", poster: "assets/cf-demo-poster.jpg" },
       { src: "assets/cf-2.png" },
       { src: "assets/cf-3.png" },
       { src: "assets/cf-4.png" },
