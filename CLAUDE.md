@@ -338,6 +338,8 @@ Demo videos (`assets/<project>-demo.mp4`, 1440×810, no audio, with `assets/<pro
 { src: "assets/foo-demo.mp4", poster: "assets/foo-demo-poster.jpg" }
 ```
 
+Video slide rules: the mute button only renders when the slide has `audio: true` (demo videos are silent); the progress bar sits flush on the bottom edge of the slide, below the dots; 16:9 videos use `object-fit: contain` in card slides; while a video slide is active the card link button collapses to its icon (`.inline-carousel.on-video`). Video text must stay readable at card size (~330px wide on mobile): nothing meaningful under 30px in the 1920px source.
+
 Current: Claude Token Tracker (`ctt-demo.mp4`), Gmail Auto-Labeler (`gmail-demo.mp4`), Apple Health Logger (`health-demo.mp4`), AI News (`ai-news-demo.mp4`), CleanFeed (`cf-demo.mp4`).
 
 ### Add a "What I'm working on" entry

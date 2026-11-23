@@ -678,6 +678,14 @@ body::after {
   backdrop-filter: blur(6px);
   transition: background .15s, border-color .15s, color .15s;
 }
+/* On a demo-video slide the link button collapses to its icon so it never covers the video headline */
+.card:has(.inline-carousel.on-video) .card-live-btn {
+  font-size: 0;
+  gap: 0;
+  padding: 7px;
+}
+.card:has(.inline-carousel.on-video) .card-github-btn { right: 10px !important; }
+.card:has(.inline-carousel.on-video) .card-live-btn:not(.card-github-btn) ~ .card-github-btn { right: 46px !important; }
 .card-live-btn:hover {
   background: var(--accent);
   border-color: var(--accent);

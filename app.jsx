@@ -665,7 +665,7 @@ function InlineCarousel({ slides, projectName = "" }) {
   };
 
   return (
-    <div ref={containerRef} className="inline-carousel">
+    <div ref={containerRef} className={`inline-carousel${isVideoSrc(slides[dotIdx].src) ? ' on-video' : ''}`}>
       {len > 1 && <span className="corner" aria-live="polite" aria-atomic="true">{dotIdx + 1}/{len}</span>}
       <div
         className="inline-carousel-track"
