@@ -21,6 +21,7 @@ const PROJECTS = [
     logo: "assets/aio-logo.png",
     slides: [
       { src: "assets/aio-cover.png" },
+      { src: "assets/aio-demo.mp4", poster: "assets/aio-demo-poster.jpg" },
       {
         src: "assets/aio-bubble-demo.html",
         interactive: true,
