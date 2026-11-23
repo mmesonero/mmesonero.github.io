@@ -1747,6 +1747,12 @@ body::after {
   border-color: transparent !important;
 }
 .btn-telegram:hover { background: linear-gradient(135deg, #229ED9, #1A8BC7) !important; transform: translateY(-2px); }
+.btn-cv {
+  flex: 1; justify-content: center;
+  background: var(--accent) !important; color: #1A1815 !important;
+  border-color: var(--accent) !important;
+}
+.btn-cv:hover { background: var(--accent-strong) !important; transform: translateY(-2px); }
 .about-subscribe{
   display:flex; gap:0; margin-top:12px; max-width:360px;
   border:1.5px solid var(--accent); border-radius:999px;

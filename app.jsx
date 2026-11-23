@@ -923,8 +923,6 @@ function InProgress() {
 
 /* ---------- about ---------- */
 function About() {
-  const [sent, setSent] = useState(false);
-  const onSubmit = (e) => { e.preventDefault(); setSent(true); };
   return (
     <section className="about container" id="about">
       <div className="category-head reveal-soft" style={{ '--d': '60ms' }}>
@@ -943,15 +941,11 @@ function About() {
             <a className="btn btn-linkedin reveal-soft" style={{ '--d': '260ms' }} href="https://www.linkedin.com/in/mesonero/" target="_blank" rel="noopener noreferrer">
               <Icon name="linkedin" size={15} /> LinkedIn
             </a>
-            <a className="btn btn-telegram reveal-soft" style={{ '--d': '320ms' }} href="https://t.me/+ImA4ksuUUbMzMzFk" target="_blank" rel="noopener noreferrer">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M21.2 4.4L2.4 10.8c-.6.2-.6.6 0 .8l4.6 1.4 1.8 5.6c.2.4.6.4.8.2l2.6-2.2 4.8 3.6c.4.2.8 0 1-.4L21.8 5.2c.2-.6-.2-1-.6-.8z"/></svg>
-              {' '}Telegram
+            <a className="btn btn-cv reveal-soft" style={{ '--d': '320ms' }} href="assets/CV_Manuel_Mesonero_Eng.pdf" target="_blank" rel="noopener noreferrer">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h8"/></svg>
+              {' '}CV
             </a>
           </div>
-          <form className="about-subscribe reveal-soft" style={{ '--d': '380ms' }} onSubmit={onSubmit}>
-            <input type="email" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="Weekly AI briefing · your@email.com" required disabled={sent} title="Enter a valid email" />
-            <button type="submit">{sent ? '✓' : 'Subscribe'}</button>
-          </form>
         </div>
         <div className="about-photos">
           <img src="assets/manuel-1.png" alt="" loading="lazy" decoding="async" className="about-photo reveal-soft" style={{ '--d': '180ms' }} />
