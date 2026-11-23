@@ -87,6 +87,7 @@ const PROJECTS = [
     logo: "assets/ctt-icon-large.png",
     slides: [
       { src: "assets/ctt-1.png" },
+      { src: "assets/ctt-demo.mp4", poster: "assets/ctt-demo-poster.jpg" },
       { src: "assets/ctt-2.png" },
       { src: "assets/ctt-3.png" },
       { src: "assets/ctt-4.png" },

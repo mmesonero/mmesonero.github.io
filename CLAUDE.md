@@ -330,6 +330,16 @@ Append to the `slides:` array. Three common patterns:
 }
 ```
 
+### Add a project demo video
+
+Demo videos (`assets/<project>-demo.mp4`, 1440×810, no audio, with `assets/<project>-demo-poster.jpg`) **always go in slide position 2**. Insert them there and shift the existing slides back one place — never delete or replace the slide that was in position 2.
+
+```js
+{ src: "assets/foo-demo.mp4", poster: "assets/foo-demo-poster.jpg" }
+```
+
+Current: Claude Token Tracker (`ctt-demo.mp4`).
+
 ### Add a "What I'm working on" entry
 
 Append to `IN_PROGRESS`:
