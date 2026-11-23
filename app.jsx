@@ -69,6 +69,7 @@ const PROJECTS = [
     accent: "pampano",
     slides: [
       { src: "assets/health-1.png" },
+      { src: "assets/health-demo.mp4", poster: "assets/health-demo-poster.jpg" },
       { src: "assets/health-2.png" },
     ],
   },
