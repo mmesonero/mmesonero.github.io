@@ -126,7 +126,7 @@ const PROJECTS = [
     cardImage: "assets/agent-1.png",
     slides: [
       { src: "assets/agent-1.png" },
-      { src: "assets/agent-2.mp4", poster: "assets/agent-2-poster.png" },
+      { src: "assets/agent-2.mp4", poster: "assets/agent-2-poster.png", audio: true },
     ],
   },
   {
@@ -274,7 +274,7 @@ const SlideImage = ({ src, className, alt = "", eager = false }) => (
   />
 );
 
-const SlideVideo = ({ src, className, poster, alt = "", isActive = true }) => {
+const SlideVideo = ({ src, className, poster, alt = "", isActive = true, audio = false }) => {
   const ref = useRef(null);
   const wrapRef = useRef(null);
   const barRef = useRef(null);
@@ -351,7 +351,7 @@ const SlideVideo = ({ src, className, poster, alt = "", isActive = true }) => {
           </div>
         </div>
       )}
-      <button
+      {audio && <button
         type="button"
         className="slide-audio-btn"
         onClick={toggle}
@@ -371,7 +371,7 @@ const SlideVideo = ({ src, className, poster, alt = "", isActive = true }) => {
             <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
           </svg>
         )}
-      </button>
+      </button>}
       <div
         className="slide-progress"
         ref={barRef}
@@ -486,7 +486,7 @@ function Carousel({ slides, projectName = "" }) {
         </div>
       ) : slides[idx].label || slides[idx].title || slides[idx].titleGold ? (
         <div className="carousel-track carousel-overlay">
-          <SlideMedia src={slides[idx].src} poster={slides[idx].poster} className="carousel-img" alt={slides[idx].alt || `${projectName} screenshot ${idx + 1}`} eager={idx === 0} />
+          <SlideMedia src={slides[idx].src} poster={slides[idx].poster} audio={slides[idx].audio} className="carousel-img" alt={slides[idx].alt || `${projectName} screenshot ${idx + 1}`} eager={idx === 0} />
           <div className="overlay-panel" style={slides[idx].titleTop ? { top: slides[idx].titleTop } : undefined}>
             {slides[idx].label && <div className="composed-label">{slides[idx].label}</div>}
             {slides[idx].title && slides[idx].title.map((line, i) => <div key={i} className="composed-title">{line}</div>)}
@@ -501,7 +501,7 @@ function Carousel({ slides, projectName = "" }) {
         </div>
       ) : (
         <div className="carousel-track">
-          <SlideMedia src={slides[idx].src} poster={slides[idx].poster} className="carousel-img" alt={slides[idx].alt || `${projectName} screenshot ${idx + 1}`} eager={idx === 0} />
+          <SlideMedia src={slides[idx].src} poster={slides[idx].poster} audio={slides[idx].audio} className="carousel-img" alt={slides[idx].alt || `${projectName} screenshot ${idx + 1}`} eager={idx === 0} />
           <div className="carousel-counter" aria-live="polite" aria-atomic="true">{idx + 1}/{len}</div>
         </div>
       )}
@@ -685,6 +685,7 @@ function InlineCarousel({ slides, projectName = "" }) {
                 : <SlideMedia
                     src={slide.src}
                     poster={slide.poster}
+                    audio={slide.audio}
                     className="thumb-cover"
                     isActive={i === pos}
                     alt={slide.alt || `${projectName} screenshot ${i}`}

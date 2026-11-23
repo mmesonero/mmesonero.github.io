@@ -601,6 +601,12 @@ body::after {
   position: absolute;
   inset: 0;
 }
+/* 16:9 demo videos inside the 1.6 card slide: show the whole frame instead of cropping the sides */
+.slide-video-wrap { background: #0D0D0D; }
+.slide-video-wrap > video.thumb-cover {
+  object-fit: contain;
+  object-position: center;
+}
 .slide-audio-btn {
   position: absolute;
   top: 10px;
@@ -622,15 +628,13 @@ body::after {
 }
 .slide-progress {
   position: absolute;
-  left: 12px;
-  right: 12px;
-  bottom: 14px;
-  height: 5px;
-  border-radius: 999px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
   background: rgba(255,255,255,0.18);
   cursor: pointer;
   z-index: 12;
-  overflow: hidden;
 }
 .slide-progress-fill {
   height: 100%;
@@ -642,7 +646,7 @@ body::after {
 .slide-progress::after {
   content: '';
   position: absolute;
-  inset: -8px 0;
+  inset: -8px 0 0;
 }
 .slide-audio-btn:hover {
   background: rgba(13,13,13,0.85);
